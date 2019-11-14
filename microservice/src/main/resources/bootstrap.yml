@@ -1,0 +1,36 @@
+server:
+  port: 8081
+# spring boot 1.x
+#management:
+#  security:
+#    enabled: false
+
+message:
+  topic: zhouxin
+spring:
+  application:
+    name: springboot-micro-service
+  # kafka 配置
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+    consumer:
+      group-id: consumer1
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  cloud:
+    stream:
+#      default-binder: kafka #默认的binder是kafka
+      bindings:
+        #配置自己定义的通道与哪个中间件交互
+        my_output: #ShopChannel里Input和Output的值
+          destination: zhouxin
+        my_input:
+          destination: zhouxin
+# 换banner
+spring.banner.image.location: classpath:index.png
+# 开启MXBean
+#spring.application.admin.enabled: true

@@ -1,0 +1,22 @@
+/**
+ * @author zhouxin
+ * @date 2018-11-02
+ */
+module distributed.main {
+    requires spring.boot.autoconfigure;
+    requires spring.boot;
+    requires spring.context;
+    requires logback.classic;
+    requires logback.access;
+    requires logback.core;
+    requires zookeeper;
+    requires curator.client;
+    requires curator.framework;
+    requires curator.recipes;
+    requires io.netty.all;
+    requires slf4j.api;
+
+    exports com.zx.distributed.middleware.netty.bio;
+
+    opens com.zx.distributed to spring.core,spring.beans,spring.context;
+}

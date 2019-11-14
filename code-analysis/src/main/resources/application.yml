@@ -1,0 +1,5 @@
+scanPackage: com.zx.codeanalysis.spring.demo
+templateRoot: zhouxin
+pointCut: public .* com\.zx\.codeanalysis\.spring\.demo\..*Service\..*\(.*\)
+aspectBefore: com.zx.codeanalysis.spring.springv1.aspect.LogAspect before
+aspectAfter: com.zx.codeanalysis.spring.springv1.aspect.LogAspect after

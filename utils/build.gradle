@@ -1,0 +1,40 @@
+ext.moduleName = 'com.zx.utils'
+buildscript {
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+ext {
+    springCloudVersion = 'Finchley.SR2'
+}
+repositories {
+    maven { url "https://repo.spring.io/milestone" }
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
+    // json
+    implementation('com.jayway.jsonpath:json-path:2.4.0')
+    implementation('com.alibaba:fastjson:1.2.54')
+
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+    implementation('redis.clients:jedis:3.0.1')
+
+//    implementation('org.springframework.boot:spring-boot-starter-actuator')
+//    implementation('org.springframework.cloud:spring-cloud-starter-config')
+//    implementation('org.springframework.boot:spring-boot-starter-validation')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}

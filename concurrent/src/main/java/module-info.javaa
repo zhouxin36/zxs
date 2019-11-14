@@ -1,0 +1,8 @@
+/**
+ * @author zhouxin
+ * @since 2019/10/21
+ */
+module zxs.concurrent.main {
+  requires java.desktop;
+  requires org.slf4j;
+}

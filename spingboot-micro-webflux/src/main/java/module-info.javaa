@@ -1,0 +1,32 @@
+/**
+ * @author zhouxin
+ * @date 2018/10/16
+ */
+module spingboot.micro.webflux.main {
+    requires spring.boot.autoconfigure;
+    requires spring.boot;
+    requires spring.context;
+    requires spring.beans;
+    requires spring.webflux;
+    requires reactor.core;
+    requires spring.web;
+    requires spring.core;
+    requires org.reactivestreams;
+    requires spring.cloud.commons;
+    requires spring.cloud.context;
+    requires slf4j.api;
+    requires java.annotation;
+    requires zookeeper;
+    requires spring.cloud.zookeeper.core;
+    requires spring.cloud.zookeeper.discovery;
+
+    exports com.zx.spingbootmicrowebflux.bean to com.fasterxml.jackson.databind,spring.beans;
+    exports com.zx.spingbootmicrowebflux.repository to spring.aop;
+
+    opens com.zx.spingbootmicrowebflux.bean to org.hibernate.validator;
+    opens com.zx.spingbootmicrowebflux to spring.core,spring.beans,spring.context;
+    opens com.zx.spingbootmicrowebflux.flux.config to spring.core,spring.beans,spring.context;
+    opens com.zx.spingbootmicrowebflux.repository to spring.core,spring.beans,spring.context;
+    opens com.zx.spingbootmicrowebflux.stream.controller to spring.core,spring.beans,spring.context,spring.webflux;
+    opens com.zx.spingbootmicrowebflux.config to spring.core,spring.beans,spring.context,spring.webflux;
+}

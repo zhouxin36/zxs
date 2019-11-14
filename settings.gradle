@@ -1,0 +1,12 @@
+rootProject.name = 'zxs'
+include('code-analysis'
+        ,'distributed'
+        ,'concurrent'
+        ,'microservice'
+        ,'utils'
+        ,'jdk-analysis'
+        ,'reactive-x'
+        ,'algorithm'
+        ,'spring-admin'
+        ,'spingboot-micro-webflux')
+

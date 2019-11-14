@@ -1,0 +1,83 @@
+spring:
+  securityController:
+    enable: true
+  application:
+    name: spingboot-micro-webflux
+  rabbitmq:
+    host: 18.221.115.23
+    port: 5672
+    username: zhouxin
+    password: zhouxin36
+    virtual-host: /
+
+  cloud:
+    stream:
+      default-binder: common # 默认common配置
+      binders:
+        common: # common 配置
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 18.221.115.23
+                port: 5672
+                username: zhouxin
+                password: zhouxin36
+                virtual-host: /
+
+        zhouxin: # 第二配置 配置
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 18.221.115.23
+                port: 5672
+                username: zhouxin36
+                password: zhouxin36
+                virtual-host: /zhouxin
+
+      bindings:
+        my_output: # common 配置
+          binder: common
+          destination: topic1
+        my_input:
+          binder: common
+          destination: topic1
+          group: zhouxin_group_first
+
+        zx_output: # 第二配置 配置
+          binder: zhouxin
+          destination: topic2
+        zx_input:
+          binder: zhouxin
+          destination: topic2
+          group: zhouxin_group_second
+
+#队列交换机信息
+      rabbit:
+        bindings:
+          my_output: # common 配置
+            producer:
+              exchangeType: fanout
+              declareExchange: true
+              exchangeDurable: true
+          my_input:
+            consumer:
+              exchangeType: fanout
+              declareExchange: true
+              exchangeDurable: true
+              autoBindDlq: true #开启死信队列
+              republishToDlq: true
+
+          zx_output: # 第二配置 配置
+            producer:
+              exchangeType: fanout
+              declareExchange: true
+              exchangeDurable: true
+          zx_input:
+            consumer:
+              exchangeType: fanout
+              declareExchange: true
+              exchangeDurable: true
+              autoBindDlq: true #开启死信队列
+              republishToDlq: true

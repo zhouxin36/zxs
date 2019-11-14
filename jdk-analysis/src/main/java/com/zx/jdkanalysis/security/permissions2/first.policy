@@ -1,0 +1,5 @@
+grant codebase "file:/${java.home}/*"
+{
+ permission java.io.FilePermission
+   "jdk-analysis\\src\\main\\java\\com\\zx\\jdkanalysis\\security\\permissions2\\*", "write";
+};

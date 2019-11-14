@@ -1,0 +1,41 @@
+/**
+ * @author zhouxin
+ * @since 2019/3/19
+ */
+module zxs.microservice.main {
+    requires spring.boot;
+    requires spring.cloud.commons;
+    requires spring.boot.autoconfigure;
+    requires cglib;
+    requires slf4j.api;
+    requires spring.cloud.context;
+    requires spring.context;
+    requires spring.core;
+    requires spring.web;
+    requires spring.tx;
+    requires spring.aop;
+    requires org.aspectj.weaver;
+    requires reactor.core;
+    requires tomcat.embed.core;
+    requires spring.webmvc;
+    requires spring.beans;
+    requires java.desktop;
+    requires commons.lang;
+    requires java.validation;
+    requires spring.kafka;
+    requires kafka.clients;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.core;
+    requires fastjson;
+    requires java.annotation;
+    requires spring.security.oauth2;
+    requires spring.security.core;
+    requires spring.security.config;
+    requires org.apache.commons.lang3;
+    requires spring.expression;
+    requires spring.messaging;
+    requires spring.cloud.stream;
+    requires ribbon.loadbalancer;
+
+    exports com.zx.microservice.microservice;
+}

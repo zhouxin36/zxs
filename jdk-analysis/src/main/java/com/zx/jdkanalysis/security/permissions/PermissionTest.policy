@@ -1,0 +1,3 @@
+grant{
+    permission com.zx.jdkanalysis.security.permissions.WordCheckPermission "sex,drugs,C++", "insert";
+};
