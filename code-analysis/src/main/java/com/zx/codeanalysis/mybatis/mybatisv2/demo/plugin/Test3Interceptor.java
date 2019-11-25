@@ -17,30 +17,30 @@ import java.lang.reflect.Method;
 @ZXIntercepts({@ZXSignature(clazz = ZXStatementHandler.class, method = "query", args = {String.class, Object[].class, Class.class})})
 public class Test3Interceptor implements ZXInterceptor {
 
-    private final static Logger logger = LoggerFactory.getLogger(Test3Interceptor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Test3Interceptor.class);
 
 
-    @Override
-    public Object intercept(Method method, Object[] args, Object target) {
-        try {
-            logger.info("插件3开始：method:{}",method.toString());
-            Object invoke = method.invoke(target, args);
-            logger.info("插件3结束");
-            return invoke;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+  @Override
+  public Object intercept(Method method, Object[] args, Object target) {
+    try {
+      LOGGER.info("插件3开始：method:{}", method.toString());
+      Object invoke = method.invoke(target, args);
+      LOGGER.info("插件3结束");
+      return invoke;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
     }
+  }
 
-    @Override
-    public <T> T plugin(T target) {
-        try {
-            return ZXPlugin.wrap(target, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+  @Override
+  public <T> T plugin(T target) {
+    try {
+      return ZXPlugin.wrap(target, this);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
 }

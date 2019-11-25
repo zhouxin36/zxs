@@ -12,13 +12,13 @@ import java.nio.channels.spi.SelectorProvider;
  * @date 2019/1/2
  */
 public class NIOClient {
-    public static void main(String[] args) throws IOException {
-        SocketChannel socketChannel = SelectorProvider.provider().openSocketChannel();
-        socketChannel.configureBlocking(false);
-        socketChannel.connect(new InetSocketAddress(8888));
-        Selector selector = SelectorProvider.provider().openSelector();
-        socketChannel.register(selector, SelectionKey.OP_CONNECT);
-        NIOUtils.handleKeys(selector);
-    }
+  public static void main(String[] args) throws IOException {
+    SocketChannel socketChannel = SelectorProvider.provider().openSocketChannel();
+    socketChannel.configureBlocking(false);
+    socketChannel.connect(new InetSocketAddress(8888));
+    Selector selector = SelectorProvider.provider().openSelector();
+    socketChannel.register(selector, SelectionKey.OP_CONNECT);
+    NIOUtils.handleKeys(selector);
+  }
 
 }

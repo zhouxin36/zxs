@@ -6,5 +6,5 @@ package com.zx.codeanalysis.pattern.factory;
  */
 public interface Milk {
 
-    String getName();
+  String getName();
 }

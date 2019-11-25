@@ -8,5 +8,5 @@ import net.sf.cglib.proxy.MethodInterceptor;
  */
 public interface ObjectMethodInterceptor extends MethodInterceptor {
 
-    Object gerTarget();
+  Object gerTarget();
 }

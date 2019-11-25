@@ -16,46 +16,46 @@ import java.util.List;
  */
 public class ZXConnectionPool {
 
-    private static final Logger logger = LoggerFactory.getLogger(ZXConnectionPool.class);
-    private List<ZXConnection> useConnections = new ArrayList<>();
+  private static final Logger LOGGER = LoggerFactory.getLogger(ZXConnectionPool.class);
+  private List<ZXConnection> useConnections = new ArrayList<>();
 
-    private List<ZXConnection> unUseConnections = new ArrayList<>();
+  private List<ZXConnection> unUseConnections = new ArrayList<>();
 
-    private DateSource dateSource;
+  private DateSource dateSource;
 
-    public ZXConnectionPool(DateSource dateSource) {
-        this.dateSource = dateSource;
-    }
+  public ZXConnectionPool(DateSource dateSource) {
+    this.dateSource = dateSource;
+  }
 
-    public synchronized ZXConnection getConnection(){
+  public synchronized ZXConnection getConnection() {
 //        logger.info("getConnection start:useConnections{},unUseConnections{}",useConnections,unUseConnections);
 
-        if(unUseConnections.isEmpty()){
-            try {
-                Connection connection = DriverManager.getConnection(dateSource.getUrl(), dateSource.getUserName(), dateSource.getPassword());
-                ZXConnection zxConnection = new ZXConnection(connection,this);
-                useConnections.add(zxConnection);
-                logger.info("getConnection end isEmpty:useConnections{},unUseConnections{}",useConnections,unUseConnections);
-                return zxConnection;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }else {
-            ZXConnection zxConnection = unUseConnections.get(0);
-            unUseConnections.remove(zxConnection);
-            useConnections.add(zxConnection);
-            logger.info("getConnection end:useConnections{},unUseConnections{}",useConnections,unUseConnections);
-            return zxConnection;
-        }
+    if (unUseConnections.isEmpty()) {
+      try {
+        Connection connection = DriverManager.getConnection(dateSource.getUrl(), dateSource.getUserName(), dateSource.getPassword());
+        ZXConnection zxConnection = new ZXConnection(connection, this);
+        useConnections.add(zxConnection);
+        LOGGER.info("getConnection end isEmpty:useConnections{},unUseConnections{}", useConnections, unUseConnections);
+        return zxConnection;
+      } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+      }
+    } else {
+      ZXConnection zxConnection = unUseConnections.get(0);
+      unUseConnections.remove(zxConnection);
+      useConnections.add(zxConnection);
+      LOGGER.info("getConnection end:useConnections{},unUseConnections{}", useConnections, unUseConnections);
+      return zxConnection;
     }
+  }
 
-    synchronized void setConnection(ZXConnection connection){
+  synchronized void setConnection(ZXConnection connection) {
 //        logger.info("setConnection start:useConnections{},unUseConnections{}",useConnections,unUseConnections);
-        unUseConnections.add(connection);
-        useConnections.remove(connection);
-        logger.info("setConnection end:useConnections{},unUseConnections{}",useConnections,unUseConnections);
-    }
+    unUseConnections.add(connection);
+    useConnections.remove(connection);
+    LOGGER.info("setConnection end:useConnections{},unUseConnections{}", useConnections, unUseConnections);
+  }
 
 
 }

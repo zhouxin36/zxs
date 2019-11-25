@@ -12,13 +12,15 @@ import java.util.UUID;
  * @since 2019/2/26
  */
 @Component
-@Scope(value= WebApplicationContext.SCOPE_SESSION,proxyMode= ScopedProxyMode.INTERFACES)
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.INTERFACES)
 public class SessionBean implements ISessionBean {
-    private UUID uuid;
-    public SessionBean(){
-        uuid = UUID.randomUUID();
-    }
-    public void printId(){
-        System.out.println("SessionBean:"+uuid);
-    }
+  private UUID uuid;
+
+  public SessionBean() {
+    uuid = UUID.randomUUID();
+  }
+
+  public void printId() {
+    System.out.println("SessionBean:" + uuid);
+  }
 }

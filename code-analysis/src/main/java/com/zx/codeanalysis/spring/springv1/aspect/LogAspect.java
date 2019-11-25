@@ -9,12 +9,13 @@ import org.slf4j.LoggerFactory;
  */
 public class LogAspect {
 
-    private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
-    public void before(){
-        logger.info("------------->before");
-    }
+  private static Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
 
-    public void after(){
-        logger.info("------------->after");
-    }
+  public void before() {
+    LOGGER.info("------------->before");
+  }
+
+  public void after() {
+    LOGGER.info("------------->after");
+  }
 }

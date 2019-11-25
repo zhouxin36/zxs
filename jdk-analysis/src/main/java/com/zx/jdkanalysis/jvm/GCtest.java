@@ -1,12 +1,13 @@
 package com.zx.jdkanalysis.jvm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 需求：写一段程序，让其运行时的表现为触发5次ygc，然后3次fgc，然后3次ygc，然后1次fgc，请给出代码以及启动参数;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public class GCtest {
 
-  private static final Logger logger = LoggerFactory.getLogger(GCtest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(GCtest.class);
   /**
    * 最小的单位
    */
@@ -31,32 +32,32 @@ public class GCtest {
     getJvmInfo();
     int count = 1;
     List caches = new ArrayList();
-    logger.info("--初始化时已用堆值:{}k",
+    LOGGER.info("--初始化时已用堆值:{}k",
         ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed() >> 10);
     for (int i = 1; i <= 12; i++) {
       if (i == 11) {
-        logger.info(
+        LOGGER.info(
             "--caches准备添加第11次,old区内存不够，开始full GC 前先执行minor GC 第{}次,FGC 第1次(触发条件：【MinorGC后存活的对象超过了老年代剩余空间】)",
             5);
       }
       caches.add(new byte[3 * UNIT_MB]);
       if (i % 2 == 1 && i != 10) {
-        logger.info("--caches添加第{}次后，eden + survivor 的内存不够，开始minor GC 第{}次", i, count);
+        LOGGER.info("--caches添加第{}次后，eden + survivor 的内存不够，开始minor GC 第{}次", i, count);
         count++;
       } else {
-        logger.info("--caches添加第{}次", i);
+        LOGGER.info("--caches添加第{}次", i);
       }
     }
-    logger.info("目前整个堆内存已经36m多，Young区6M多，Old区最大值为32M");
+    LOGGER.info("目前整个堆内存已经36m多，Young区6M多，Old区最大值为32M");
     caches.remove(
         0);//释放空间，重新添加 ,如果不释放空间，会报错：java.lang.OutOfMemoryError: Java heap space 【这里这样做，主要为了防止数组对象实际大小超过堆大小】
-    logger.info("--FGC开始 第2次（触发条件：晋升到老年代的大小超过了老年代剩余大小）");
+    LOGGER.info("--FGC开始 第2次（触发条件：晋升到老年代的大小超过了老年代剩余大小）");
     caches.add(new byte[3 * UNIT_MB]);
-    logger.info("本次FGC，移植了Young区的一部分到Old区，导致Young区还有3M左右");
+    LOGGER.info("本次FGC，移植了Young区的一部分到Old区，导致Young区还有3M左右");
     for (int i = 0; i < 8; i++) {//这里是为了下次FGC后，直接减少老年代的内存大小，从而正常YGC
       caches.remove(0);
     }
-    logger.info("--FGC开始 第3次(触发条件:同上)");
+    LOGGER.info("--FGC开始 第3次(触发条件:同上)");
     caches.add(new byte[3 * UNIT_MB]);
 
     for (int i = 0; i < 6; i++) {
@@ -68,29 +69,29 @@ public class GCtest {
    * 通过代码打印程序的堆、内存信息
    */
   public static void getJvmInfo() {
-    logger.info("-----------------------JVM-Info-start----------------");
+    LOGGER.info("-----------------------JVM-Info-start----------------");
 
     MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
     MemoryUsage mu = memoryMXBean.getHeapMemoryUsage();
 
-    logger.info("heapInfo:{}", mu);
-    logger.info("初始化堆:{}Mb", mu.getInit() >> 20);
-    logger.info("最大堆值:{}Mb", mu.getMax() >> 20);
-    logger.info("已用堆值:{}Mb", mu.getUsed() >> 20);
+    LOGGER.info("heapInfo:{}", mu);
+    LOGGER.info("初始化堆:{}Mb", mu.getInit() >> 20);
+    LOGGER.info("最大堆值:{}Mb", mu.getMax() >> 20);
+    LOGGER.info("已用堆值:{}Mb", mu.getUsed() >> 20);
 
     MemoryUsage none = memoryMXBean.getNonHeapMemoryUsage();
-    logger.info("non-heap Info(非堆内存):{}", none);
+    LOGGER.info("non-heap Info(非堆内存):{}", none);
 
     List<String> args = ManagementFactory.getRuntimeMXBean().getInputArguments();
-    logger.info("运行时VM参数:{}", args);
+    LOGGER.info("运行时VM参数:{}", args);
 
-    logger.info("运行时总内存:{}Mb", Runtime.getRuntime().totalMemory() >> 20);
-    logger.info("运行时空闲内存:{}Mb", Runtime.getRuntime().freeMemory() >> 20);
-    logger.info("运行时最大内存:{}Mb", Runtime.getRuntime().maxMemory() >> 20);
+    LOGGER.info("运行时总内存:{}Mb", Runtime.getRuntime().totalMemory() >> 20);
+    LOGGER.info("运行时空闲内存:{}Mb", Runtime.getRuntime().freeMemory() >> 20);
+    LOGGER.info("运行时最大内存:{}Mb", Runtime.getRuntime().maxMemory() >> 20);
 
-    logger.info("-----------------------JVM-Info-end----------------");
-    logger.info("--");
-    logger.info("--");
-    logger.info("--");
+    LOGGER.info("-----------------------JVM-Info-end----------------");
+    LOGGER.info("--");
+    LOGGER.info("--");
+    LOGGER.info("--");
   }
 }

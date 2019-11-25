@@ -20,58 +20,58 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * 默认实现
- * @see SecurityAutoConfiguration
- * @see UserDetailsServiceAutoConfiguration
- * @see SpringBootWebSecurityConfiguration
  *
  * @author zhouxin
  * @date 2019/1/9
+ * @see SecurityAutoConfiguration
+ * @see UserDetailsServiceAutoConfiguration
+ * @see SpringBootWebSecurityConfiguration
  */
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    /**
-     * {@link InMemoryUserDetailsManager 账号密码配置}
-     *
-     * 权限配置：
-     *  外部配置：{@link UserDetailsResourceFactoryBean}
-     *
-     * web mvc 配置
-     */
-    @Bean
-    public UserDetailsService userDetailsService() throws Exception {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
-                .password("password").roles("USER").build());
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String finalPassword = "{bcrypt}"+bCryptPasswordEncoder.encode("123456");
-        manager.createUser(User.withUsername("user_1").password(finalPassword).authorities("USER").build());
-        finalPassword = "{noop}123456";
-        manager.createUser(User.withUsername("user_2").password(finalPassword).authorities("USER").build());
-        return manager;
-    }
+  /**
+   * {@link InMemoryUserDetailsManager 账号密码配置}
+   * <p>
+   * 权限配置：
+   * 外部配置：{@link UserDetailsResourceFactoryBean}
+   * <p>
+   * web mvc 配置
+   */
+  @Bean
+  public UserDetailsService userDetailsService() throws Exception {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user")
+        .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
+        .password("password").roles("USER").build());
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    String finalPassword = "{bcrypt}" + bCryptPasswordEncoder.encode("123456");
+    manager.createUser(User.withUsername("user_1").password(finalPassword).authorities("USER").build());
+    finalPassword = "{noop}123456";
+    manager.createUser(User.withUsername("user_2").password(finalPassword).authorities("USER").build());
+    return manager;
+  }
 
-    /**
-     * @see org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityConfigurerAdapter
-     * 请求配置：
-     * 加载 {@link WebSecurityConfiguration#setFilterChainProxySecurityConfigurer}
-     * 默认实现 {@link WebSecurityConfigurerAdapter#configure(HttpSecurity)}
-     */
-    @Configuration
-    class ZXWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+  /**
+   * @see org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityConfigurerAdapter
+   * 请求配置：
+   * 加载 {@link WebSecurityConfiguration#setFilterChainProxySecurityConfigurer}
+   * 默认实现 {@link WebSecurityConfigurerAdapter#configure(HttpSecurity)}
+   */
+  @Configuration
+  class ZXWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            /**
-             * 简单认证
-             */
-            http
-                    .authorizeRequests()
-                    .antMatchers("/security/**").authenticated()
-                    .anyRequest().permitAll()
-                    .and()
-                    .httpBasic();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+      /**
+       * 简单认证
+       */
+      http
+          .authorizeRequests()
+          .antMatchers("/security/**").authenticated()
+          .anyRequest().permitAll()
+          .and()
+          .httpBasic();
 //            http.csrf().disable();
            /* http
                     .logout()
@@ -82,10 +82,10 @@ public class WebSecurityConfig {
 //                    .addLogoutHandler(logoutHandler) // 注销后处理：例如清除cookie，CookieClearingLogoutHandler
 //                    .deleteCookies(cookieNamesToClear)
                     ;*/
-            /**
-             * oauth 2.0
-             *
-             */
+      /**
+       * oauth 2.0
+       *
+       */
 //            http.authorizeRequests()
 //                    .antMatchers("/security/**").authenticated()
 //                    .anyRequest().permitAll()
@@ -99,22 +99,22 @@ public class WebSecurityConfig {
 //                    .authorizationRequestRepository(this.authorizationRequestRepository())
 //                    .authorizationRequestResolver(this.authorizationRequestResolver())
 //                    .accessTokenResponseClient(this.accessTokenResponseClient());
-        }
-
-        /**
-         * Spring Boot 2 配置，这里要bean 注入
-         */
-        @Bean
-        @Override
-        public AuthenticationManager authenticationManagerBean() throws Exception {
-            return super.authenticationManagerBean();
-        }
-
-        @Bean
-        PasswordEncoder passwordEncoder() {
-            return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        }
     }
+
+    /**
+     * Spring Boot 2 配置，这里要bean 注入
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+      return super.authenticationManagerBean();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+  }
 
 //    @Bean
 //    public ClientRegistrationRepository getClientRegistrationRepository(){

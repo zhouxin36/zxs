@@ -9,16 +9,17 @@ import org.slf4j.LoggerFactory;
  */
 public class Father {
 
-    private final static Logger logger = LoggerFactory.getLogger(Father.class);
+  private static final Logger logger = LoggerFactory.getLogger(Father.class);
 
-    private Person person;
+  private Person person;
 
-    public  Father(Person person){
-        this.person = person;
-    }
-    public void findLove(){
-        logger.info("呵呵前");
-        person.findLove();
-        logger.info("呵呵后");
-    }
+  public Father(Person person) {
+    this.person = person;
+  }
+
+  public void findLove() {
+    logger.info("呵呵前");
+    person.findLove();
+    logger.info("呵呵后");
+  }
 }

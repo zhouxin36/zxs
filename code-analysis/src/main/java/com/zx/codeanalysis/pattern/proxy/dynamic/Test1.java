@@ -9,18 +9,18 @@ import java.lang.reflect.Proxy;
 
 public class Test1 {
 
-    private final static Logger logger = LoggerFactory.getLogger(Test1.class);
+  private static final Logger logger = LoggerFactory.getLogger(Test1.class);
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 //        PersonImp zhangsan = new Student("张三");
 
-        InvocationHandler stuHandler = new StuInvocationHandler<>(Person.class);
+    InvocationHandler stuHandler = new StuInvocationHandler<>(Person.class);
 
-        Person stuProxy = (Person) Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Person.class}, stuHandler);
+    Person stuProxy = (Person) Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Person.class}, stuHandler);
 
-        User user = stuProxy.giveMoney();
+    User user = stuProxy.giveMoney();
 
-        logger.info("user:{}",user);
+    logger.info("user:{}", user);
 
-    }
+  }
 }

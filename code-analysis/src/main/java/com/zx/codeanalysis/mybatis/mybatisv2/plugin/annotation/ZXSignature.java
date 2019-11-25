@@ -12,7 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface ZXSignature {
-    Class<?> clazz();
-    String method();
-    Class<?>[] args();
+  Class<?> clazz();
+
+  String method();
+
+  Class<?>[] args();
 }

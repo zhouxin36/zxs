@@ -10,15 +10,15 @@ import javax.validation.ConstraintValidatorContext;
  * @author zhouxin
  * @date 2018-11-25
  */
-public class MyEqualConstraint implements ConstraintValidator<ZXEqual,String> {
-    @Override
-    public void initialize(ZXEqual constraintAnnotation) {
+public class MyEqualConstraint implements ConstraintValidator<ZXEqual, String> {
+  @Override
+  public void initialize(ZXEqual constraintAnnotation) {
 
-    }
+  }
 
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        context.buildConstraintViolationWithTemplate("打你哟");
-        return "zhouxin".equals(value);
-    }
+  @Override
+  public boolean isValid(String value, ConstraintValidatorContext context) {
+    context.buildConstraintViolationWithTemplate("打你哟");
+    return "zhouxin".equals(value);
+  }
 }

@@ -9,23 +9,24 @@ import com.zx.codeanalysis.mybatis.mybatisv2.interfaces.ZXExecutor;
  */
 public class ZXSqlSession {
 
-    private ZXConfiguration configuration;
+  private ZXConfiguration configuration;
 
-    private ZXExecutor executor;
+  private ZXExecutor executor;
 
-    public ZXSqlSession(ZXConfiguration configuration) {
-        this.configuration = configuration;
-        executor = new ZXSimpleExecutor(configuration);
-    }
-    public <T> T getMapper(Class<T> clazz){
-        return configuration.getMapper(clazz,this);
-    }
+  public ZXSqlSession(ZXConfiguration configuration) {
+    this.configuration = configuration;
+    executor = new ZXSimpleExecutor(configuration);
+  }
 
-    public <T> T query(String sql, Object[] args, Class<T> returnType){
-        return executor.selectOne(sql,args,returnType);
-    }
+  public <T> T getMapper(Class<T> clazz) {
+    return configuration.getMapper(clazz, this);
+  }
 
-    public int update(String sql, Object[] args) {
-        return executor.update(sql,args);
-    }
+  public <T> T query(String sql, Object[] args, Class<T> returnType) {
+    return executor.selectOne(sql, args, returnType);
+  }
+
+  public int update(String sql, Object[] args) {
+    return executor.update(sql, args);
+  }
 }

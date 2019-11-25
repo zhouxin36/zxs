@@ -9,19 +9,19 @@ import com.zx.codeanalysis.mybatis.mybatisv2.interfaces.ZXExecutor;
  */
 public class ZXSimpleExecutor implements ZXExecutor {
 
-    private ZXConfiguration configuration;
+  private ZXConfiguration configuration;
 
-    public ZXSimpleExecutor(ZXConfiguration configuration) {
-        this.configuration = configuration;
-    }
+  public ZXSimpleExecutor(ZXConfiguration configuration) {
+    this.configuration = configuration;
+  }
 
-    @Override
-    public <T> T selectOne(String sql, Object[] args, Class<T> returnType) {
-        return configuration.getStatementHandler().query(sql,args,returnType);
-    }
+  @Override
+  public <T> T selectOne(String sql, Object[] args, Class<T> returnType) {
+    return configuration.getStatementHandler().query(sql, args, returnType);
+  }
 
-    @Override
-    public int update(String sql, Object[] args) {
-        return configuration.getStatementHandler().update(sql,args);
-    }
+  @Override
+  public int update(String sql, Object[] args) {
+    return configuration.getStatementHandler().update(sql, args);
+  }
 }

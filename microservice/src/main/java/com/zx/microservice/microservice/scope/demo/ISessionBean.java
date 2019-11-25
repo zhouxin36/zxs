@@ -5,5 +5,5 @@ package com.zx.microservice.microservice.scope.demo;
  * @since 2019/2/26
  */
 public interface ISessionBean {
-    void printId();
+  void printId();
 }

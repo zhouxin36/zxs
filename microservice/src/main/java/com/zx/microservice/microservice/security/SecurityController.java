@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/1/9
  */
 
-@ConditionalOnProperty(name = "spring.securityController.enable",havingValue = "true")
+@ConditionalOnProperty(name = "spring.securityController.enable", havingValue = "true")
 @RestController
 @RequestMapping("/security")
 public class SecurityController {
 
-    private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
-    private final static Logger logger = LoggerFactory.getLogger(SecurityController.class);
+  private static final Logger logger = LoggerFactory.getLogger(SecurityController.class);
+  private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
 //    private final ReactiveClientRegistrationRepository reactiveClientRegistrationRepository;
 
@@ -33,16 +33,16 @@ public class SecurityController {
 //        this.authorizedClientService = authorizedClientService;
 //    }
 
-    @PostMapping(value = "/say/{message}")
-    public String say(@PathVariable String message){
-        if(!StringUtils.isBlank(threadLocal.get())){
-            logger.info("---------->{}",threadLocal.get());
-        }else {
-            threadLocal.set("thread:" + Thread.currentThread().getName());
-        }
-        logger.info("------;;---->thread:{}",Thread.currentThread().getName());
-        return message;
+  @PostMapping(value = "/say/{message}")
+  public String say(@PathVariable String message) {
+    if (!StringUtils.isBlank(threadLocal.get())) {
+      logger.info("---------->{}", threadLocal.get());
+    } else {
+      threadLocal.set("thread:" + Thread.currentThread().getName());
     }
+    logger.info("------;;---->thread:{}", Thread.currentThread().getName());
+    return message;
+  }
 
 
 //    @RequestMapping("/googleRegistration")
@@ -52,11 +52,10 @@ public class SecurityController {
 //    }
 
 
-
 //    @RequestMapping("/userinfo")
 //    public String userinfo(OAuth2AuthenticationToken authentication) {
-        // authentication.getAuthorizedClientRegistrationId() returns the
-        // registrationId of the Client that was authorized during the oauth2Login() flow
+  // authentication.getAuthorizedClientRegistrationId() returns the
+  // registrationId of the Client that was authorized during the oauth2Login() flow
 //        OAuth2AuthorizedClient authorizedClient =
 //                this.authorizedClientService.loadAuthorizedClient(
 //                        authentication.getAuthorizedClientRegistrationId(),

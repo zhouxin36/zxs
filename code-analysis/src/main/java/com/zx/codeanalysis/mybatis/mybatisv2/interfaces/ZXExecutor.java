@@ -6,7 +6,7 @@ package com.zx.codeanalysis.mybatis.mybatisv2.interfaces;
  */
 public interface ZXExecutor {
 
-    <T> T selectOne(String sql, Object[] args, Class<T> returnType);
+  <T> T selectOne(String sql, Object[] args, Class<T> returnType);
 
-    int update(String sql, Object[] args);
+  int update(String sql, Object[] args);
 }

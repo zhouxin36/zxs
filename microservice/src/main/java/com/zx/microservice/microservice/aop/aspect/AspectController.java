@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/aspect")
 public class AspectController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AspectController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AspectController.class);
 
-    private final AspectService aspectService;
+  private final AspectService aspectService;
 
-    private final ApplicationContext applicationContext;
+  private final ApplicationContext applicationContext;
 
-    public AspectController(AspectService aspectService, ApplicationContext applicationContext) {
-        this.aspectService = aspectService;
-        this.applicationContext = applicationContext;
-    }
+  public AspectController(AspectService aspectService, ApplicationContext applicationContext) {
+    this.aspectService = aspectService;
+    this.applicationContext = applicationContext;
+  }
 
-    @RequestMapping("/say")
-    public void say(){
-        logger.info(aspectService.hehe());
-        logger.info(((WeaveMethod)aspectService).eat());
-        logger.info(((WeaveMethod)aspectService).say());
-    }
+  @RequestMapping("/say")
+  public void say() {
+    LOGGER.info(aspectService.hehe());
+    LOGGER.info(((WeaveMethod) aspectService).eat());
+    LOGGER.info(((WeaveMethod) aspectService).say());
+  }
 }

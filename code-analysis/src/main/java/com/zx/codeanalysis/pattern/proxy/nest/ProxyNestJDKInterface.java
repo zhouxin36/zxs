@@ -14,47 +14,47 @@ import java.util.function.Consumer;
  */
 public class ProxyNestJDKInterface {
 
-    private final static Logger logger = LoggerFactory.getLogger(ProxyNestJDKInterface.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ProxyNestJDKInterface.class);
 
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        Consumer<String> target = str -> logger.info("Heheh:{}",str);
-        for (int i = 0; i < 10; i++) {
-            MyProxyInvocation myProxyInvocation = new MyProxyInvocation();
-            target = myProxyInvocation.getProxy(target,i);
-            target.accept("rdg");
-            System.out.println("-----------------------------------------华丽的分界线-------------------------------------------");
-        }
-        long end = System.currentTimeMillis();
-        logger.info("------------->运行时间，time:{}ms",end-start);
+  public static void main(String[] args) {
+    long start = System.currentTimeMillis();
+    Consumer<String> target = str -> LOGGER.info("Heheh:{}", str);
+    for (int i = 0; i < 10; i++) {
+      MyProxyInvocation myProxyInvocation = new MyProxyInvocation();
+      target = myProxyInvocation.getProxy(target, i);
+      target.accept("rdg");
+      System.out.println("-----------------------------------------华丽的分界线-------------------------------------------");
     }
+    long end = System.currentTimeMillis();
+    LOGGER.info("------------->运行时间，time:{}ms", end - start);
+  }
 }
 
-class MyProxyInvocation implements InvocationHandler{
+class MyProxyInvocation implements InvocationHandler {
 
-    private final Logger logger= LoggerFactory.getLogger(MyProxyInvocation.class);
+  private final Logger logger = LoggerFactory.getLogger(MyProxyInvocation.class);
 
-    private Object target;
+  private Object target;
 
-    private int index;
+  private int index;
 
-    public <T> T getProxy(T target,int index){
-        this.target = target;
-        this.index = index;
-        //noinspection unchecked
-        return (T)Proxy.newProxyInstance(this.getClass().getClassLoader(),target.getClass().getInterfaces(),this);
+  public <T> T getProxy(T target, int index) {
+    this.target = target;
+    this.index = index;
+    //noinspection unchecked
+    return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), target.getClass().getInterfaces(), this);
+  }
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    Object value;
+    if (Object.class.equals(method.getDeclaringClass())) {
+      value = method.invoke(target, args);
+      return value;
     }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Object value;
-        if(Object.class.equals(method.getDeclaringClass())){
-            value = method.invoke(target,args);
-            return value;
-        }
-        logger.info("---------->开始,index:{}",index);
-        value = method.invoke(target,args);
-        logger.info("---------->结束,index:{}",index);
-        return value;
-    }
+    logger.info("---------->开始,index:{}", index);
+    value = method.invoke(target, args);
+    logger.info("---------->结束,index:{}", index);
+    return value;
+  }
 }

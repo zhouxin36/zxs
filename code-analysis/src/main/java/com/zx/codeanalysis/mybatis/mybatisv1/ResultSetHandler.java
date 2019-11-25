@@ -7,5 +7,5 @@ import java.sql.ResultSet;
  * @date 2018/10/23
  */
 public interface ResultSetHandler {
-    public <T> T handler(ResultSet resultSet, Class<T> returnType);
+  public <T> T handler(ResultSet resultSet, Class<T> returnType);
 }

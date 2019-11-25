@@ -18,28 +18,28 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ZXLoggerAspect {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZXLoggerAspect.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZXLoggerAspect.class);
+  @DeclareParents(value = "com.zx.microservice.microservice.aop.aspect.AspectService", defaultImpl = WeaveMethodImpl.class)
+  public static WeaveMethod weaveMethod;
 
-    @Pointcut("execution(* com.zx.microservice.microservice.rest.controller.UserController.getEnv()) " +
-            "|| execution(* com.zx.microservice.microservice.aop.aspect.AspectService.hehe())")
-    public void logger(){}
+  @Pointcut("execution(* com.zx.microservice.microservice.rest.controller.UserController.getEnv()) " +
+      "|| execution(* com.zx.microservice.microservice.aop.aspect.AspectService.hehe())")
+  public void logger() {
+  }
 
-    @DeclareParents(value="com.zx.microservice.microservice.aop.aspect.AspectService", defaultImpl=WeaveMethodImpl.class)
-    public static WeaveMethod weaveMethod;
-
-    @Around(value = "logger()", argNames = "thisJoinPoint")
-    public Object loggerOut(ProceedingJoinPoint thisJoinPoint) {
-        Object returnValue = null;
-        try {
-            logger.warn("---------->ZXLoggerAspect.loggerOut|pref");
-            returnValue = thisJoinPoint.proceed();
+  @Around(value = "logger()", argNames = "thisJoinPoint")
+  public Object loggerOut(ProceedingJoinPoint thisJoinPoint) {
+    Object returnValue = null;
+    try {
+      logger.warn("---------->ZXLoggerAspect.loggerOut|pref");
+      returnValue = thisJoinPoint.proceed();
 //            logger.warn("---------->ZXLoggerAspect.loggerOut|suffix");
-        } catch (Throwable throwable) {
+    } catch (Throwable throwable) {
 //            logger.warn("---------->ZXLoggerAspect.loggerOut|exception");
-            throwable.printStackTrace();
-        }
-//        logger.warn("---------->ZXLoggerAspect.loggerOut|returnValue");
-        return returnValue;
+      throwable.printStackTrace();
     }
+//        logger.warn("---------->ZXLoggerAspect.loggerOut|returnValue");
+    return returnValue;
+  }
 
 }

@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 public class RemoteAppEventSenderController implements
-        ApplicationEventPublisherAware {
+    ApplicationEventPublisherAware {
 
-    @Value("${spring.application.name}")
-    public String currentAppName;
+  @Value("${spring.application.name}")
+  public String currentAppName;
 
-    private ApplicationEventPublisher publisher;
+  private ApplicationEventPublisher publisher;
 
-    @Autowired
-    private DiscoveryClient discoveryClient;
+  @Autowired
+  private DiscoveryClient discoveryClient;
 
-    @GetMapping("/send/remote/event")
-    public String sendEvent(@RequestParam String message) {
-        publisher.publishEvent(message);
-        return "Sent";
-    }
+  @GetMapping("/send/remote/event")
+  public String sendEvent(@RequestParam String message) {
+    publisher.publishEvent(message);
+    return "Sent";
+  }
 
 //    @GetMapping("/send/remote/event/{appName}")
 //    public String sendAppCluster(@PathVariable String appName, @RequestParam String message) {
@@ -39,13 +39,13 @@ public class RemoteAppEventSenderController implements
 //        return "Ok";
 //    }
 
-    @PostMapping("/send/remote/event/{appName}")
-    public String sendAppCluster(@PathVariable String appName, @RequestBody Object data) {
-        RemoteAppEvent remoteAppEvent = new RemoteAppEvent(data, appName, true);
-        // 发送事件当前上下文
-        publisher.publishEvent(remoteAppEvent);
-        return "Ok";
-    }
+  @PostMapping("/send/remote/event/{appName}")
+  public String sendAppCluster(@PathVariable String appName, @RequestBody Object data) {
+    RemoteAppEvent remoteAppEvent = new RemoteAppEvent(data, appName, true);
+    // 发送事件当前上下文
+    publisher.publishEvent(remoteAppEvent);
+    return "Ok";
+  }
 
 //    @PostMapping("/send/remote/event/{appName}/{ip}/{port}")
 //    public String sendAppInstance(@PathVariable String appName,
@@ -59,9 +59,9 @@ public class RemoteAppEventSenderController implements
 //        return "Ok";
 //    }
 
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.publisher = applicationEventPublisher;
-    }
+  @Override
+  public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+    this.publisher = applicationEventPublisher;
+  }
 
 }

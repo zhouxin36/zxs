@@ -12,9 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MySignature {
-    Class<?> type();
+  Class<?> type();
 
-    String method();
+  String method();
 
-    Class<?>[] args();
+  Class<?>[] args();
 }

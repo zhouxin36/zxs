@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ZXFeignUserController {
 
-    private final UserClient userClient;
+  private final UserClient userClient;
 
-    public ZXFeignUserController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") UserClient userClient) {
-        this.userClient = userClient;
-    }
+  public ZXFeignUserController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") UserClient userClient) {
+    this.userClient = userClient;
+  }
 
 
-    @GetMapping(value = "/ZXFeignGetEnv")
-    public String getEnv(@RequestParam("message") String message) {
-        return "message:" + message;
-    }
+  @GetMapping(value = "/ZXFeignGetEnv")
+  public String getEnv(@RequestParam("message") String message) {
+    return "message:" + message;
+  }
 
-    @GetMapping(value = "/zxFeign/ZXFeignGetEnv")
-    public String zxGetEnv(@RequestParam("message") String message) {
-        return userClient.getEnv(message);
-    }
+  @GetMapping(value = "/zxFeign/ZXFeignGetEnv")
+  public String zxGetEnv(@RequestParam("message") String message) {
+    return userClient.getEnv(message);
+  }
 }

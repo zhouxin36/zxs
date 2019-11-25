@@ -8,5 +8,5 @@ import com.zx.codeanalysis.pattern.factory.Milk;
  */
 public interface Factory {
 
-    Milk getMilk();
+  Milk getMilk();
 }

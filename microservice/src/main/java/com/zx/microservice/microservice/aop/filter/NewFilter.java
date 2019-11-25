@@ -17,10 +17,10 @@ import reactor.core.publisher.Mono;
 //@Order(0)
 public class NewFilter implements WebFilter {
 
-    private final static Logger logger = LoggerFactory.getLogger(NewFilter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(NewFilter.class);
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        return chain.filter(exchange).doOnSuccess(e -> logger.info("--------------newFilter-----------success"));
-    }
+  @Override
+  public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    return chain.filter(exchange).doOnSuccess(e -> LOGGER.info("--------------newFilter-----------success"));
+  }
 }

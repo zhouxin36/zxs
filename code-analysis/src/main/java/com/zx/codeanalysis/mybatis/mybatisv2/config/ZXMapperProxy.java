@@ -12,24 +12,24 @@ import java.lang.reflect.Method;
  */
 public class ZXMapperProxy implements InvocationHandler {
 
-    private ZXSqlSession sqlSession;
+  private ZXSqlSession sqlSession;
 
-    ZXMapperProxy(ZXSqlSession sqlSession) {
-        this.sqlSession = sqlSession;
-    }
+  ZXMapperProxy(ZXSqlSession sqlSession) {
+    this.sqlSession = sqlSession;
+  }
 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if(method.isAnnotationPresent(ZXSelect.class)){
-            ZXSelect annotation = method.getAnnotation(ZXSelect.class);
-            String sql = annotation.value();
-            return sqlSession.query(sql,args,method.getReturnType());
-        }
-        if(method.isAnnotationPresent(ZXUpdate.class)){
-            ZXUpdate annotation = method.getAnnotation(ZXUpdate.class);
-            String sql = annotation.value();
-            return sqlSession.update(sql,args);
-        }
-        return method.invoke(this,args);
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    if (method.isAnnotationPresent(ZXSelect.class)) {
+      ZXSelect annotation = method.getAnnotation(ZXSelect.class);
+      String sql = annotation.value();
+      return sqlSession.query(sql, args, method.getReturnType());
     }
+    if (method.isAnnotationPresent(ZXUpdate.class)) {
+      ZXUpdate annotation = method.getAnnotation(ZXUpdate.class);
+      String sql = annotation.value();
+      return sqlSession.update(sql, args);
+    }
+    return method.invoke(this, args);
+  }
 }

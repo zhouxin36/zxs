@@ -17,58 +17,58 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class ZXViewResolver {
 
-    private String path;
+  private String path;
 
-    private File template;
+  private File template;
 
-    public ZXViewResolver(String path, File template) {
-        this.path = path;
-        this.template = template;
-    }
+  public ZXViewResolver(String path, File template) {
+    this.path = path;
+    this.template = template;
+  }
 
-    public String getPath() {
-        return path;
-    }
+  public String getPath() {
+    return path;
+  }
 
-    public File getTemplate() {
-        return template;
-    }
+  public File getTemplate() {
+    return template;
+  }
 
-    public String viewResolver(ModelAndView handler) {
-        return getStringBuilder(handler).toString();
-    }
+  public String viewResolver(ModelAndView handler) {
+    return getStringBuilder(handler).toString();
+  }
 
-    private StringBuilder getStringBuilder(ModelAndView handler) {
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-        RandomAccessFile randomAccessFile = new RandomAccessFile(template,"r");
-            String line;
-            while (!StringUtils.isBlank(line = randomAccessFile.readLine())){
-                line = new String(line.getBytes(ISO_8859_1), UTF_8);
-                Matcher matcher = matcher(line);
-                while (matcher.find()){
-                    for (int i = 0; i < matcher.groupCount(); i++) {
-                        String group = matcher.group(i);
-                        String name = group.replace("￥", "").replace("{", "").replace("}", "");
-                        Object o = handler.getModel()
-                                .get(name);
-                        if(o == null){
-                            continue;
-                        }
-                        line = line.replaceAll("￥\\{" + name + "\\}",o.toString());
-                    }
-                }
-                stringBuilder.append(line);
+  private StringBuilder getStringBuilder(ModelAndView handler) {
+    StringBuilder stringBuilder = new StringBuilder();
+    try {
+      RandomAccessFile randomAccessFile = new RandomAccessFile(template, "r");
+      String line;
+      while (!StringUtils.isBlank(line = randomAccessFile.readLine())) {
+        line = new String(line.getBytes(ISO_8859_1), UTF_8);
+        Matcher matcher = matcher(line);
+        while (matcher.find()) {
+          for (int i = 0; i < matcher.groupCount(); i++) {
+            String group = matcher.group(i);
+            String name = group.replace("￥", "").replace("{", "").replace("}", "");
+            Object o = handler.getModel()
+                .get(name);
+            if (o == null) {
+              continue;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            line = line.replaceAll("￥\\{" + name + "\\}", o.toString());
+          }
         }
-        return stringBuilder;
+        stringBuilder.append(line);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    return stringBuilder;
+  }
 
-    private Matcher matcher(String str){
-        Pattern pattern = Pattern.compile("￥\\{(.+?)\\}",Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(str);
-        return  matcher;
-    }
+  private Matcher matcher(String str) {
+    Pattern pattern = Pattern.compile("￥\\{(.+?)\\}", Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(str);
+    return matcher;
+  }
 }

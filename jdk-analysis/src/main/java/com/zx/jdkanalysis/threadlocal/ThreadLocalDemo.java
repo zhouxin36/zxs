@@ -9,22 +9,22 @@ import org.slf4j.LoggerFactory;
  */
 public class ThreadLocalDemo {
 
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
-    private static final InheritableThreadLocal<String> inheritableThreadLocal = new InheritableThreadLocal<>();
-    private static final Logger logger = LoggerFactory.getLogger(ThreadLocalDemo.class);
+  private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+  private static final InheritableThreadLocal<String> inheritableThreadLocal = new InheritableThreadLocal<>();
+  private static final Logger logger = LoggerFactory.getLogger(ThreadLocalDemo.class);
 
-    public static void main(String[] args) {
-        new Thread(()->{
-            threadLocal.set("threadLocal");
-            inheritableThreadLocal.set("inheritableThreadLocal");
-            new Thread(()->{
-                logger.info("----------->threadLocal:{}",threadLocal.get());
-                logger.info("----------->inheritableThreadLocal:{}",inheritableThreadLocal.get());
-            },"thread-in").start();
-            logger.info("----------->threadLocal:{}",threadLocal.get());
-            logger.info("----------->inheritableThreadLocal:{}",inheritableThreadLocal.get());
-        },"thread-out").start();
-        logger.info("----------->threadLocal:{}",threadLocal.get());
-        logger.info("----------->inheritableThreadLocal:{}",inheritableThreadLocal.get());
-    }
+  public static void main(String[] args) {
+    new Thread(() -> {
+      threadLocal.set("threadLocal");
+      inheritableThreadLocal.set("inheritableThreadLocal");
+      new Thread(() -> {
+        logger.info("----------->threadLocal:{}", threadLocal.get());
+        logger.info("----------->inheritableThreadLocal:{}", inheritableThreadLocal.get());
+      }, "thread-in").start();
+      logger.info("----------->threadLocal:{}", threadLocal.get());
+      logger.info("----------->inheritableThreadLocal:{}", inheritableThreadLocal.get());
+    }, "thread-out").start();
+    logger.info("----------->threadLocal:{}", threadLocal.get());
+    logger.info("----------->inheritableThreadLocal:{}", inheritableThreadLocal.get());
+  }
 }

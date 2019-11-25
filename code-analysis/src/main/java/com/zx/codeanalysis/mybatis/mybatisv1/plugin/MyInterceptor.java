@@ -8,9 +8,9 @@ import java.util.Properties;
  */
 public interface MyInterceptor {
 
-    Object intercept(MyInvocation invocation) throws Throwable;
+  Object intercept(MyInvocation invocation) throws Throwable;
 
-    <T> T plugin(T target);
+  <T> T plugin(T target);
 
-    void setProperties(Properties properties);
+  void setProperties(Properties properties);
 }

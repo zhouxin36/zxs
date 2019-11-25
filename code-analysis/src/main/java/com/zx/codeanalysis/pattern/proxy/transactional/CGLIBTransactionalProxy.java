@@ -20,56 +20,56 @@ import static com.zx.codeanalysis.pattern.proxy.transactional.DateSource.COMMON;
  */
 public class CGLIBTransactionalProxy implements MethodInterceptor {
 
-    public static final InheritableThreadLocal<Connection> threadLocal = new InheritableThreadLocal<>();
+  public static final InheritableThreadLocal<Connection> threadLocal = new InheritableThreadLocal<>();
 
-    private static final Logger logger = LoggerFactory.getLogger(CGLIBTransactionalProxy.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CGLIBTransactionalProxy.class);
 
-    public Object getInstance(Class<?> clazz){
-        Enhancer enhancer = new Enhancer();
+  public Object getInstance(Class<?> clazz) {
+    Enhancer enhancer = new Enhancer();
 
-        enhancer.setSuperclass(clazz);
+    enhancer.setSuperclass(clazz);
 
-        enhancer.setCallback(this);
+    enhancer.setCallback(this);
 
-        return enhancer.create();
+    return enhancer.create();
+  }
+
+  @Override
+  public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    if (!method.isAnnotationPresent(HEHETransactional.class)) {
+      return proxy.invokeSuper(obj, args);
     }
 
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        if(!method.isAnnotationPresent(HEHETransactional.class)){
-            return proxy.invokeSuper(obj,args);
-        }
-
-        Connection connection = null;
-        try{
-            connection = DriverManager.getConnection(COMMON.getUrl(), COMMON.getUserName(), COMMON.getPassword());
-            connection.setAutoCommit(false);
-            threadLocal.set(connection);
-            Object o = proxy.invokeSuper(obj,args);
-            connection.commit();
-            logger.info("-------------CGLIBTransactionalProxy-----commit---method:{}",method);
-            return o;
-        }catch (Exception e){
-            if(null != connection) {
-                connection.rollback();
-                logger.info("-------------CGLIBTransactionalProxy-----rollback---method:{}",method);
-            }
-        }finally {
-            close(connection);
-            logger.info("-------------CGLIBTransactionalProxy-----close---method:{}",method);
-        }
-        return null;
+    Connection connection = null;
+    try {
+      connection = DriverManager.getConnection(COMMON.getUrl(), COMMON.getUserName(), COMMON.getPassword());
+      connection.setAutoCommit(false);
+      threadLocal.set(connection);
+      Object o = proxy.invokeSuper(obj, args);
+      connection.commit();
+      LOGGER.info("-------------CGLIBTransactionalProxy-----commit---method:{}", method);
+      return o;
+    } catch (Exception e) {
+      if (null != connection) {
+        connection.rollback();
+        LOGGER.info("-------------CGLIBTransactionalProxy-----rollback---method:{}", method);
+      }
+    } finally {
+      close(connection);
+      LOGGER.info("-------------CGLIBTransactionalProxy-----close---method:{}", method);
     }
+    return null;
+  }
 
-    private void close(Connection connection) {
-        if (TransactionalProxy.threadLocal.get() == null) {
-            if (null != connection) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+  private void close(Connection connection) {
+    if (TransactionalProxy.threadLocal.get() == null) {
+      if (null != connection) {
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
         }
+      }
     }
+  }
 }

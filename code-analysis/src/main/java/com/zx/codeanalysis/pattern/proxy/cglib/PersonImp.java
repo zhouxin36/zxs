@@ -9,14 +9,14 @@ import org.slf4j.LoggerFactory;
  */
 public class PersonImp {
 
-    private final static Logger logger = LoggerFactory.getLogger(PersonImp.class);
+  private static final Logger logger = LoggerFactory.getLogger(PersonImp.class);
 
-    public void findLove(){
-        logger.info("findLove");
-    }
+  public void findLove() {
+    logger.info("findLove");
+  }
 
-    @Override
-    public String toString() {
-        return "toString()";
-    }
+  @Override
+  public String toString() {
+    return "toString()";
+  }
 }

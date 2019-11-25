@@ -11,49 +11,49 @@ import com.zx.codeanalysis.spring.springv1.core.FactoryBean;
  */
 public class BeanWrapper extends FactoryBean {
 
-    private BeanPostProcessor postProcessor;
+  private BeanPostProcessor postProcessor;
 
-    private Object wrapperInstance;
+  private Object wrapperInstance;
 
-    private Object originalInstance;
+  private Object originalInstance;
 
-    private CGAopProxy cgAopProxy = new CGAopProxy();
+  private CGAopProxy cgAopProxy = new CGAopProxy();
 
-    private DyAopProxy dyAopProxy = new DyAopProxy();
+  private DyAopProxy dyAopProxy = new DyAopProxy();
 
-    public BeanWrapper(Object instance){
+  public BeanWrapper(Object instance) {
 //        if(instance.getClass().getInterfaces().length != 0){
 //
 //            this.wrapperInstance = dyAopProxy.getProxy(instance);
 //        }else {
-            this.wrapperInstance = cgAopProxy.getProxy(instance.getClass());
+    this.wrapperInstance = cgAopProxy.getProxy(instance.getClass());
 //
 //        }
-        this.originalInstance = instance;
-    }
+    this.originalInstance = instance;
+  }
 
-    public void setMyAopConfig(MyAopConfig config){
-        cgAopProxy.setConfig(config);
-        dyAopProxy.setConfig(config);
-    }
+  public void setMyAopConfig(MyAopConfig config) {
+    cgAopProxy.setConfig(config);
+    dyAopProxy.setConfig(config);
+  }
 
-    public Object getOriginalInstance() {
-        return originalInstance;
-    }
+  public Object getOriginalInstance() {
+    return originalInstance;
+  }
 
-    public Object getWrapperInstance(){
-        return this.wrapperInstance;
-    }
+  public Object getWrapperInstance() {
+    return this.wrapperInstance;
+  }
 
-    public Class<?> getWrappedClass(){
-        return this.wrapperInstance.getClass();
-    }
+  public Class<?> getWrappedClass() {
+    return this.wrapperInstance.getClass();
+  }
 
-    public BeanPostProcessor getPostProcessor() {
-        return postProcessor;
-    }
+  public BeanPostProcessor getPostProcessor() {
+    return postProcessor;
+  }
 
-    public void setPostProcessor(BeanPostProcessor postProcessor) {
-        this.postProcessor = postProcessor;
-    }
+  public void setPostProcessor(BeanPostProcessor postProcessor) {
+    this.postProcessor = postProcessor;
+  }
 }

@@ -9,16 +9,17 @@ import org.slf4j.LoggerFactory;
  */
 public class WeaveMethodImpl implements WeaveMethod {
 
-    private static final Logger logger = LoggerFactory.getLogger(WeaveMethodImpl.class);
-    @Override
-    public String say() {
-        logger.info("WeaveMethodImpl#say");
-        return "say";
-    }
+  private static final Logger logger = LoggerFactory.getLogger(WeaveMethodImpl.class);
 
-    @Override
-    public String eat() {
-        logger.info("WeaveMethodImpl#eat");
-        return "eat";
-    }
+  @Override
+  public String say() {
+    logger.info("WeaveMethodImpl#say");
+    return "say";
+  }
+
+  @Override
+  public String eat() {
+    logger.info("WeaveMethodImpl#eat");
+    return "eat";
+  }
 }

@@ -19,11 +19,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { MyEqualConstraint.class})
+@Constraint(validatedBy = {MyEqualConstraint.class})
 public @interface ZXEqual {
-    String message() default "打你哟";
+  String message() default "打你哟";
 
-    Class<?>[] groups() default { };
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+  Class<? extends Payload>[] payload() default {};
 }

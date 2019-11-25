@@ -11,22 +11,22 @@ import java.util.List;
  * @date 2018-12-19
  */
 public class HandlerMethodArgumentResolversHolder {
-    private final List<HandlerMethodArgumentResolver> resolvers;
+  private final List<HandlerMethodArgumentResolver> resolvers;
 
-    public HandlerMethodArgumentResolversHolder(List<HandlerMethodArgumentResolver> resolvers) {
-        this.resolvers = new ArrayList<>(resolvers);
-    }
+  public HandlerMethodArgumentResolversHolder(List<HandlerMethodArgumentResolver> resolvers) {
+    this.resolvers = new ArrayList<>(resolvers);
+  }
 
-    public List<HandlerMethodArgumentResolver> getResolvers() {
-        return Collections.unmodifiableList(this.resolvers);
-    }
+  public List<HandlerMethodArgumentResolver> getResolvers() {
+    return Collections.unmodifiableList(this.resolvers);
+  }
 
-    public void addResolver(HandlerMethodArgumentResolver resolver) {
-        this.resolvers.add(resolver);
-    }
+  public void addResolver(HandlerMethodArgumentResolver resolver) {
+    this.resolvers.add(resolver);
+  }
 
-    public boolean removeResolver(HandlerMethodArgumentResolver resolver) {
-        return this.resolvers.remove(resolver);
-    }
+  public boolean removeResolver(HandlerMethodArgumentResolver resolver) {
+    return this.resolvers.remove(resolver);
+  }
 
 }

@@ -13,44 +13,44 @@ import java.util.UUID;
  */
 public class User implements Serializable {
 
-    private final static Logger logger = LoggerFactory.getLogger(User.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
-    private String id;
+  private String id;
 
-    private String userName;
+  private String userName;
 
-    public User(String id, String userName) {
-        this.id = id;
-        this.userName = userName;
-    }
+  public User(String id, String userName) {
+    this.id = id;
+    this.userName = userName;
+  }
 
-    public User() {
-        this.id = UUID.randomUUID().toString();
-        this.userName = "zhouxin";
-        logger.info("user------------------{}",toString());
-    }
+  public User() {
+    this.id = UUID.randomUUID().toString();
+    this.userName = "zhouxin";
+    LOGGER.info("user------------------{}", toString());
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getUserName() {
-        return userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
-                .add("id='" + id + "'")
-                .add("userName='" + userName + "'")
-                .toString();
-    }
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
+        .add("id='" + id + "'")
+        .add("userName='" + userName + "'")
+        .toString();
+  }
 }

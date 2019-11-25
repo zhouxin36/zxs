@@ -13,11 +13,11 @@ import java.util.List;
 @Configuration
 public class SpringConfig {
 
-    @Autowired
-    public void MyBean(ApplicationArguments args) {
-        boolean debug = args.containsOption("debug");
-        List<String> files = args.getNonOptionArgs();
-        // if run with "--debug logfile.txt" debug=true, files=["logfile.txt"]
-    }
+  @Autowired
+  public void MyBean(ApplicationArguments args) {
+    boolean debug = args.containsOption("debug");
+    List<String> files = args.getNonOptionArgs();
+    // if run with "--debug logfile.txt" debug=true, files=["logfile.txt"]
+  }
 
 }

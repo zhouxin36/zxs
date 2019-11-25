@@ -10,11 +10,11 @@ import org.springframework.web.bind.support.WebBindingInitializer;
  * @date 2019-02-06
  */
 public class Question {
-    /**
-     * Spring MVC uses a {@link WebBindingInitializer} to initialize a {@link WebDataBinder} for a particular
-     * request. If you create your own {@link ConfigurableWebBindingInitializer} @Bean, Spring Boot will
-     * automatically configure Spring MVC to use it.
-     *
-     * add {@link WebMvcAutoConfiguration.EnableWebMvcConfiguration#getConfigurableWebBindingInitializer()}
-     */
+  /**
+   * Spring MVC uses a {@link WebBindingInitializer} to initialize a {@link WebDataBinder} for a particular
+   * request. If you create your own {@link ConfigurableWebBindingInitializer} @Bean, Spring Boot will
+   * automatically configure Spring MVC to use it.
+   *
+   * add {@link WebMvcAutoConfiguration.EnableWebMvcConfiguration#getConfigurableWebBindingInitializer()}
+   */
 }

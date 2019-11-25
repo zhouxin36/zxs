@@ -6,5 +6,5 @@ package com.zx.distributed.middleware.zookeeper.rmi.demo;
  */
 public interface IUserInterface {
 
-    String say(String message);
+  String say(String message);
 }

@@ -14,15 +14,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class UserRepository {
 
-    private final ConcurrentHashMap<Integer, User> users = new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<Integer, User> users = new ConcurrentHashMap<>();
 
-    private final AtomicInteger uuid = new AtomicInteger(0);
+  private final AtomicInteger uuid = new AtomicInteger(0);
 
-    public Boolean save(User user){
-        return users.put(uuid.incrementAndGet(),user) == null;
-    }
+  public Boolean save(User user) {
+    return users.put(uuid.incrementAndGet(), user) == null;
+  }
 
-    public Collection<User> findAll(){
-        return users.values();
-    }
+  public Collection<User> findAll() {
+    return users.values();
+  }
 }

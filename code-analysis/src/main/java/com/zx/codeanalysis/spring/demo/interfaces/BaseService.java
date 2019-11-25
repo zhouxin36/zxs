@@ -6,5 +6,5 @@ package com.zx.codeanalysis.spring.demo.interfaces;
  */
 public interface BaseService {
 
-    String getName();
+  String getName();
 }

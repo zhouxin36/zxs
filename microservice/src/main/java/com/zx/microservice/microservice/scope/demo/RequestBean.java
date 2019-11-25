@@ -12,15 +12,15 @@ import java.util.UUID;
  * @since 2019/2/26
  */
 @Component
-@Scope(value = WebApplicationContext.SCOPE_REQUEST,proxyMode= ScopedProxyMode.INTERFACES)
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
 public class RequestBean implements IRequestBean {
-    private UUID uuid;
+  private UUID uuid;
 
-    public RequestBean() {
-        uuid = UUID.randomUUID();
-    }
+  public RequestBean() {
+    uuid = UUID.randomUUID();
+  }
 
-    public void printId() {
-        System.out.println("RequestBean:" + uuid);
-    }
+  public void printId() {
+    System.out.println("RequestBean:" + uuid);
+  }
 }

@@ -11,29 +11,29 @@ import org.springframework.messaging.SubscribableChannel;
  */
 public interface MyChannel {
 
-    /**
-     * 发消息的通道名称
-     */
-    String MY_OUTPUT = "my_output";
+  /**
+   * 发消息的通道名称
+   */
+  String MY_OUTPUT = "my_output";
 
-    /**
-     * 消息的订阅通道名称
-     */
-    String MY_INPUT = "my_input";
+  /**
+   * 消息的订阅通道名称
+   */
+  String MY_INPUT = "my_input";
 
-    /**
-     * 发消息的通道
-     *
-     * @return
-     */
-    @Output(MY_OUTPUT)
-    MessageChannel sendShopMessage();
+  /**
+   * 发消息的通道
+   *
+   * @return
+   */
+  @Output(MY_OUTPUT)
+  MessageChannel sendShopMessage();
 
-    /**
-     * 收消息的通道
-     *
-     * @return
-     */
-    @Input(MY_INPUT)
-    SubscribableChannel recieveShopMessage();
+  /**
+   * 收消息的通道
+   *
+   * @return
+   */
+  @Input(MY_INPUT)
+  SubscribableChannel recieveShopMessage();
 }

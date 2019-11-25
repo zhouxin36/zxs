@@ -19,41 +19,42 @@ import java.util.stream.Stream;
  */
 public class CGRequestMappingMethod implements MethodInterceptor {
 
-    private final static Logger logger = LoggerFactory.getLogger(CGRequestMappingMethod.class);
+  private static final Logger logger = LoggerFactory.getLogger(CGRequestMappingMethod.class);
 
-    private BeanFactory beanFactory;
+  private BeanFactory beanFactory;
 
-    private String serviceName;
+  private String serviceName;
 
-    public CGRequestMappingMethod(BeanFactory beanFactory, String serviceName) {
-        this.beanFactory = beanFactory;
-        this.serviceName = serviceName;
+  public CGRequestMappingMethod(BeanFactory beanFactory, String serviceName) {
+    this.beanFactory = beanFactory;
+    this.serviceName = serviceName;
+  }
+
+  public static void main(String[] args) throws NoSuchMethodException {
+    Method method = UserClient.class.getMethod("getEnv", String.class);
+    Parameter parameter = method.getParameters()[0];
+
+    parameter.isNamePresent();
+
+    DefaultParameterNameDiscoverer nameDiscoverer = new DefaultParameterNameDiscoverer();
+
+    Stream.of(nameDiscoverer.getParameterNames(method)).forEach(logger::info);
+  }
+
+  public Object getInstance(Class<?> clazz) {
+    Enhancer enhancer = new Enhancer();
+    enhancer.setSuperclass(clazz);
+    enhancer.setCallback(this);
+    return enhancer.create();
+  }
+
+  @Override
+  public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+    if (Object.class.equals(method.getDeclaringClass())) {
+      return method.invoke(this, objects);
     }
+    logger.info("------------>CGRequestMappingMethod#intercept");
 
-    public Object getInstance(Class<?> clazz){
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(clazz);
-        enhancer.setCallback(this);
-        return enhancer.create();
-    }
-    @Override
-    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        if(Object.class.equals(method.getDeclaringClass())){
-            return method.invoke(this,objects);
-        }
-        logger.info("------------>CGRequestMappingMethod#intercept");
-
-        return null;
-    }
-
-    public static void main(String[] args) throws NoSuchMethodException {
-        Method method = UserClient.class.getMethod("getEnv", String.class);
-        Parameter parameter = method.getParameters()[0];
-
-        parameter.isNamePresent();
-
-        DefaultParameterNameDiscoverer nameDiscoverer = new DefaultParameterNameDiscoverer();
-
-        Stream.of(nameDiscoverer.getParameterNames(method)).forEach(logger::info);
-    }
+    return null;
+  }
 }

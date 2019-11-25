@@ -12,51 +12,51 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class MyThreadPool {
 
-    private BlockingQueue<Runnable> blockingQueue;
+  private BlockingQueue<Runnable> blockingQueue;
 
-    private List<Thread> threads = new ArrayList<>();
+  private List<Thread> threads = new ArrayList<>();
 
-    private int maxCount;
+  private int maxCount;
 
-    private AtomicInteger atomicInteger = new AtomicInteger(0);
+  private AtomicInteger atomicInteger = new AtomicInteger(0);
 
-    public MyThreadPool(int maxCount, BlockingQueue<Runnable> blockingQueue) {
-        this.maxCount = maxCount;
-        this.blockingQueue = blockingQueue != null ? blockingQueue : new LinkedBlockingQueue<>();
-    }
+  public MyThreadPool(int maxCount, BlockingQueue<Runnable> blockingQueue) {
+    this.maxCount = maxCount;
+    this.blockingQueue = blockingQueue != null ? blockingQueue : new LinkedBlockingQueue<>();
+  }
 
-    public MyThreadPool() {
-        this.maxCount = 1;
-        this.blockingQueue = new LinkedBlockingQueue<>();
-    }
+  public MyThreadPool() {
+    this.maxCount = 1;
+    this.blockingQueue = new LinkedBlockingQueue<>();
+  }
 
-    public void execute(Runnable runnable){
-        if(maxCount > threads.size()){
-            Thread thread = new Thread(() -> {
-                Runnable first = runnable;
-                while ((first != null) || (first = getTask()) != null){
-                    try {
-                        first.run();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }finally {
-                        first = null;
-                    }
-                }
-            },"Thread-"+atomicInteger.incrementAndGet());
-            thread.start();
-            threads.add(thread);
-        }else {
-            blockingQueue.offer(runnable);
-        }
-    }
-
-    public Runnable getTask(){
-        try {
-            return blockingQueue.take();
-        } catch (InterruptedException e) {
+  public void execute(Runnable runnable) {
+    if (maxCount > threads.size()) {
+      Thread thread = new Thread(() -> {
+        Runnable first = runnable;
+        while ((first != null) || (first = getTask()) != null) {
+          try {
+            first.run();
+          } catch (Exception e) {
             e.printStackTrace();
+          } finally {
+            first = null;
+          }
         }
-        return null;
+      }, "Thread-" + atomicInteger.incrementAndGet());
+      thread.start();
+      threads.add(thread);
+    } else {
+      blockingQueue.offer(runnable);
     }
+  }
+
+  public Runnable getTask() {
+    try {
+      return blockingQueue.take();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }

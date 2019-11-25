@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @ZXFeignClient(name = "${spring.application.name}")
 public interface UserClient {
 
-    @GetMapping(value = "/ZXFeignGetEnv")
-    String getEnv(@RequestParam("message") String message);
+  @GetMapping(value = "/ZXFeignGetEnv")
+  String getEnv(@RequestParam("message") String message);
 }

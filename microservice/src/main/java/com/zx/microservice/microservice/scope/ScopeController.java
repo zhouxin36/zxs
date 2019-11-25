@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/scope")
 public class ScopeController {
 
-    private final ConfigurableBeanFactory configurableBeanFactory;
+  private final ConfigurableBeanFactory configurableBeanFactory;
 
-    public ScopeController(ConfigurableBeanFactory configurableBeanFactory) {
-        this.configurableBeanFactory = configurableBeanFactory;
-    }
+  public ScopeController(ConfigurableBeanFactory configurableBeanFactory) {
+    this.configurableBeanFactory = configurableBeanFactory;
+  }
 
-    @RequestMapping("/destroy")
-    public void destroy(String beanName){
-        configurableBeanFactory.destroyBean(beanName,configurableBeanFactory.getBean(beanName));
-    }
+  @RequestMapping("/destroy")
+  public void destroy(String beanName) {
+    configurableBeanFactory.destroyBean(beanName, configurableBeanFactory.getBean(beanName));
+  }
 }

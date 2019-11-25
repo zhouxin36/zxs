@@ -9,7 +9,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author zhouxin
@@ -18,27 +17,27 @@ import org.springframework.web.bind.annotation.RestController;
 //@RestController
 public class KafkaController {
 
-    private final static Logger logger = LoggerFactory.getLogger(KafkaController.class);
+  private static final Logger logger = LoggerFactory.getLogger(KafkaController.class);
 
-    // 为了兼容stream api 使用byte数组
-    private final KafkaTemplate<String,byte[]> kafkaTemplate;
+  // 为了兼容stream api 使用byte数组
+  private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
-    @Value("${message.topic}")
-    private String topic;
+  @Value("${message.topic}")
+  private String topic;
 
-    @Autowired(required = false)
-    public KafkaController(KafkaTemplate<String, byte[]> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+  @Autowired(required = false)
+  public KafkaController(KafkaTemplate<String, byte[]> kafkaTemplate) {
+    this.kafkaTemplate = kafkaTemplate;
+  }
 
-    @RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
-    public String sendMessage(@RequestParam("message") String message){
-        return kafkaTemplate.send(topic,0,null,message.getBytes()).toString();
-    }
+  @RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+  public String sendMessage(@RequestParam("message") String message) {
+    return kafkaTemplate.send(topic, 0, null, message.getBytes()).toString();
+  }
 
-    @KafkaListener(topics = "${message.topic}")
-    public void onMessage(String message){
-        logger.info("------------>接收消息：{}",message);
-    }
+  @KafkaListener(topics = "${message.topic}")
+  public void onMessage(String message) {
+    logger.info("------------>接收消息：{}", message);
+  }
 
 }

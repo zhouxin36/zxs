@@ -9,19 +9,19 @@ import com.zx.spingbootmicrowebflux.error.enums.ZXErrorCode;
  */
 public class ZXException extends RuntimeException {
 
-    private Integer code;
+  private Integer code;
 
-    public ZXException(ZXErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.code = errorCode.getCode();
-    }
+  public ZXException(ZXErrorCode errorCode) {
+    super(errorCode.getMessage());
+    this.code = errorCode.getCode();
+  }
 
-    public ZXException(ZXErrorCode errorCode, String message) {
-        super(message);
-        this.code = errorCode.getCode();
-    }
+  public ZXException(ZXErrorCode errorCode, String message) {
+    super(message);
+    this.code = errorCode.getCode();
+  }
 
-    public Integer getCode() {
-        return code;
-    }
+  public Integer getCode() {
+    return code;
+  }
 }

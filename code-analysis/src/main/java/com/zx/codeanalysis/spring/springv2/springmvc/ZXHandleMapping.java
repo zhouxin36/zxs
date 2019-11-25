@@ -9,39 +9,39 @@ import java.util.regex.Pattern;
  */
 public class ZXHandleMapping {
 
-    private Object controller;
+  private Object controller;
 
-    private Method method;
+  private Method method;
 
-    private Pattern url;
+  private Pattern url;
 
-    public ZXHandleMapping(Object controller, Method method, Pattern url) {
-        this.controller = controller;
-        this.method = method;
-        this.url = url;
-    }
+  public ZXHandleMapping(Object controller, Method method, Pattern url) {
+    this.controller = controller;
+    this.method = method;
+    this.url = url;
+  }
 
-    public Object getController() {
-        return controller;
-    }
+  public Object getController() {
+    return controller;
+  }
 
-    public void setController(Object controller) {
-        this.controller = controller;
-    }
+  public void setController(Object controller) {
+    this.controller = controller;
+  }
 
-    public Method getMethod() {
-        return method;
-    }
+  public Method getMethod() {
+    return method;
+  }
 
-    public void setMethod(Method method) {
-        this.method = method;
-    }
+  public void setMethod(Method method) {
+    this.method = method;
+  }
 
-    public Pattern getUrl() {
-        return url;
-    }
+  public Pattern getUrl() {
+    return url;
+  }
 
-    public void setUrl(Pattern url) {
-        this.url = url;
-    }
+  public void setUrl(Pattern url) {
+    this.url = url;
+  }
 }

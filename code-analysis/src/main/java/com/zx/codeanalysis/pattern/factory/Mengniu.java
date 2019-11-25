@@ -5,8 +5,8 @@ package com.zx.codeanalysis.pattern.factory;
  * @date 2018/10/16
  */
 public class Mengniu implements Milk {
-    @Override
-    public String getName() {
-        return "蒙牛";
-    }
+  @Override
+  public String getName() {
+    return "蒙牛";
+  }
 }

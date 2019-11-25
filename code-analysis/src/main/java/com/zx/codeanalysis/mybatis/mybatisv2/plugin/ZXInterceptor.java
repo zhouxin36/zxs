@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  */
 public interface ZXInterceptor {
 
-    Object intercept(Method method,Object[] args,Object target);
+  Object intercept(Method method, Object[] args, Object target);
 
-    <T> T plugin(T target);
+  <T> T plugin(T target);
 }

@@ -8,5 +8,5 @@ import java.sql.ResultSet;
  */
 public interface ZXResultSetHandler {
 
-    <T> T handler(ResultSet resultSet, Class<T> returnType);
+  <T> T handler(ResultSet resultSet, Class<T> returnType);
 }

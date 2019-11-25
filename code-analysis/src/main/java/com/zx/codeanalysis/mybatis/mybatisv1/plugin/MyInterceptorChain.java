@@ -10,21 +10,21 @@ import java.util.List;
  */
 public class MyInterceptorChain {
 
-    private final List<MyInterceptor> MyInterceptors = new ArrayList<>();
+  private final List<MyInterceptor> MyInterceptors = new ArrayList<>();
 
-    public <T> T pluginAll(T target) {
-        for (MyInterceptor MyInterceptor : MyInterceptors) {
-            target = MyInterceptor.plugin(target);
-        }
-        return target;
+  public <T> T pluginAll(T target) {
+    for (MyInterceptor MyInterceptor : MyInterceptors) {
+      target = MyInterceptor.plugin(target);
     }
+    return target;
+  }
 
-    public void addMyInterceptor(MyInterceptor MyInterceptor) {
-        MyInterceptors.add(MyInterceptor);
-    }
+  public void addMyInterceptor(MyInterceptor MyInterceptor) {
+    MyInterceptors.add(MyInterceptor);
+  }
 
-    public List<MyInterceptor> getMyInterceptors() {
-        return Collections.unmodifiableList(MyInterceptors);
-    }
+  public List<MyInterceptor> getMyInterceptors() {
+    return Collections.unmodifiableList(MyInterceptors);
+  }
 
 }

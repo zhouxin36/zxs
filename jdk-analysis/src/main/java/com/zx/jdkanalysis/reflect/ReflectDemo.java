@@ -16,66 +16,66 @@ import java.util.List;
  */
 public class ReflectDemo {
 
-    private static final Logger logger = LoggerFactory.getLogger(ReflectDemo.class);
-    
-    public static void main(String... args) {
-        try {
-            Class<?> c = Class.forName("java.util.concurrent.ConcurrentNavigableMap");
-            logger.info("Class:  {}", c.getCanonicalName());
-            logger.info("Modifiers:  {}",
-                    Modifier.toString(c.getModifiers()));
+  private static final Logger logger = LoggerFactory.getLogger(ReflectDemo.class);
 
-            logger.info("Type Parameters:");
-            TypeVariable[] tv = c.getTypeParameters();
-            if (tv.length != 0) {
-                logger.info("  ");
-                for (TypeVariable t : tv)
-                    logger.info("{} ", t.getName());
-            } else {
-                logger.info("  -- No Type Parameters --");
-            }
+  public static void main(String... args) {
+    try {
+      Class<?> c = Class.forName("java.util.concurrent.ConcurrentNavigableMap");
+      logger.info("Class:  {}", c.getCanonicalName());
+      logger.info("Modifiers:  {}",
+          Modifier.toString(c.getModifiers()));
 
-            logger.info("Implemented Interfaces:");
-            Type[] intfs = c.getGenericInterfaces();
-            if (intfs.length != 0) {
-                for (Type intf : intfs)
-                    logger.info("  {}", intf.toString());
-            } else {
-                logger.info("  -- No Implemented Interfaces --");
-            }
+      logger.info("Type Parameters:");
+      TypeVariable[] tv = c.getTypeParameters();
+      if (tv.length != 0) {
+        logger.info("  ");
+        for (TypeVariable t : tv)
+          logger.info("{} ", t.getName());
+      } else {
+        logger.info("  -- No Type Parameters --");
+      }
 
-            logger.info("Inheritance Path:");
-            List<Class> l = new ArrayList<Class>();
-            printAncestor(c, l);
-            if (l.size() != 0) {
-                for (Class<?> cl : l)
-                    logger.info("  {}", cl.getCanonicalName());
-                logger.info("");
-            } else {
-                logger.info("  -- No Super Classes --");
-            }
+      logger.info("Implemented Interfaces:");
+      Type[] intfs = c.getGenericInterfaces();
+      if (intfs.length != 0) {
+        for (Type intf : intfs)
+          logger.info("  {}", intf.toString());
+      } else {
+        logger.info("  -- No Implemented Interfaces --");
+      }
 
-            logger.info("Annotations:");
-            Annotation[] ann = c.getAnnotations();
-            if (ann.length != 0) {
-                for (Annotation a : ann)
-                    logger.info("  {}", a.toString());
-                logger.info("");
-            } else {
-                logger.info("  -- No Annotations --");
-            }
+      logger.info("Inheritance Path:");
+      List<Class> l = new ArrayList<Class>();
+      printAncestor(c, l);
+      if (l.size() != 0) {
+        for (Class<?> cl : l)
+          logger.info("  {}", cl.getCanonicalName());
+        logger.info("");
+      } else {
+        logger.info("  -- No Super Classes --");
+      }
 
-            // production code should handle this exception more gracefully
-        } catch (ClassNotFoundException x) {
-            x.printStackTrace();
-        }
+      logger.info("Annotations:");
+      Annotation[] ann = c.getAnnotations();
+      if (ann.length != 0) {
+        for (Annotation a : ann)
+          logger.info("  {}", a.toString());
+        logger.info("");
+      } else {
+        logger.info("  -- No Annotations --");
+      }
+
+      // production code should handle this exception more gracefully
+    } catch (ClassNotFoundException x) {
+      x.printStackTrace();
     }
+  }
 
-    private static void printAncestor(Class<?> c, List<Class> l) {
-        Class<?> ancestor = c.getSuperclass();
-        if (ancestor != null) {
-            l.add(ancestor);
-            printAncestor(ancestor, l);
-        }
+  private static void printAncestor(Class<?> c, List<Class> l) {
+    Class<?> ancestor = c.getSuperclass();
+    if (ancestor != null) {
+      l.add(ancestor);
+      printAncestor(ancestor, l);
     }
+  }
 }

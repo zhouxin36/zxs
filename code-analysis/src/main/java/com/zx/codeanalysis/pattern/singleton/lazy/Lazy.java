@@ -6,14 +6,15 @@ package com.zx.codeanalysis.pattern.singleton.lazy;
  */
 public class Lazy {
 
-    private static Lazy lazy = null;
+  private static Lazy lazy = null;
 
-    private Lazy(){}
+  private Lazy() {
+  }
 
-    public static Lazy getInstance(){
-        if(lazy == null){
-            lazy = new Lazy();
-        }
-        return lazy;
+  public static Lazy getInstance() {
+    if (lazy == null) {
+      lazy = new Lazy();
     }
+    return lazy;
+  }
 }

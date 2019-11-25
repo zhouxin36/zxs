@@ -16,18 +16,18 @@ import org.slf4j.LoggerFactory;
  */
 public class Test {
 
-    private static final Logger logger = LoggerFactory.getLogger(Test.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
 
-    public static void main(String[] args) {
-        ZXInterceptorChain zxInterceptorChain = new ZXInterceptorChain();
-        zxInterceptorChain.addInterceptor(new Test1Interceptor());
-        zxInterceptorChain.addInterceptor(new Test2Interceptor());
-        zxInterceptorChain.addInterceptor(new Test3Interceptor());
-        ZXConfiguration configuration = new ZXConfiguration(zxInterceptorChain);
-        ZXSqlSession sqlSession = new ZXSqlSession(configuration);
-        Demo mapper = sqlSession.getMapper(Demo.class);
-        logger.info(mapper.select("dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a").toString());
-        logger.info(mapper.selectTById("65465345345").toString());
-        logger.info(mapper.count().toString());
-    }
+  public static void main(String[] args) {
+    ZXInterceptorChain zxInterceptorChain = new ZXInterceptorChain();
+    zxInterceptorChain.addInterceptor(new Test1Interceptor());
+    zxInterceptorChain.addInterceptor(new Test2Interceptor());
+    zxInterceptorChain.addInterceptor(new Test3Interceptor());
+    ZXConfiguration configuration = new ZXConfiguration(zxInterceptorChain);
+    ZXSqlSession sqlSession = new ZXSqlSession(configuration);
+    Demo mapper = sqlSession.getMapper(Demo.class);
+    LOGGER.info(mapper.select("dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a").toString());
+    LOGGER.info(mapper.selectTById("65465345345").toString());
+    LOGGER.info(mapper.count().toString());
+  }
 }

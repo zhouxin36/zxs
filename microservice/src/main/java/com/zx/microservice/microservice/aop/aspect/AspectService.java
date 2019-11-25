@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AspectService {
 
-    public String hehe(){
-        return "hehe吧vvvvvvvvvvvvvvvvvvvvvvvvvvvv";
-    }
+  public String hehe() {
+    return "hehe吧vvvvvvvvvvvvvvvvvvvvvvvvvvvv";
+  }
 }

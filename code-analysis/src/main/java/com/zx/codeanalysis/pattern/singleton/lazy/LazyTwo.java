@@ -6,21 +6,23 @@ package com.zx.codeanalysis.pattern.singleton.lazy;
  */
 public class LazyTwo {
 
-    private static boolean initialized = false;
+  private static boolean initialized = false;
 
-    private LazyTwo(){
-        synchronized (LazyTwo.class){
-            if(!initialized){
-                initialized = !initialized;
-            }else {
-                throw new RuntimeException("单例被侵犯");
-            }
-        }
+  private LazyTwo() {
+    synchronized (LazyTwo.class) {
+      if (!initialized) {
+        initialized = !initialized;
+      } else {
+        throw new RuntimeException("单例被侵犯");
+      }
     }
+  }
 
-    private static final LazyTwo getInstance(){return LazyHolder.LAZY;}
+  private static final LazyTwo getInstance() {
+    return LazyHolder.LAZY;
+  }
 
-    private static class LazyHolder{
-        private static final LazyTwo LAZY = new LazyTwo();
-    }
+  private static class LazyHolder {
+    private static final LazyTwo LAZY = new LazyTwo();
+  }
 }

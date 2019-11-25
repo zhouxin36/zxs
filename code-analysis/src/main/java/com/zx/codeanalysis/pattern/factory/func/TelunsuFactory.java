@@ -8,8 +8,8 @@ import com.zx.codeanalysis.pattern.factory.Telunsu;
  * @date 2018/10/16
  */
 public class TelunsuFactory implements Factory {
-    @Override
-    public Milk getMilk() {
-        return new Telunsu();
-    }
+  @Override
+  public Milk getMilk() {
+    return new Telunsu();
+  }
 }

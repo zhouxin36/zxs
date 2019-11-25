@@ -6,8 +6,8 @@ package com.zx.distributed.network;
  */
 public class Cookie {
 
-    public static void main(String[] args) {
-        java.net.CookieManager cm = new java.net.CookieManager();
-        java.net.CookieHandler.setDefault(cm);
-    }
+  public static void main(String[] args) {
+    java.net.CookieManager cm = new java.net.CookieManager();
+    java.net.CookieHandler.setDefault(cm);
+  }
 }

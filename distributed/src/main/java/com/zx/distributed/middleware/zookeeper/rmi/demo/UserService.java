@@ -5,8 +5,8 @@ package com.zx.distributed.middleware.zookeeper.rmi.demo;
  * @date 2018/12/26
  */
 public class UserService implements IUserInterface {
-    @Override
-    public String say(String message) {
-        return "你说啥？？" + message;
-    }
+  @Override
+  public String say(String message) {
+    return "你说啥？？" + message;
+  }
 }

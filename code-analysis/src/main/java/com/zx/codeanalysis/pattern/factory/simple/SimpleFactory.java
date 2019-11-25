@@ -10,13 +10,13 @@ import com.zx.codeanalysis.pattern.factory.Telunsu;
  */
 public class SimpleFactory {
 
-    public Milk getMilk(String name){
-        if("特仑苏".equals(name)){
-            return new Telunsu();
-        }else if("蒙牛".equals(name)){
-            return new Mengniu();
-        }else {
-            return null;
-        }
+  public Milk getMilk(String name) {
+    if ("特仑苏".equals(name)) {
+      return new Telunsu();
+    } else if ("蒙牛".equals(name)) {
+      return new Mengniu();
+    } else {
+      return null;
     }
+  }
 }

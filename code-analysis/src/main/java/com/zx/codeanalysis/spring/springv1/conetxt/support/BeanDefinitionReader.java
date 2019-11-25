@@ -17,60 +17,61 @@ import java.util.*;
  */
 public class BeanDefinitionReader {
 
-    private Properties config = new Properties();
+  private Properties config = new Properties();
 
-    private List<String> registyBeanClasses = new ArrayList<>();
+  private List<String> registyBeanClasses = new ArrayList<>();
 
-    public BeanDefinitionReader(String ... locations){
-        try (InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(locations[0]
-                        .replace("classpath:", ""))) {
-            config.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        doScanner(config.getProperty("scanPackage"));
+  public BeanDefinitionReader(String... locations) {
+    try (InputStream inputStream = this.getClass()
+        .getClassLoader()
+        .getResourceAsStream(locations[0]
+            .replace("classpath:", ""))) {
+      config.load(inputStream);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    public BeanDefinition registerBean(String className){
-        if(this.registyBeanClasses.contains(className)){
-            BeanDefinition beanDefinition = new BeanDefinition();
-            beanDefinition.setBeanClassName(className);
-            beanDefinition.setFactoryBeanName(SpringUtils.lowerFirstCase(className.substring(className.lastIndexOf(".") + 1)));
-            return beanDefinition;
-        }
-        return null;
+    doScanner(config.getProperty("scanPackage"));
+  }
+
+  public BeanDefinition registerBean(String className) {
+    if (this.registyBeanClasses.contains(className)) {
+      BeanDefinition beanDefinition = new BeanDefinition();
+      beanDefinition.setBeanClassName(className);
+      beanDefinition.setFactoryBeanName(SpringUtils.lowerFirstCase(className.substring(className.lastIndexOf(".") + 1)));
+      return beanDefinition;
     }
+    return null;
+  }
 
-    public List<String> loadBeanDefinitions(){
-        return registyBeanClasses;
+  public List<String> loadBeanDefinitions() {
+    return registyBeanClasses;
+  }
+
+  public Properties getConfig() {
+    return this.config;
+  }
+
+  private void doScanner(String scanPackage) {
+
+    URL url = this.getClass().getClassLoader()
+        .getResource("/" + scanPackage.replaceAll("\\.", "/"));
+
+    File file;
+    if (url != null) {
+      file = new File(url.getFile());
+      Optional.ofNullable(file.listFiles()).map(Arrays::stream).ifPresent(e ->
+          e.forEach(o -> {
+            if (o.isDirectory()) {
+              doScanner(scanPackage + "." + o.getName());
+            } else {
+              if (!o.getName().contains(".java")) {
+                registyBeanClasses
+                    .add(scanPackage + "." + o.getName()
+                        .replace(".class", ""));
+              }
+            }
+          })
+      );
     }
-
-    public Properties getConfig(){
-        return this.config;
-    }
-
-    private void doScanner(String scanPackage) {
-
-        URL url = this.getClass().getClassLoader()
-                .getResource("/" + scanPackage.replaceAll("\\.", "/"));
-
-        File file;
-        if (url != null) {
-            file = new File(url.getFile());
-            Optional.ofNullable(file.listFiles()).map(Arrays::stream).ifPresent(e ->
-                    e.forEach(o -> {
-                        if (o.isDirectory()) {
-                            doScanner(scanPackage + "." + o.getName());
-                        } else {
-                            if (!o.getName().contains(".java")) {
-                                registyBeanClasses
-                                        .add(scanPackage + "." + o.getName()
-                                                .replace(".class", ""));
-                            }
-                        }
-                    })
-            );
-        }
-    }
+  }
 }

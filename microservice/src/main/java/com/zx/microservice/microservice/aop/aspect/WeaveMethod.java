@@ -6,7 +6,7 @@ package com.zx.microservice.microservice.aop.aspect;
  */
 public interface WeaveMethod {
 
-    String say();
+  String say();
 
-    String eat();
+  String eat();
 }

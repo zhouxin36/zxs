@@ -6,27 +6,23 @@ package com.zx.codeanalysis.pattern.singleton.reflect;
  */
 public class Singleton {
 
-    private volatile static Singleton uniqueSingleton;
+  private static final String str2 = "2";
+  private static volatile Singleton uniqueSingleton;
+  private static String str4 = "4";
+  private final String str1 = "1";
+  private String str3 = "3";
 
-    private final String str1 = "1";
+  private Singleton() {
+  }
 
-    private final static String str2 = "2";
-
-    private String str3 = "3";
-
-    private static String str4 = "4";
-
-    private Singleton() {
-    }
-
-    public static Singleton getInstance() {
+  public static Singleton getInstance() {
+    if (null == uniqueSingleton) {
+      synchronized (Singleton.class) {
         if (null == uniqueSingleton) {
-            synchronized (Singleton.class) {
-                if (null == uniqueSingleton) {
-                    uniqueSingleton = new Singleton();
-                }
-            }
+          uniqueSingleton = new Singleton();
         }
-        return uniqueSingleton;
+      }
     }
+    return uniqueSingleton;
+  }
 }

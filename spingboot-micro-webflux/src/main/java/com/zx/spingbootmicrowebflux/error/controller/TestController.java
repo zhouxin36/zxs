@@ -16,20 +16,20 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 @RequestMapping("/error")
 public class TestController {
 
-    private final static Logger logger = LoggerFactory.getLogger(TestController.class);
+  private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
-    @RequestMapping("/test1")
-    public void test1() {
-        throw new ZXException(ZXErrorCode.MY_ERROR);
-    }
+  @RequestMapping("/test1")
+  public void test1() {
+    throw new ZXException(ZXErrorCode.MY_ERROR);
+  }
 
-    @RequestMapping("/test2")
-    public void test2() {
-        throw new AsyncRequestTimeoutException();
-    }
+  @RequestMapping("/test2")
+  public void test2() {
+    throw new AsyncRequestTimeoutException();
+  }
 
-    @RequestMapping("/str")
-    public void str(String str) {
-        logger.info(str);
-    }
+  @RequestMapping("/str")
+  public void str(String str) {
+    logger.info(str);
+  }
 }

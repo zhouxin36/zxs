@@ -8,8 +8,8 @@ package com.zx.codeanalysis.pattern.proxy.cglib;
  */
 public class CglibTest {
 
-    public static void main(String[] args) {
-        PersonImp instance = (PersonImp)new CglibProxy().getInstance(PersonImp.class);
-        instance.findLove();
-    }
+  public static void main(String[] args) {
+    PersonImp instance = (PersonImp) new CglibProxy().getInstance(PersonImp.class);
+    instance.findLove();
+  }
 }

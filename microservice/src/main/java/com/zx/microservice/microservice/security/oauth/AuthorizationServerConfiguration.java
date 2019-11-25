@@ -22,42 +22,42 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private static final String DEMO_RESOURCE_ID = "security";
+  private static final String DEMO_RESOURCE_ID = "security";
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+  @Autowired
+  AuthenticationManager authenticationManager;
 
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        String finalSecret = "{bcrypt}"+new BCryptPasswordEncoder().encode("123456");
-        //配置两个客户端,一个用于password认证一个用于client认证
-        clients.inMemory()
-                .withClient("client_1")
-                .resourceIds(DEMO_RESOURCE_ID)
-                .authorizedGrantTypes("client_credentials", "refresh_token")
-                .scopes("select")
-                .authorities("oauth2")
-                .secret(finalSecret)
-                .and()
-                .withClient("client_2")
-                .resourceIds(DEMO_RESOURCE_ID)
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("select")
-                .authorities("oauth2")
-                .secret(finalSecret);
-    }
+  @Override
+  public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+    String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+    //配置两个客户端,一个用于password认证一个用于client认证
+    clients.inMemory()
+        .withClient("client_1")
+        .resourceIds(DEMO_RESOURCE_ID)
+        .authorizedGrantTypes("client_credentials", "refresh_token")
+        .scopes("select")
+        .authorities("oauth2")
+        .secret(finalSecret)
+        .and()
+        .withClient("client_2")
+        .resourceIds(DEMO_RESOURCE_ID)
+        .authorizedGrantTypes("password", "refresh_token")
+        .scopes("select")
+        .authorities("oauth2")
+        .secret(finalSecret);
+  }
 
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints
-                .tokenStore(new InMemoryTokenStore())
-                .authenticationManager(authenticationManager)
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
-    }
+  @Override
+  public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    endpoints
+        .tokenStore(new InMemoryTokenStore())
+        .authenticationManager(authenticationManager)
+        .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+  }
 
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        //允许表单认证
-        oauthServer.allowFormAuthenticationForClients();
-    }
+  @Override
+  public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    //允许表单认证
+    oauthServer.allowFormAuthenticationForClients();
+  }
 }

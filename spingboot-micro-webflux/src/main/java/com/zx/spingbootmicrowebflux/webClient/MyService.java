@@ -9,13 +9,14 @@ import reactor.core.publisher.Mono;
  */
 //@Service
 public class MyService {
-    private final WebClient webClient;
+  private final WebClient webClient;
 
-    public MyService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://example.org").build();
-    }
-    public Mono<Object> someRestCall(String name) {
-        return this.webClient.get().uri("/{name}/details", name)
-                .retrieve().bodyToMono(Object.class);
-    }
+  public MyService(WebClient.Builder webClientBuilder) {
+    this.webClient = webClientBuilder.baseUrl("http://example.org").build();
+  }
+
+  public Mono<Object> someRestCall(String name) {
+    return this.webClient.get().uri("/{name}/details", name)
+        .retrieve().bodyToMono(Object.class);
+  }
 }

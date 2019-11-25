@@ -4,8 +4,8 @@ import org.junit.Test;
 
 public class CodeAnalysisApplicationTests {
 
-    @Test
-    public void contextLoads() {
-    }
+  @Test
+  public void contextLoads() {
+  }
 
 }

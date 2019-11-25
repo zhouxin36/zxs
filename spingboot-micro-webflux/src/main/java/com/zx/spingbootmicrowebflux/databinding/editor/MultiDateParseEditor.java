@@ -13,51 +13,49 @@ import java.util.List;
  */
 public class MultiDateParseEditor extends PropertyEditorSupport {
 
-    private List<DateTimeFormatter> dateFormats;
+  private final int exactDateLength;
+  private List<DateTimeFormatter> dateFormats;
+  private boolean allowEmpty;
 
-    private boolean allowEmpty;
-
-    private final int exactDateLength;
-
-    public MultiDateParseEditor(List<DateTimeFormatter> dateFormats, boolean allowEmpty){
-        if (dateFormats== null || dateFormats.size() == 0){
-            throw new IllegalArgumentException("Param dateFormats could not be empty");
-        }
-        this.dateFormats = dateFormats;
-        this.allowEmpty = allowEmpty;
-        this.exactDateLength = -1;
+  public MultiDateParseEditor(List<DateTimeFormatter> dateFormats, boolean allowEmpty) {
+    if (dateFormats == null || dateFormats.size() == 0) {
+      throw new IllegalArgumentException("Param dateFormats could not be empty");
     }
+    this.dateFormats = dateFormats;
+    this.allowEmpty = allowEmpty;
+    this.exactDateLength = -1;
+  }
 
-    public MultiDateParseEditor(List<DateTimeFormatter> dateFormats, boolean allowEmpty, int exactDateLength){
-        if (dateFormats== null || dateFormats.size() == 0){
-            throw new IllegalArgumentException("Param dateFormats could not be empty");
-        }
-        this.dateFormats = dateFormats;
-        this.allowEmpty = allowEmpty;
-        this.exactDateLength = exactDateLength;
+  public MultiDateParseEditor(List<DateTimeFormatter> dateFormats, boolean allowEmpty, int exactDateLength) {
+    if (dateFormats == null || dateFormats.size() == 0) {
+      throw new IllegalArgumentException("Param dateFormats could not be empty");
     }
+    this.dateFormats = dateFormats;
+    this.allowEmpty = allowEmpty;
+    this.exactDateLength = exactDateLength;
+  }
 
-    @Override
-    public void setAsText(String text) throws IllegalArgumentException {
-        assert text != null;
-        if (this.allowEmpty && !StringUtils.hasText(text)) {
-            // Treat empty String as null value.
-            setValue(null);
-        }else if (this.exactDateLength >= 0 && text.length() != this.exactDateLength) {
-            throw new IllegalArgumentException(
-                    "Could not parse date: it is not exactly" + this.exactDateLength + "characters long");
-        }else {
-            Exception e1 = null;
-            for (DateTimeFormatter dateFormat : dateFormats) {
-                try {
-                    setValue(LocalDateTime.parse(text,dateFormat));
-                    return;
-                } catch (Exception e) {
-                    e1 = e;
-                }
-            }
-            assert e1 != null;
-            throw new IllegalArgumentException("Could not parse date: " + e1.getMessage(), e1);
+  @Override
+  public void setAsText(String text) throws IllegalArgumentException {
+    assert text != null;
+    if (this.allowEmpty && !StringUtils.hasText(text)) {
+      // Treat empty String as null value.
+      setValue(null);
+    } else if (this.exactDateLength >= 0 && text.length() != this.exactDateLength) {
+      throw new IllegalArgumentException(
+          "Could not parse date: it is not exactly" + this.exactDateLength + "characters long");
+    } else {
+      Exception e1 = null;
+      for (DateTimeFormatter dateFormat : dateFormats) {
+        try {
+          setValue(LocalDateTime.parse(text, dateFormat));
+          return;
+        } catch (Exception e) {
+          e1 = e;
         }
+      }
+      assert e1 != null;
+      throw new IllegalArgumentException("Could not parse date: " + e1.getMessage(), e1);
     }
+  }
 }

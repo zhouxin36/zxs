@@ -10,43 +10,43 @@ import java.util.Map;
  */
 public class MyAopConfig {
 
-    private Map<Method,MyAspect> points = new HashMap<>();
+  private Map<Method, MyAspect> points = new HashMap<>();
 
-    public void put(Method target, Object aspect, Method[] points){
-        this.points.put(target,new MyAspect(aspect,points));
+  public void put(Method target, Object aspect, Method[] points) {
+    this.points.put(target, new MyAspect(aspect, points));
+  }
+
+  public MyAspect get(Method method) {
+    return this.points.get(method);
+  }
+
+  public boolean contains(Method method) {
+    return this.points.containsKey(method);
+  }
+
+  public class MyAspect {
+    private Object aspect;
+    private Method[] points;
+
+    public MyAspect(Object aspect, Method[] points) {
+      this.aspect = aspect;
+      this.points = points;
     }
 
-    public MyAspect get(Method method){
-        return this.points.get(method);
+    public Object getAspect() {
+      return aspect;
     }
 
-    public boolean contains(Method method){
-        return this.points.containsKey(method);
+    public void setAspect(Object aspect) {
+      this.aspect = aspect;
     }
 
-    public class MyAspect{
-        private Object aspect;
-        private Method[] points;
-
-        public MyAspect(Object aspect, Method[] points) {
-            this.aspect = aspect;
-            this.points = points;
-        }
-
-        public Object getAspect() {
-            return aspect;
-        }
-
-        public void setAspect(Object aspect) {
-            this.aspect = aspect;
-        }
-
-        public Method[] getPoints() {
-            return points;
-        }
-
-        public void setPoints(Method[] points) {
-            this.points = points;
-        }
+    public Method[] getPoints() {
+      return points;
     }
+
+    public void setPoints(Method[] points) {
+      this.points = points;
+    }
+  }
 }

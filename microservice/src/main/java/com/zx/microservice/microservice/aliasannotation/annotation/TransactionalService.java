@@ -17,10 +17,11 @@ import java.lang.annotation.*;
 @Transactional
 public @interface TransactionalService {
 
-    /**
-     * 定义别名，派生属性
-     * @return
-     */
-    @AliasFor(annotation = Service.class, attribute = "value")
-    String value() default "";
+  /**
+   * 定义别名，派生属性
+   *
+   * @return
+   */
+  @AliasFor(annotation = Service.class, attribute = "value")
+  String value() default "";
 }

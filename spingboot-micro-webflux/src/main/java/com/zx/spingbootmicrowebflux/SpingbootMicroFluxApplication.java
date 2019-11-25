@@ -25,49 +25,51 @@ import java.util.Map;
 @EnableBinding(MyChannel.class)
 public class SpingbootMicroFluxApplication {
 
-    private final static Logger logger = LoggerFactory.getLogger(SpingbootMicroFluxApplication.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SpingbootMicroFluxApplication.class);
 
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
-        annotationConfigApplicationContext.setId("ZX");
-        annotationConfigApplicationContext.refresh();
-        new SpringApplicationBuilder(SpingbootMicroFluxApplication.class)
-                .environment(config())
-                .listeners(new HttpRemoteAppEventListener())
-                .parent(annotationConfigApplicationContext)
-                .run(args);
-    }
+  public static void main(String[] args) {
+    AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
+    annotationConfigApplicationContext.setId("ZX");
+    annotationConfigApplicationContext.refresh();
+    new SpringApplicationBuilder(SpingbootMicroFluxApplication.class)
+        .environment(config())
+        .listeners(new HttpRemoteAppEventListener())
+        .parent(annotationConfigApplicationContext)
+        .run(args);
+  }
 
-    /**
-     * 系统配置（由于java9模块化，classpath无法加载）
-     * @return
-     */
-    private static ConfigurableEnvironment config() {
-        StandardReactiveWebEnvironment standardReactiveWebEnvironment = new StandardReactiveWebEnvironment();
-        standardReactiveWebEnvironment.getPropertySources().forEach(e->{
-            if(e.getName().equals(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)){
+  /**
+   * 系统配置（由于java9模块化，classpath无法加载）
+   *
+   * @return
+   */
+  private static ConfigurableEnvironment config() {
+    StandardReactiveWebEnvironment standardReactiveWebEnvironment = new StandardReactiveWebEnvironment();
+    standardReactiveWebEnvironment.getPropertySources().forEach(e -> {
+      if (e.getName().equals(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)) {
 //                logger.info("------>env:{}",e);
-                logger.info("------>env:{}",e.getProperty("java.class.path"));
-            }
-        });
-        Map<String, Object> map = new HashMap<>();
-        map.put("server.port","3636");
-        map.put("management.endpoints.web.exposure.include","*");//打开actuator权限
-        map.put("management.server.port","10001");//分开服务器端口，actuator
-        MapPropertySource mapPropertySource = new MapPropertySource("ZXEnvironment",map);
-        standardReactiveWebEnvironment.getPropertySources().addFirst(mapPropertySource);
-        return standardReactiveWebEnvironment;
-    }
+        LOGGER.info("------>env:{}", e.getProperty("java.class.path"));
+      }
+    });
+    Map<String, Object> map = new HashMap<>();
+    map.put("server.port", "3636");
+    map.put("management.endpoints.web.exposure.include", "*");//打开actuator权限
+    map.put("management.server.port", "10001");//分开服务器端口，actuator
+    MapPropertySource mapPropertySource = new MapPropertySource("ZXEnvironment", map);
+    standardReactiveWebEnvironment.getPropertySources().addFirst(mapPropertySource);
+    return standardReactiveWebEnvironment;
+  }
 
-    /**
-     * 一个BUG。。。
-     * {@link BindingServiceConfiguration#messageHandlerMethodFactory}
-     * copy from {@link org.springframework.integration.handler.support.HandlerMethodArgumentResolversHolder}
-     * @return
-     */
-    @Bean(IntegrationContextUtils.ARGUMENT_RESOLVERS_BEAN_NAME)
-    public HandlerMethodArgumentResolversHolder handlerMethodArgumentResolversHolder(){
-        return new HandlerMethodArgumentResolversHolder(Collections.emptyList());
-    }
+  /**
+   * 一个BUG。。。
+   * {@link BindingServiceConfiguration#messageHandlerMethodFactory}
+   * copy from {@link org.springframework.integration.handler.support.HandlerMethodArgumentResolversHolder}
+   *
+   * @return
+   */
+  @Bean(IntegrationContextUtils.ARGUMENT_RESOLVERS_BEAN_NAME)
+  public HandlerMethodArgumentResolversHolder handlerMethodArgumentResolversHolder() {
+    return new HandlerMethodArgumentResolversHolder(Collections.emptyList());
+  }
 
 }

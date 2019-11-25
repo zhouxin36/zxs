@@ -11,24 +11,24 @@ import java.io.IOException;
  * @author zhouxin
  * @date 2018-12-14
  */
-@WebFilter(value = "/getEnv",filterName = "loggerFilter")
+@WebFilter(value = "/getEnv", filterName = "loggerFilter")
 public class ZXLoggerFilter implements Filter {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZXLoggerFilter.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZXLoggerFilter.class);
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
 //        logger.warn("---------->ZXLoggerFilter.init");
-    }
+  }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 //        logger.warn("---------->ZXLoggerFilter.doFilter");
-        chain.doFilter(request,response);
-    }
+    chain.doFilter(request, response);
+  }
 
-    @Override
-    public void destroy() {
+  @Override
+  public void destroy() {
 //        logger.warn("---------->ZXLoggerFilter.destroy");
-    }
+  }
 }

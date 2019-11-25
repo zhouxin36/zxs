@@ -7,5 +7,5 @@ import com.zx.codeanalysis.base.DateSource;
  * @date 2018/10/23
  */
 public interface StatementHandler {
-    public <T> T query(String statement, Object[] parameter, DateSource dateSource, Class<T> returnType);
+  public <T> T query(String statement, Object[] parameter, DateSource dateSource, Class<T> returnType);
 }

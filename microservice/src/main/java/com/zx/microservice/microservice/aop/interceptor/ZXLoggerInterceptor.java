@@ -17,21 +17,21 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ZXLoggerInterceptor implements HandlerInterceptor {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZXLoggerInterceptor.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZXLoggerInterceptor.class);
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        logger.warn("---------->ZXLoggerInterceptor.preHandle");
-        return true;
-    }
+    return true;
+  }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+  @Override
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 //        logger.warn("---------->ZXLoggerInterceptor.postHandle");
-    }
+  }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+  @Override
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 //        logger.warn("---------->ZXLoggerInterceptor.afterCompletion");
-    }
+  }
 }

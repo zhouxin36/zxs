@@ -6,5 +6,5 @@ package com.zx.codeanalysis.spring.springv1.conetxt;
  */
 public interface MyApplicationContextAware {
 
-    void setApplicationContext(MyApplicationContext context);
+  void setApplicationContext(MyApplicationContext context);
 }

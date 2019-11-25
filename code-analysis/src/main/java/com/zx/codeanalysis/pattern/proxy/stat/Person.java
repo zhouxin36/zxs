@@ -6,7 +6,7 @@ package com.zx.codeanalysis.pattern.proxy.stat;
  */
 public interface Person {
 
-    void findLove();
+  void findLove();
 
-    void buy();
+  void buy();
 }

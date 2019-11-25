@@ -14,26 +14,26 @@ import java.lang.reflect.Method;
  */
 public class CglibProxy implements MethodInterceptor {
 
-    private final static Logger logger = LoggerFactory.getLogger(CglibProxy.class);
+  private static final Logger logger = LoggerFactory.getLogger(CglibProxy.class);
 
-    public static <T> T getInstance(Class<T> clazz){
-        Enhancer enhancer = new Enhancer();
+  public static <T> T getInstance(Class<T> clazz) {
+    Enhancer enhancer = new Enhancer();
 
-        enhancer.setSuperclass(clazz);
+    enhancer.setSuperclass(clazz);
 
-        enhancer.setCallback(new CglibProxy());
+    enhancer.setCallback(new CglibProxy());
 
-        //noinspection unchecked
-        return (T)enhancer.create();
-    }
+    //noinspection unchecked
+    return (T) enhancer.create();
+  }
 
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        //业务
-        logger.info("前");
-        Object o = proxy.invokeSuper(obj,args);
-        logger.info("后");
+  @Override
+  public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    //业务
+    logger.info("前");
+    Object o = proxy.invokeSuper(obj, args);
+    logger.info("后");
 
-        return o;
-    }
+    return o;
+  }
 }

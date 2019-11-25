@@ -17,18 +17,18 @@ import java.util.concurrent.Future;
  * @date 2018-12-08
  */
 public class KafkaProducerDemo {
-    /**
-     * kafka default config {@link ProducerConfig#CONFIG}
-     */
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers","localhost:9092");
-        properties.setProperty("key.serializer", JsonSerializer.class.getName());
-        properties.setProperty("value.serializer", JsonSerializer.class.getName());
-        KafkaProducer<String,String> kafkaProducer = new KafkaProducer<>(properties);
-        ProducerRecord<String,String> producerRecord = new ProducerRecord<>("zhouxin"
-                ,0,System.currentTimeMillis(),"message-key","heheda");
-        Future<RecordMetadata> send = kafkaProducer.send(producerRecord);
-        send.get();
-    }
+  /**
+   * kafka default config {@link ProducerConfig#CONFIG}
+   */
+  public static void main(String[] args) throws ExecutionException, InterruptedException {
+    Properties properties = new Properties();
+    properties.setProperty("bootstrap.servers", "localhost:9092");
+    properties.setProperty("key.serializer", JsonSerializer.class.getName());
+    properties.setProperty("value.serializer", JsonSerializer.class.getName());
+    KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
+    ProducerRecord<String, String> producerRecord = new ProducerRecord<>("zhouxin"
+        , 0, System.currentTimeMillis(), "message-key", "heheda");
+    Future<RecordMetadata> send = kafkaProducer.send(producerRecord);
+    send.get();
+  }
 }

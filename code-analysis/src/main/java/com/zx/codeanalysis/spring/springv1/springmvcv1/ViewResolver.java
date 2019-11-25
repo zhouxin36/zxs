@@ -11,68 +11,69 @@ import java.util.regex.Pattern;
  */
 public class ViewResolver {
 
-    private String viewName;
+  private String viewName;
 
-    private File template;
+  private File template;
 
-    public ViewResolver(String viewName, File template){
-        this.viewName = viewName;
-        this.template = template;
-    }
+  public ViewResolver(String viewName, File template) {
+    this.viewName = viewName;
+    this.template = template;
+  }
 
-    public String viewResolver(ModelAndView modelAndView) throws Exception{
-        StringBuffer sb = new StringBuffer();
+  public String viewResolver(ModelAndView modelAndView) throws Exception {
+    StringBuffer sb = new StringBuffer();
 
-        RandomAccessFile ra = new RandomAccessFile(this.template,"r");
+    RandomAccessFile ra = new RandomAccessFile(this.template, "r");
 
-        try {
-            String line = null;
-            while (null != (line = ra.readLine())) {
-                line = new String(line.getBytes("ISO-8859-1"), "utf-8");
-                Matcher m = matcher(line);
-                while (m.find()) {
-                    for (int i = 1; i <= m.groupCount(); i++) {
+    try {
+      String line = null;
+      while (null != (line = ra.readLine())) {
+        line = new String(line.getBytes("ISO-8859-1"), "utf-8");
+        Matcher m = matcher(line);
+        while (m.find()) {
+          for (int i = 1; i <= m.groupCount(); i++) {
 
-                        //要把￥{}中间的这个字符串给取出来
-                        String paramName = m.group(i);
-                        Object paramValue = modelAndView.getModel().get(paramName);
-                        if (null == paramValue) {
-                            continue;
-                        }
-                        line = line.replaceAll("￥\\{" + paramName + "\\}", paramValue.toString());
-                        line = new String(line.getBytes("utf-8"), "ISO-8859-1");
-                    }
-                }
-                sb.append(line);
+            //要把￥{}中间的这个字符串给取出来
+            String paramName = m.group(i);
+            Object paramValue = modelAndView.getModel().get(paramName);
+            if (null == paramValue) {
+              continue;
             }
-        }finally {
-            ra.close();
+            line = line.replaceAll("￥\\{" + paramName + "\\}", paramValue.toString());
+            line = new String(line.getBytes("utf-8"), "ISO-8859-1");
+          }
         }
-
-        return sb.toString();
-
+        sb.append(line);
+      }
+    } finally {
+      ra.close();
     }
 
-    public String getViewName() {
-        return viewName;
-    }
+    return sb.toString();
 
-    public void setViewName(String viewName) {
-        this.viewName = viewName;
-    }
+  }
 
-    public File getTemplate() {
-        return template;
-    }
+  public String getViewName() {
+    return viewName;
+  }
 
-    public void setTemplate(File template) {
-        this.template = template;
-    }
-    private Matcher matcher(String str){
-        Pattern pattern = Pattern.compile("￥\\{(.+?)\\}",Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(str);
-        return  matcher;
-    }
+  public void setViewName(String viewName) {
+    this.viewName = viewName;
+  }
+
+  public File getTemplate() {
+    return template;
+  }
+
+  public void setTemplate(File template) {
+    this.template = template;
+  }
+
+  private Matcher matcher(String str) {
+    Pattern pattern = Pattern.compile("￥\\{(.+?)\\}", Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(str);
+    return matcher;
+  }
 
 
 }

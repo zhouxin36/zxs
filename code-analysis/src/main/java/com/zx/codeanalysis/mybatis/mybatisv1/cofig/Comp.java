@@ -7,30 +7,30 @@ import java.util.StringJoiner;
  * @date 2018/10/22
  */
 public class Comp {
-    private String userId;
-    private String company;
+  private String userId;
+  private String company;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Comp.class.getSimpleName() + "[", "]")
-                .add("userId='" + userId + "'")
-                .add("company='" + company + "'")
-                .toString();
-    }
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", Comp.class.getSimpleName() + "[", "]")
+        .add("userId='" + userId + "'")
+        .add("company='" + company + "'")
+        .toString();
+  }
 
-    public String getUserId() {
-        return userId;
-    }
+  public String getUserId() {
+    return userId;
+  }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    public String getCompany() {
-        return company;
-    }
+  public String getCompany() {
+    return company;
+  }
 
-    public void setCompany(String company) {
-        this.company = company;
-    }
+  public void setCompany(String company) {
+    this.company = company;
+  }
 }

@@ -24,42 +24,42 @@ import java.util.concurrent.Executors;
  */
 public class ZXRmiServer {
 
-    private final static ExecutorService executorService = Executors.newCachedThreadPool();
+  private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
-    private final static Logger logger = LoggerFactory.getLogger(ZXRmiServer.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZXRmiServer.class);
 
-    private static Map<String, Class<?>> handlerMap;
+  private static Map<String, Class<?>> handlerMap;
 
-    static {
-        handlerMap = new HashMap<>();
-        handlerMap.put(UserService.class.getInterfaces()[0].getSimpleName(), UserService.class);
-    }
+  static {
+    handlerMap = new HashMap<>();
+    handlerMap.put(UserService.class.getInterfaces()[0].getSimpleName(), UserService.class);
+  }
 
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket();
-        SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 8888);
-        serverSocket.bind(socketAddress);
-        while (true) {
-            Socket accept = serverSocket.accept();
-            executorService.submit(()->{
-                try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(accept.getOutputStream());
-                     ObjectInputStream objectInputStream = new ObjectInputStream(accept.getInputStream())) {
-                    RMIRequest rmiRequest = (RMIRequest) objectInputStream.readObject();
-                    logger.info("----------->{}",rmiRequest);
-                    Class<?> aClass = handlerMap.get(rmiRequest.getClassName());
-                    Class<?>[] classes = new Class[rmiRequest.getParameters().length];
-                    for (int i = 0; i < rmiRequest.getParameters().length; i++) {
-                        classes[i] = rmiRequest.getParameters()[i].getClass();
-                    }
-                    if(aClass != null){
-                        Method method = aClass.getMethod(rmiRequest.getMethodName(), classes);
-                        Object invoke = method.invoke(aClass.getDeclaredConstructor().newInstance(), rmiRequest.getParameters());
-                        objectOutputStream.writeObject(invoke);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+  public static void main(String[] args) throws IOException {
+    ServerSocket serverSocket = new ServerSocket();
+    SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 8888);
+    serverSocket.bind(socketAddress);
+    while (true) {
+      Socket accept = serverSocket.accept();
+      executorService.submit(() -> {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(accept.getOutputStream());
+             ObjectInputStream objectInputStream = new ObjectInputStream(accept.getInputStream())) {
+          RMIRequest rmiRequest = (RMIRequest) objectInputStream.readObject();
+          logger.info("----------->{}", rmiRequest);
+          Class<?> aClass = handlerMap.get(rmiRequest.getClassName());
+          Class<?>[] classes = new Class[rmiRequest.getParameters().length];
+          for (int i = 0; i < rmiRequest.getParameters().length; i++) {
+            classes[i] = rmiRequest.getParameters()[i].getClass();
+          }
+          if (aClass != null) {
+            Method method = aClass.getMethod(rmiRequest.getMethodName(), classes);
+            Object invoke = method.invoke(aClass.getDeclaredConstructor().newInstance(), rmiRequest.getParameters());
+            objectOutputStream.writeObject(invoke);
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
         }
+      });
     }
+  }
 }

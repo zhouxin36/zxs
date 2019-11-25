@@ -15,17 +15,16 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 /**
  * @author zhouxin
  * @date 2018-11-24
- *
  */
 @Configuration
 public class WebFluxConfiguration {
 
 
-    @Bean
-    public RouterFunction<ServerResponse> routerFunctionUsers(UserRepository userRepository) {
-        return RouterFunctions.route(GET("/users")
-                , e -> ServerResponse.ok().body(Flux.fromIterable(userRepository.findAll()), User.class))
-                .andRoute(POST("/addUser"), e -> ServerResponse.ok().body(e.bodyToMono(User.class).map(userRepository::save), Boolean.class));
-    }
+  @Bean
+  public RouterFunction<ServerResponse> routerFunctionUsers(UserRepository userRepository) {
+    return RouterFunctions.route(GET("/users")
+        , e -> ServerResponse.ok().body(Flux.fromIterable(userRepository.findAll()), User.class))
+        .andRoute(POST("/addUser"), e -> ServerResponse.ok().body(e.bodyToMono(User.class).map(userRepository::save), Boolean.class));
+  }
 
 }

@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
  */
 public class AbstractTest {
 
-    private final static Logger logger = LoggerFactory.getLogger(AbstractTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTest.class);
 
-    public static void main(String[] args) {
-        logger.info(new MilkFactory().getMengniu().toString());
-    }
+  public static void main(String[] args) {
+    LOGGER.info(new MilkFactory().getMengniu().toString());
+  }
 }

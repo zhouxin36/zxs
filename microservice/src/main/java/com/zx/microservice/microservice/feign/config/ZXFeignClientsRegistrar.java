@@ -26,79 +26,79 @@ import java.util.stream.Stream;
  */
 public class ZXFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZXFeignClientsRegistrar.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZXFeignClientsRegistrar.class);
 
-    private Environment environment;
+  private Environment environment;
 
-    private BeanFactory beanFactory;
+  private BeanFactory beanFactory;
+
+  @Override
+  public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+    Map<String, Object> annotationAttributes = importingClassMetadata.getAnnotationAttributes(EnableZXFeign.class.getName());
+    if (!(annotationAttributes.get("classes") instanceof Class<?>[])) {
+      return;
+    }
+    Class<?>[] classes = (Class<?>[]) annotationAttributes.get("classes");
+    Stream.of(classes)
+        .filter(Class::isInterface)
+        .filter(clazz -> clazz.isAnnotationPresent(ZXFeignClient.class))
+        .forEach(clazz -> {
+          String serviceName = environment.resolvePlaceholders(clazz.getAnnotation(ZXFeignClient.class).name());
+          String beanName = "ZXFeign." + environment.resolvePlaceholders(clazz.getAnnotation(ZXFeignClient.class).name());
+          CGRequestMappingMethod cgRequestMappingMethod = new CGRequestMappingMethod(beanFactory, serviceName);
+          Object instance = cgRequestMappingMethod.getInstance(clazz);
+          if (registry instanceof SingletonBeanRegistry) {
+            SingletonBeanRegistry registry1 = (SingletonBeanRegistry) registry;
+            registry1.registerSingleton(beanName, instance);
+          } else {
+            registerBeanByFactoryBean(beanName, instance, clazz, registry);
+          }
+        });
+  }
+
+  private void registerBeanByFactoryBean(String serviceName, Object instance, Class<?> clazz, BeanDefinitionRegistry registry) {
+    BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(RestClientClassFactoryBean.class);
+    beanDefinitionBuilder.addConstructorArgValue(instance);
+    beanDefinitionBuilder.addConstructorArgValue(clazz);
+    AbstractBeanDefinition beanDefinition =
+        beanDefinitionBuilder.getBeanDefinition();
+    registry.registerBeanDefinition(serviceName, beanDefinition);
+  }
+
+  @Override
+  public void setEnvironment(Environment environment) {
+    this.environment = environment;
+  }
+
+  @Override
+  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    this.beanFactory = beanFactory;
+  }
+
+  private static class RestClientClassFactoryBean implements FactoryBean {
+
+    private final Object proxy;
+
+    private final Class<?> restClientClass;
+
+    private RestClientClassFactoryBean(Object proxy, Class<?> restClientClass) {
+      this.proxy = proxy;
+      this.restClientClass = restClientClass;
+    }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        Map<String, Object> annotationAttributes = importingClassMetadata.getAnnotationAttributes(EnableZXFeign.class.getName());
-        if (!(annotationAttributes.get("classes") instanceof Class<?>[])) {
-            return;
-        }
-        Class<?>[] classes = (Class<?>[]) annotationAttributes.get("classes");
-        Stream.of(classes)
-                .filter(Class::isInterface)
-                .filter(clazz -> clazz.isAnnotationPresent(ZXFeignClient.class))
-                .forEach(clazz ->{
-                    String serviceName = environment.resolvePlaceholders(clazz.getAnnotation(ZXFeignClient.class).name());
-                    String beanName = "ZXFeign." + environment.resolvePlaceholders(clazz.getAnnotation(ZXFeignClient.class).name());
-                    CGRequestMappingMethod cgRequestMappingMethod = new CGRequestMappingMethod(beanFactory,serviceName);
-                    Object instance = cgRequestMappingMethod.getInstance(clazz);
-                    if(registry instanceof SingletonBeanRegistry){
-                        SingletonBeanRegistry registry1 = (SingletonBeanRegistry) registry;
-                        registry1.registerSingleton(beanName,instance);
-                    }else {
-                        registerBeanByFactoryBean(beanName, instance, clazz, registry);
-                    }
-                });
-    }
-
-    private void registerBeanByFactoryBean(String serviceName, Object instance, Class<?> clazz, BeanDefinitionRegistry registry) {
-        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(RestClientClassFactoryBean.class);
-        beanDefinitionBuilder.addConstructorArgValue(instance);
-        beanDefinitionBuilder.addConstructorArgValue(clazz);
-        AbstractBeanDefinition beanDefinition =
-                beanDefinitionBuilder.getBeanDefinition();
-        registry.registerBeanDefinition(serviceName, beanDefinition);
+    public Object getObject() throws Exception {
+      return proxy;
     }
 
     @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
+    public Class<?> getObjectType() {
+      return restClientClass;
     }
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
+    public boolean isSingleton() {
+      return true;
     }
-
-    private static class RestClientClassFactoryBean implements FactoryBean {
-
-        private final Object proxy;
-
-        private final Class<?> restClientClass;
-
-        private RestClientClassFactoryBean(Object proxy, Class<?> restClientClass) {
-            this.proxy = proxy;
-            this.restClientClass = restClientClass;
-        }
-
-        @Override
-        public Object getObject() throws Exception {
-            return proxy;
-        }
-
-        @Override
-        public Class<?> getObjectType() {
-            return restClientClass;
-        }
-
-        @Override
-        public boolean isSingleton() {
-            return true;
-        }
-    }
+  }
 }

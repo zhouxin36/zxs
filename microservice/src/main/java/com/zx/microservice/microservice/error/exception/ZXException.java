@@ -8,24 +8,24 @@ import com.zx.microservice.microservice.error.enums.ZXErrorCode;
  */
 public class ZXException extends RuntimeException {
 
-    private Integer code;
+  private Integer code;
 
-    public ZXException(ZXErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.code = errorCode.getCode();
-    }
+  public ZXException(ZXErrorCode errorCode) {
+    super(errorCode.getMessage());
+    this.code = errorCode.getCode();
+  }
 
-    public ZXException(ZXErrorCode errorCode, String message) {
-        super(message);
-        this.code = errorCode.getCode();
-    }
+  public ZXException(ZXErrorCode errorCode, String message) {
+    super(message);
+    this.code = errorCode.getCode();
+  }
 
-    public ZXException(String message) {
-        super(message);
-        this.code = 500;
-    }
+  public ZXException(String message) {
+    super(message);
+    this.code = 500;
+  }
 
-    public Integer getCode() {
-        return code;
-    }
+  public Integer getCode() {
+    return code;
+  }
 }

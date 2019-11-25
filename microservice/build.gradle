@@ -42,7 +42,7 @@ dependencies {
     implementation( 'org.springframework.cloud:spring-cloud-stream-binder-kafka')
     implementation('org.springframework.cloud:spring-cloud-starter-zookeeper-all')
 //    implementation('org.springframework.cloud:spring-cloud-starter-eureka')
-//    implementation('org.springframework.cloud:spring-cloud-starter-hystrix')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
     implementation('com.alibaba:fastjson:1.2.54')
     implementation('com.squareup.okhttp3:okhttp:3.12.0')
     implementation('org.springframework.boot:spring-boot-starter-validation')

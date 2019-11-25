@@ -8,7 +8,6 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -19,21 +18,21 @@ import javax.annotation.Resource;
 //@RestController
 public class StreamController {
 
-    private final static Logger logger = LoggerFactory.getLogger(StreamController.class);
+  private static final Logger logger = LoggerFactory.getLogger(StreamController.class);
 
 
-    @Resource(name = MyChannel.MY_OUTPUT)
-    private MessageChannel sendShopMessageChannel;
+  @Resource(name = MyChannel.MY_OUTPUT)
+  private MessageChannel sendShopMessageChannel;
 
-    @GetMapping("/sendMsg")
-    public String sendShopMessage(String content) {
-        boolean isSendSuccess = sendShopMessageChannel.
-                send(MessageBuilder.withPayload(content).build());
-        return isSendSuccess ? "发送成功" : "发送失败";
-    }
+  @GetMapping("/sendMsg")
+  public String sendShopMessage(String content) {
+    boolean isSendSuccess = sendShopMessageChannel.
+        send(MessageBuilder.withPayload(content).build());
+    return isSendSuccess ? "发送成功" : "发送失败";
+  }
 
-    @StreamListener(MyChannel.MY_INPUT)
-    public void receive(Message<String> message) {
-        logger.info("--------->stream:{}",message.getPayload());
-    }
+  @StreamListener(MyChannel.MY_INPUT)
+  public void receive(Message<String> message) {
+    logger.info("--------->stream:{}", message.getPayload());
+  }
 }

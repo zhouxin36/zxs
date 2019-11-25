@@ -6,14 +6,14 @@ package com.zx.codeanalysis.mybatis.mybatisv1;
  */
 public class MySimpleExecutor implements MyExecutor {
 
-    private MyConfiguration configuration;
+  private MyConfiguration configuration;
 
-    public MySimpleExecutor(MyConfiguration configuration) {
-        this.configuration = configuration;
-    }
+  public MySimpleExecutor(MyConfiguration configuration) {
+    this.configuration = configuration;
+  }
 
-    @Override
-    public <T> T query(String statement, Object[] parameter, MyConfiguration configuration,Class<T> returnType) {
-        return configuration.getStatementHandler().query(statement,parameter,configuration.getDateSource(),returnType);
-    }
+  @Override
+  public <T> T query(String statement, Object[] parameter, MyConfiguration configuration, Class<T> returnType) {
+    return configuration.getStatementHandler().query(statement, parameter, configuration.getDateSource(), returnType);
+  }
 }

@@ -10,10 +10,10 @@ import java.lang.annotation.Target;
  * @date 2018/10/25
  */
 
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequestMapping {
 
-    String value() default "";
+  String value() default "";
 
 }

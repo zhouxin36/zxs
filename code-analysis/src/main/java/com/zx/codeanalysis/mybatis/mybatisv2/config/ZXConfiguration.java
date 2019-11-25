@@ -16,35 +16,35 @@ import java.lang.reflect.Proxy;
  */
 public class ZXConfiguration {
 
-    private ZXConnectionPool connectionPool;
+  private ZXConnectionPool connectionPool;
 
-    private ZXInterceptorChain interceptorChain;
+  private ZXInterceptorChain interceptorChain;
 
-    public ZXConfiguration(ZXInterceptorChain interceptorChain) {
-        DateSource dateSource = DateSource.COMMON;
+  public ZXConfiguration(ZXInterceptorChain interceptorChain) {
+    DateSource dateSource = DateSource.COMMON;
 //        try {
 //            Class.forName(dateSource.getDriverClass());
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
-        this.connectionPool = new ZXConnectionPool(dateSource);
-        this.interceptorChain = interceptorChain;
-    }
+    this.connectionPool = new ZXConnectionPool(dateSource);
+    this.interceptorChain = interceptorChain;
+  }
 
-    <T> T getMapper(Class<T> clazz, ZXSqlSession sqlSession){
-        //noinspection unchecked
-        return (T)Proxy.newProxyInstance(clazz.getClassLoader(),new Class[]{clazz},new ZXMapperProxy(sqlSession));
-    }
+  <T> T getMapper(Class<T> clazz, ZXSqlSession sqlSession) {
+    //noinspection unchecked
+    return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new ZXMapperProxy(sqlSession));
+  }
 
-    public ZXStatementHandler getStatementHandler(){
-        return interceptorChain.pluginAll(new ZXDefaultStatementHandler(this));
-    }
+  public ZXStatementHandler getStatementHandler() {
+    return interceptorChain.pluginAll(new ZXDefaultStatementHandler(this));
+  }
 
-    public ZXResultSetHandler getResultSetHandler(){
-        return interceptorChain.pluginAll(new ZXDefalutResultSetHandler());
-    }
+  public ZXResultSetHandler getResultSetHandler() {
+    return interceptorChain.pluginAll(new ZXDefalutResultSetHandler());
+  }
 
-    public ZXConnectionPool getConnectionPool() {
-        return connectionPool;
-    }
+  public ZXConnectionPool getConnectionPool() {
+    return connectionPool;
+  }
 }

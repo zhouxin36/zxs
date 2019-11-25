@@ -22,28 +22,28 @@ import java.io.IOException;
 //        , loadOnStartup = 2)
 public class Dispatch2Servlet extends HttpServlet {
 
-    private final static Logger logger = LoggerFactory.getLogger(Dispatch2Servlet.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Dispatch2Servlet.class);
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doPost(req, resp);
-    }
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    this.doPost(req, resp);
+  }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("-----------------  调用doPost ---------------------");
-    }
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    LOGGER.info("-----------------  调用doPost ---------------------");
+  }
 
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
+  @Override
+  public void destroy() {
+    super.destroy();
+  }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        logger.info("-----------------  调用init ---------------------");
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    LOGGER.info("-----------------  调用init ---------------------");
 
-        new MyApplicationContext(config.getInitParameter("contextConfigLocation"));
-    }
+    new MyApplicationContext(config.getInitParameter("contextConfigLocation"));
+  }
 
 }

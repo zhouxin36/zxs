@@ -9,50 +9,50 @@ import java.util.StringJoiner;
  */
 public class User {
 
-    private Integer id;
+  private Integer id;
 
-    private String userName;
+  private String userName;
 
-    private LocalDateTime localDateTime;
+  private LocalDateTime localDateTime;
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
+  public User() {
+  }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-    }
+  public User(Integer id, String userName) {
+    this.id = id;
+    this.userName = userName;
+  }
 
-    public User() {
-    }
+  public LocalDateTime getLocalDateTime() {
+    return localDateTime;
+  }
 
-    public User(Integer id, String userName) {
-        this.id = id;
-        this.userName = userName;
-    }
+  public void setLocalDateTime(LocalDateTime localDateTime) {
+    this.localDateTime = localDateTime;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getUserName() {
-        return userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("userName='" + userName + "'")
-                .add("localDateTime=" + localDateTime)
-                .toString();
-    }
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
+        .add("id=" + id)
+        .add("userName='" + userName + "'")
+        .add("localDateTime=" + localDateTime)
+        .toString();
+  }
 }

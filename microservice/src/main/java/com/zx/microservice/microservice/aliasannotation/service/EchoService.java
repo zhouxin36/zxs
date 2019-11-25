@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 @TransactionalService("heheService")
 public class EchoService {
 
-    private static final Logger logger = LoggerFactory.getLogger(EchoService.class);
+  private static final Logger logger = LoggerFactory.getLogger(EchoService.class);
 
-    public void echo(){
-        logger.error("--------------->EchoService输出");
-    }
+  public void echo() {
+    logger.error("--------------->EchoService输出");
+  }
 }

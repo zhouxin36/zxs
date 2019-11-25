@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
  */
 public class CGProxy {
 
-    private final Logger logger = LoggerFactory.getLogger(CGProxy.class);
+  private final Logger logger = LoggerFactory.getLogger(CGProxy.class);
 
-    public void say() {
-        logger.info("say");
-    }
+  public void say() {
+    logger.info("say");
+  }
 }

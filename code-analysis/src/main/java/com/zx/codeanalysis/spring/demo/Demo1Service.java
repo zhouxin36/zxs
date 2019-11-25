@@ -13,15 +13,15 @@ import com.zx.codeanalysis.spring.demo.interfaces.BaseService;
 @Service
 public class Demo1Service implements BaseService {
 
-    @Autowried
-    private Demo demo;
+  @Autowried
+  private Demo demo;
 
-    @Transactional
-    public String getName(){
-        demo.select("dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a");
-        demo.updateAge(222,"dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a");
-        demo.updateName("bbb","dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a");
+  @Transactional
+  public String getName() {
+    demo.select("dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a");
+    demo.updateAge(222, "dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a");
+    demo.updateName("bbb", "dc1dc52e-79b9-11e8-9c15-fdc7eb479f4a");
 //        throw new RuntimeException("");
-        return "周鑫";
-    }
+    return "周鑫";
+  }
 }

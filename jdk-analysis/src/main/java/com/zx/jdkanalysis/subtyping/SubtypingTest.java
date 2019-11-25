@@ -11,55 +11,55 @@ import org.slf4j.LoggerFactory;
  */
 public class SubtypingTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(SubtypingTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SubtypingTest.class);
 
-    public static void main(String[] args)  {
-        arraySub();
-        logger.info("----------------------------------------这是一条华丽的分割线-------------------------------------------------");
-        primitiveSub();
+  public static void main(String[] args) {
+    arraySub();
+    LOGGER.info("----------------------------------------这是一条华丽的分割线-------------------------------------------------");
+    primitiveSub();
 
-    }
+  }
 
-    private static void primitiveSub() {
-        logger.info("------------->{}",Integer.TYPE.isAssignableFrom(int.class));
-        logger.info("------------->{}",int.class.isPrimitive());
-    }
+  private static void primitiveSub() {
+    LOGGER.info("------------->{}", Integer.TYPE.isAssignableFrom(int.class));
+    LOGGER.info("------------->{}", int.class.isPrimitive());
+  }
 
-    @SuppressWarnings("ConstantConditions")
-    private static void arraySub(){
-        logger.info("Object > Object[] ------{}",Object.class.isAssignableFrom(Object[].class));
-        logger.info("Object > Object[] ------{}",new Object[]{} instanceof Object);
+  @SuppressWarnings("ConstantConditions")
+  private static void arraySub() {
+    LOGGER.info("Object > Object[] ------{}", Object.class.isAssignableFrom(Object[].class));
+    LOGGER.info("Object > Object[] ------{}", new Object[]{} instanceof Object);
 
-        logger.info("Cloneable > Object[] ------{}",Cloneable.class.isAssignableFrom(Object[].class));
-        logger.info("Cloneable > Object[] ------{}",new Object[]{} instanceof Cloneable);
+    LOGGER.info("Cloneable > Object[] ------{}", Cloneable.class.isAssignableFrom(Object[].class));
+    LOGGER.info("Cloneable > Object[] ------{}", new Object[]{} instanceof Cloneable);
 
-        logger.info("java.io.Serializable > Object[] ------{}",java.io.Serializable.class.isAssignableFrom(Object[].class));
-        logger.info("java.io.Serializable > Object[] ------{}",new Object[]{} instanceof java.io.Serializable);
+    LOGGER.info("java.io.Serializable > Object[] ------{}", java.io.Serializable.class.isAssignableFrom(Object[].class));
+    LOGGER.info("java.io.Serializable > Object[] ------{}", new Object[]{} instanceof java.io.Serializable);
 
-        logger.info("Object > Integer[] ------{}",Object.class.isAssignableFrom(Integer[].class));
-        logger.info("Object > Integer[] ------{}",new Integer[]{} instanceof Object);
+    LOGGER.info("Object > Integer[] ------{}", Object.class.isAssignableFrom(Integer[].class));
+    LOGGER.info("Object > Integer[] ------{}", new Integer[]{} instanceof Object);
 
-        logger.info("Cloneable > Integer[] ------{}",Cloneable.class.isAssignableFrom(Integer[].class));
-        logger.info("Cloneable > Integer[] ------{}",new Integer[]{} instanceof Cloneable);
+    LOGGER.info("Cloneable > Integer[] ------{}", Cloneable.class.isAssignableFrom(Integer[].class));
+    LOGGER.info("Cloneable > Integer[] ------{}", new Integer[]{} instanceof Cloneable);
 
-        logger.info("Object[] > Integer[] ------{}",Object[].class.isAssignableFrom(Integer[].class));
-        logger.info("Object[] > Integer[] ------{}",new Integer[]{} instanceof Object[]);
+    LOGGER.info("Object[] > Integer[] ------{}", Object[].class.isAssignableFrom(Integer[].class));
+    LOGGER.info("Object[] > Integer[] ------{}", new Integer[]{} instanceof Object[]);
 
 
-        logger.info("Number[] > Integer[] ------{}",Number[].class.isAssignableFrom(Integer[].class));
-        logger.info("Number[] > Integer[] ------{}",new Integer[]{} instanceof Number[]);
+    LOGGER.info("Number[] > Integer[] ------{}", Number[].class.isAssignableFrom(Integer[].class));
+    LOGGER.info("Number[] > Integer[] ------{}", new Integer[]{} instanceof Number[]);
 
-        double[] doubles = {'0'};
-        logger.info("--------------->doubles class:{}",doubles.getClass());
-        logger.info("Object > primitive type ------{}",Object.class.isAssignableFrom(double[].class));
-        logger.info("Object > primitive type ------{}",doubles instanceof Object); //编译错误
+    double[] doubles = {'0'};
+    LOGGER.info("--------------->doubles class:{}", doubles.getClass());
+    LOGGER.info("Object > primitive type ------{}", Object.class.isAssignableFrom(double[].class));
+    LOGGER.info("Object > primitive type ------{}", doubles instanceof Object); //编译错误
 
-        logger.info("Object[] > primitive type ------{}",Object[].class.isAssignableFrom(double[].class));
+    LOGGER.info("Object[] > primitive type ------{}", Object[].class.isAssignableFrom(double[].class));
 
-        logger.info("Cloneable > primitive type ------{}",Cloneable.class.isAssignableFrom(double[].class));
-        logger.info("Cloneable > primitive type ------{}",doubles instanceof Cloneable);
+    LOGGER.info("Cloneable > primitive type ------{}", Cloneable.class.isAssignableFrom(double[].class));
+    LOGGER.info("Cloneable > primitive type ------{}", doubles instanceof Cloneable);
 
-        logger.info("java.io.Serializable > primitive type ------{}",java.io.Serializable.class.isAssignableFrom(double[].class));
-        logger.info("java.io.Serializable > primitive type ------{}",doubles instanceof java.io.Serializable);
-    }
+    LOGGER.info("java.io.Serializable > primitive type ------{}", java.io.Serializable.class.isAssignableFrom(double[].class));
+    LOGGER.info("java.io.Serializable > primitive type ------{}", doubles instanceof java.io.Serializable);
+  }
 }

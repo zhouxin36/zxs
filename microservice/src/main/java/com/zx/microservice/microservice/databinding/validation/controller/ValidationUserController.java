@@ -17,13 +17,13 @@ import javax.validation.Valid;
 @RestController
 public class ValidationUserController {
 
-    @RequestMapping(value = "/select", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public User select(@Valid @RequestBody User user) {
-        return user;
-    }
+  @RequestMapping(value = "/select", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+  public User select(@Valid @RequestBody User user) {
+    return user;
+  }
 
-    @RequestMapping(value = "/select2", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public User select2(@RequestBody User user) {
-        return user;
-    }
+  @RequestMapping(value = "/select2", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+  public User select2(@RequestBody User user) {
+    return user;
+  }
 }

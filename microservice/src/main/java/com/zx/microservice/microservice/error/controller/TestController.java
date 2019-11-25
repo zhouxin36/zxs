@@ -14,13 +14,13 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 @RequestMapping("/error")
 public class TestController {
 
-    @RequestMapping("/test1")
-    public void test1() {
-        throw new ZXException(ZXErrorCode.MY_ERROR);
-    }
+  @RequestMapping("/test1")
+  public void test1() {
+    throw new ZXException(ZXErrorCode.MY_ERROR);
+  }
 
-    @RequestMapping("/test2")
-    public void test2() {
-        throw new AsyncRequestTimeoutException();
-    }
+  @RequestMapping("/test2")
+  public void test2() {
+    throw new AsyncRequestTimeoutException();
+  }
 }

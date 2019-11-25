@@ -29,94 +29,94 @@ import java.util.stream.Collectors;
 @EnableScheduling
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
-    private final static Logger logger = LoggerFactory.getLogger(RestTemplateInterceptor.class);
+  private static final Logger logger = LoggerFactory.getLogger(RestTemplateInterceptor.class);
 
-    private final DiscoveryClient discoveryClient;
+  private final DiscoveryClient discoveryClient;
 
-    private volatile Map<String, Set<String>> urls = new HashMap<>();
+  private volatile Map<String, Set<String>> urls = new HashMap<>();
 
-    public RestTemplateInterceptor(DiscoveryClient discoveryClient) {
-        this.discoveryClient = discoveryClient;
+  public RestTemplateInterceptor(DiscoveryClient discoveryClient) {
+    this.discoveryClient = discoveryClient;
+  }
+
+  @Scheduled(fixedDelay = 10 * 1000 * 60)
+  public void updateTagUrls() {
+    Map<String, Set<String>> newUrls = new HashMap<>();
+    discoveryClient.getServices().forEach(serviceName -> {
+      Set<String> collect = discoveryClient.getInstances(serviceName).stream()
+          .map(
+              e -> e.isSecure() ? "https://" + e.getHost() + ":" + e.getPort()
+                  : "http://" + e.getHost() + ":" + e.getPort()).collect(Collectors.toSet());
+      newUrls.put(serviceName, collect);
+    });
+    Map<String, Set<String>> oldUrls = this.urls;
+    this.urls = newUrls;
+    oldUrls.clear();
+    logger.info("--------->RestTemplateInterceptor#updateTagUrls()|newUrls:{}", newUrls);
+  }
+
+  @Override
+  public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+    URI uri = request.getURI();
+    ArrayList<String> thisUrls = new ArrayList<>(urls.get(uri.getHost()));
+    int index = new Random().nextInt(thisUrls.size());
+    String host = "https://" + uri.getHost();
+    if (uri.toString().startsWith("https")) {
+      host = "https://" + uri.getHost();
     }
+    String path = uri.toString().replace(host, thisUrls.get(index));
+    URLConnection urlConnection = new URL(path).openConnection();
+    urlConnection.setDoOutput(true);
+    HttpHeaders headers = request.getHeaders();
+    /**
+     * 如果 Content-Length 为0
+     * {@link org.springframework.web.client.MessageBodyClientHttpResponseWrapper#hasMessageBody}
+     * 判断成功 getHeaders().getContentLength() == 0
+     * 直接返回null
+     */
+    headers.set("Content-Length", "1");
+    return new ZXClientHttpResponse(urlConnection.getInputStream(), new HttpHeaders());
+  }
 
-    @Scheduled(fixedDelay = 10 * 1000 * 60)
-    public void updateTagUrls() {
-        Map<String, Set<String>> newUrls = new HashMap<>();
-        discoveryClient.getServices().forEach(serviceName -> {
-            Set<String> collect = discoveryClient.getInstances(serviceName).stream()
-                    .map(
-                            e -> e.isSecure() ? "https://" + e.getHost() + ":" + e.getPort()
-                                    : "http://" + e.getHost() + ":" + e.getPort()).collect(Collectors.toSet());
-            newUrls.put(serviceName, collect);
-        });
-        Map<String, Set<String>> oldUrls = this.urls;
-        this.urls = newUrls;
-        oldUrls.clear();
-        logger.info("--------->RestTemplateInterceptor#updateTagUrls()|newUrls:{}",newUrls);
+  class ZXClientHttpResponse implements ClientHttpResponse {
+
+    private InputStream inputStream;
+
+    private HttpHeaders httpHeaders;
+
+    ZXClientHttpResponse(InputStream inputStream, HttpHeaders httpHeaders) {
+      this.httpHeaders = httpHeaders;
+      this.inputStream = inputStream;
     }
 
     @Override
-    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        URI uri = request.getURI();
-        ArrayList<String> thisUrls = new ArrayList<>(urls.get(uri.getHost()));
-        int index = new Random().nextInt(thisUrls.size());
-        String host = "https://" + uri.getHost();
-        if(uri.toString().startsWith("https")){
-            host = "https://" + uri.getHost();
-        }
-        String path = uri.toString().replace(host, thisUrls.get(index));
-        URLConnection urlConnection = new URL(path).openConnection();
-        urlConnection.setDoOutput(true);
-        HttpHeaders headers = request.getHeaders();
-        /**
-         * 如果 Content-Length 为0
-         * {@link org.springframework.web.client.MessageBodyClientHttpResponseWrapper#hasMessageBody}
-         * 判断成功 getHeaders().getContentLength() == 0
-         * 直接返回null
-         */
-        headers.set("Content-Length","1");
-        return new ZXClientHttpResponse(urlConnection.getInputStream(),new HttpHeaders());
+    public HttpStatus getStatusCode() throws IOException {
+      return HttpStatus.OK;
     }
 
-    class ZXClientHttpResponse implements ClientHttpResponse{
-
-        private InputStream inputStream;
-
-        private HttpHeaders httpHeaders;
-
-        ZXClientHttpResponse(InputStream inputStream,HttpHeaders httpHeaders){
-            this.httpHeaders = httpHeaders;
-            this.inputStream = inputStream;
-        }
-
-        @Override
-        public HttpStatus getStatusCode() throws IOException {
-            return HttpStatus.OK;
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return 200;
-        }
-
-        @Override
-        public String getStatusText() throws IOException {
-            return "OK";
-        }
-
-        @Override
-        public void close() {
-
-        }
-
-        @Override
-        public InputStream getBody() throws IOException {
-            return inputStream;
-        }
-
-        @Override
-        public HttpHeaders getHeaders() {
-            return httpHeaders;
-        }
+    @Override
+    public int getRawStatusCode() throws IOException {
+      return 200;
     }
+
+    @Override
+    public String getStatusText() throws IOException {
+      return "OK";
+    }
+
+    @Override
+    public void close() {
+
+    }
+
+    @Override
+    public InputStream getBody() throws IOException {
+      return inputStream;
+    }
+
+    @Override
+    public HttpHeaders getHeaders() {
+      return httpHeaders;
+    }
+  }
 }

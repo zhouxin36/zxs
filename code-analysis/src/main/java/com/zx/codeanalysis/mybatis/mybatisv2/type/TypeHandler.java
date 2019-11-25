@@ -8,5 +8,5 @@ import java.sql.ResultSet;
  */
 public interface TypeHandler<T> {
 
-    T getValue(ResultSet resultSet,String name) throws Exception;
+  T getValue(ResultSet resultSet, String name) throws Exception;
 }

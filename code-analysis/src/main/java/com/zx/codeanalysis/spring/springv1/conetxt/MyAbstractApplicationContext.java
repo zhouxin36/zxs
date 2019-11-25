@@ -6,9 +6,9 @@ package com.zx.codeanalysis.spring.springv1.conetxt;
  */
 public abstract class MyAbstractApplicationContext {
 
-    protected void onRefresh(){
+  protected void onRefresh() {
 
-    }
+  }
 
-    protected abstract void refreshBeanFactory();
+  protected abstract void refreshBeanFactory();
 }

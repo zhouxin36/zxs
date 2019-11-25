@@ -17,103 +17,103 @@ import java.util.List;
 
 /**
  * 加载
- * @see DelegatingWebMvcConfiguration#setConfigurers
  *
  * @author zhouxin
  * @date 2018/11/20
+ * @see DelegatingWebMvcConfiguration#setConfigurers
  */
 @Configuration
 public class ZXWebMvcConfigurerAdapter implements WebMvcConfigurer {
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
+  @Override
+  public void configurePathMatch(PathMatchConfigurer configurer) {
 
-    }
+  }
 
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+  @Override
+  public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 
-    }
+  }
 
-    @Override
-    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+  @Override
+  public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 
-    }
+  }
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+  @Override
+  public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 
-    }
+  }
 
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        // addConverter Converter,ConverterFactory, or GenericConverter interfaces
-        // addFormatter Formatter
-        registry.addConverter(new StringToInteger());
-        registry.addFormatter(new MultiDateFormatter());
-    }
+  @Override
+  public void addFormatters(FormatterRegistry registry) {
+    // addConverter Converter,ConverterFactory, or GenericConverter interfaces
+    // addFormatter Formatter
+    registry.addConverter(new StringToInteger());
+    registry.addFormatter(new MultiDateFormatter());
+  }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ZXLoggerInterceptor());
-    }
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new ZXLoggerInterceptor());
+  }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-    }
+  }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
 
-    }
+  }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
 
-    }
+  }
 
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
+  @Override
+  public void configureViewResolvers(ViewResolverRegistry registry) {
 
-    }
+  }
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 
-    }
+  }
 
-    @Override
-    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
+  @Override
+  public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 
-    }
+  }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+  @Override
+  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 
-    }
+  }
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(new ZXHttpMessageConverter());
-    }
+  @Override
+  public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    converters.add(new ZXHttpMessageConverter());
+  }
 
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+  @Override
+  public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 
-    }
+  }
 
-    @Override
-    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+  @Override
+  public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 
-    }
+  }
 
-    @Override
-    public Validator getValidator() {
-        return null;
-    }
+  @Override
+  public Validator getValidator() {
+    return null;
+  }
 
-    @Override
-    public MessageCodesResolver getMessageCodesResolver() {
-        return null;
-    }
+  @Override
+  public MessageCodesResolver getMessageCodesResolver() {
+    return null;
+  }
 }

@@ -12,27 +12,27 @@ import java.lang.reflect.Method;
  */
 public class MyMapperProxy implements InvocationHandler {
 
-    private final static Logger logger = LoggerFactory.getLogger(MyMapperProxy.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(MyMapperProxy.class);
 
-    private MySqlSession sqlSession;
+  private MySqlSession sqlSession;
 
-    public MyMapperProxy(MySqlSession sqlSession) {
-        this.sqlSession = sqlSession;
+  public MyMapperProxy(MySqlSession sqlSession) {
+    this.sqlSession = sqlSession;
+  }
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    if (Object.class.equals(method.getDeclaringClass())) {
+      return method.invoke(this, args);
     }
+    Select annotation = method.getAnnotation(Select.class);
 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if(Object.class.equals(method.getDeclaringClass())) {
-            return method.invoke(this, args);
-        }
-        Select annotation = method.getAnnotation(Select.class);
-
-        if(annotation != null){
-            String sql = annotation.sql();
-            return sqlSession.selectOne(sql,args,method.getReturnType());
-        }else {
-            logger.info("未找到Select注解");
-            return null;
-        }
+    if (annotation != null) {
+      String sql = annotation.sql();
+      return sqlSession.selectOne(sql, args, method.getReturnType());
+    } else {
+      LOGGER.info("未找到Select注解");
+      return null;
     }
+  }
 }

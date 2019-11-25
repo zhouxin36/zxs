@@ -21,41 +21,41 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
 @EnableTransactionManagement
 public class AnnotationTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(AnnotationTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(AnnotationTest.class);
 
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
+  public static void main(String[] args) {
+    AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
 
 
-        annotationConfigApplicationContext.register(AnnotationTest.class);
-        annotationConfigApplicationContext.refresh();
+    annotationConfigApplicationContext.register(AnnotationTest.class);
+    annotationConfigApplicationContext.refresh();
 
-        annotationConfigApplicationContext.getBeansOfType(EchoService.class).forEach((beanName,bean)->{
-            logger.error("------------------->Bean Name:{},Bean:{}",beanName,bean);
-            bean.echo();
-        });
-        annotationConfigApplicationContext.close();
+    annotationConfigApplicationContext.getBeansOfType(EchoService.class).forEach((beanName, bean) -> {
+      logger.error("------------------->Bean Name:{},Bean:{}", beanName, bean);
+      bean.echo();
+    });
+    annotationConfigApplicationContext.close();
+  }
+
+  @Configuration
+  public static class MyPlatformTransactionManager implements PlatformTransactionManager {
+
+    @Override
+    public TransactionStatus getTransaction(TransactionDefinition definition) throws TransactionException {
+      logger.info("------------->getTransaction:{}", definition);
+      return new DefaultTransactionStatus(
+          null, true, true,
+          definition.isReadOnly(), true, null);
     }
 
-    @Configuration
-    public static class MyPlatformTransactionManager implements PlatformTransactionManager{
-
-        @Override
-        public TransactionStatus getTransaction(TransactionDefinition definition) throws TransactionException {
-            logger.info("------------->getTransaction:{}",definition);
-            return new DefaultTransactionStatus(
-                    null, true, true,
-                    definition.isReadOnly(), true, null);
-        }
-
-        @Override
-        public void commit(TransactionStatus status) throws TransactionException {
-            logger.info("------------->commit");
-        }
-
-        @Override
-        public void rollback(TransactionStatus status) throws TransactionException {
-            logger.info("------------->rollback");
-        }
+    @Override
+    public void commit(TransactionStatus status) throws TransactionException {
+      logger.info("------------->commit");
     }
+
+    @Override
+    public void rollback(TransactionStatus status) throws TransactionException {
+      logger.info("------------->rollback");
+    }
+  }
 }

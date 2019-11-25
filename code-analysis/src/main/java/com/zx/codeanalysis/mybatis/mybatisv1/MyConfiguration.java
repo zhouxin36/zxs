@@ -11,37 +11,37 @@ import java.lang.reflect.Proxy;
  */
 public class MyConfiguration {
 
-    private DateSource dateSource;
+  private DateSource dateSource;
 
-    private MyInterceptorChain interceptorChain;
+  private MyInterceptorChain interceptorChain;
 
-    public MyConfiguration(DateSource dateSource, MyInterceptorChain interceptorChain) {
-        this.dateSource = dateSource;
-        this.interceptorChain = interceptorChain;
-    }
+  public MyConfiguration(DateSource dateSource, MyInterceptorChain interceptorChain) {
+    this.dateSource = dateSource;
+    this.interceptorChain = interceptorChain;
+  }
 
-    public <T> T getMapper(Class<T> clazz, MySqlSession sqlSession) {
-        //noinspection unchecked
-        return (T)Proxy.newProxyInstance(this.getClass().getClassLoader()
-                ,new Class[]{clazz}
-                ,new MyMapperProxy(sqlSession));
-    }
+  public <T> T getMapper(Class<T> clazz, MySqlSession sqlSession) {
+    //noinspection unchecked
+    return (T) Proxy.newProxyInstance(this.getClass().getClassLoader()
+        , new Class[]{clazz}
+        , new MyMapperProxy(sqlSession));
+  }
 
-    public DateSource getDateSource() {
-        return dateSource;
-    }
+  public DateSource getDateSource() {
+    return dateSource;
+  }
 
-    public MyInterceptorChain getInterceptorChain() {
-        return interceptorChain;
-    }
+  public MyInterceptorChain getInterceptorChain() {
+    return interceptorChain;
+  }
 
-    public StatementHandler getStatementHandler(){
-        StatementHandler statementHandler= new DefaultStatementHandler(this);
-        return this.getInterceptorChain().pluginAll(statementHandler);
-    }
+  public StatementHandler getStatementHandler() {
+    StatementHandler statementHandler = new DefaultStatementHandler(this);
+    return this.getInterceptorChain().pluginAll(statementHandler);
+  }
 
-    public ResultSetHandler getResultSetHandler(){
-        ResultSetHandler resultSetHandler = new DefaultResultSetHandler();
-        return this.getInterceptorChain().pluginAll(resultSetHandler);
-    }
+  public ResultSetHandler getResultSetHandler() {
+    ResultSetHandler resultSetHandler = new DefaultResultSetHandler();
+    return this.getInterceptorChain().pluginAll(resultSetHandler);
+  }
 }

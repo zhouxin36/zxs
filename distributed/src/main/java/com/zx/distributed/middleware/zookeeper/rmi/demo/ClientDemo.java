@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
  */
 public class ClientDemo {
 
-    private final static Logger logger = LoggerFactory.getLogger(ClientDemo.class);
+  private static final Logger logger = LoggerFactory.getLogger(ClientDemo.class);
 
-    public static void main(String[] args) {
-        IUserInterface instance = ZXRmiClient.getInstance(IUserInterface.class);
-        logger.info("------->{}",instance.say("你好"));
-    }
+  public static void main(String[] args) {
+    IUserInterface instance = ZXRmiClient.getInstance(IUserInterface.class);
+    logger.info("------->{}", instance.say("你好"));
+  }
 }

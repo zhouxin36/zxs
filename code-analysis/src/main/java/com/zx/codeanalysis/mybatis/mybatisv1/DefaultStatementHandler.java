@@ -13,31 +13,31 @@ import java.sql.ResultSet;
  * @author zhouxin
  * @date 2018/10/22
  */
-public class DefaultStatementHandler implements StatementHandler{
+public class DefaultStatementHandler implements StatementHandler {
 
-    private final static Logger logger = LoggerFactory.getLogger(DefaultStatementHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DefaultStatementHandler.class);
 
-    private MyConfiguration configuration;
+  private MyConfiguration configuration;
 
-    public DefaultStatementHandler(MyConfiguration configuration) {
-        this.configuration = configuration;
+  public DefaultStatementHandler(MyConfiguration configuration) {
+    this.configuration = configuration;
+  }
+
+  public <T> T query(String statement, Object[] parameter, DateSource dateSource, Class<T> returnType) {
+    LOGGER.info("StatementHandler执行");
+    ResultSet resultSet;
+    try (Connection connection = DriverManager.getConnection(dateSource.getUrl()
+        , dateSource.getUserName(), dateSource.getPassword())) {
+      Class.forName(dateSource.getDriverClass());
+      PreparedStatement preparedStatement = connection.prepareStatement(statement);
+      for (int i = 0; parameter != null && i < parameter.length; i++) {
+        preparedStatement.setString(i + 1, String.valueOf(parameter[i]));
+      }
+      resultSet = preparedStatement.executeQuery();
+      return configuration.getResultSetHandler().handler(resultSet, returnType);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
-    public <T> T query(String statement, Object[] parameter, DateSource dateSource, Class<T> returnType) {
-        logger.info("StatementHandler执行");
-        ResultSet resultSet;
-        try (Connection connection = DriverManager.getConnection(dateSource.getUrl()
-                , dateSource.getUserName(), dateSource.getPassword())) {
-            Class.forName(dateSource.getDriverClass());
-            PreparedStatement preparedStatement = connection.prepareStatement(statement);
-            for (int i = 0; parameter != null && i < parameter.length; i++) {
-                preparedStatement.setString(i+1, String.valueOf(parameter[i]));
-            }
-            resultSet = preparedStatement.executeQuery();
-            return configuration.getResultSetHandler().handler(resultSet, returnType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    return null;
+  }
 }

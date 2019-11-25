@@ -15,5 +15,5 @@ import java.lang.annotation.*;
 @Import(ZXFeignClientsRegistrar.class)
 public @interface EnableZXFeign {
 
-    Class<?>[] classes();
+  Class<?>[] classes();
 }

@@ -10,16 +10,18 @@ import org.springframework.stereotype.Service;
  * @since 2019/2/26
  */
 @Service
-@Scope(value= ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BeanInstance {
-    @Autowired
-    private IRequestBean requestBean;
-    @Autowired
-    private ISessionBean sessionBean;
-    public IRequestBean getRequestBean() {
-        return requestBean;
-    }
-    public ISessionBean getSessionBean() {
-        return sessionBean;
-    }
+  @Autowired
+  private IRequestBean requestBean;
+  @Autowired
+  private ISessionBean sessionBean;
+
+  public IRequestBean getRequestBean() {
+    return requestBean;
+  }
+
+  public ISessionBean getSessionBean() {
+    return sessionBean;
+  }
 }

@@ -7,19 +7,19 @@ import java.util.List;
  * @author zhouxin
  * @date 2018-11-11
  */
-public class  ZXInterceptorChain{
+public class ZXInterceptorChain {
 
-    private List<ZXInterceptor> interceptorList = new ArrayList<>();
+  private List<ZXInterceptor> interceptorList = new ArrayList<>();
 
-    public <T> T pluginAll(T target){
-        for (ZXInterceptor interceptor:
-             interceptorList) {
-            target = interceptor.plugin(target);
-        }
-        return target;
+  public <T> T pluginAll(T target) {
+    for (ZXInterceptor interceptor :
+        interceptorList) {
+      target = interceptor.plugin(target);
     }
+    return target;
+  }
 
-    public void addInterceptor(ZXInterceptor interceptor){
-        interceptorList.add(interceptor);
-    }
+  public void addInterceptor(ZXInterceptor interceptor) {
+    interceptorList.add(interceptor);
+  }
 }

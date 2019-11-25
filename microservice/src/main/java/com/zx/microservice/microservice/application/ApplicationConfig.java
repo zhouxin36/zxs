@@ -2,7 +2,6 @@ package com.zx.microservice.microservice.application;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -15,23 +14,23 @@ import java.util.Locale;
  */
 public class ApplicationConfig {
 
-    @Bean
-    public MessageSource messageSource(){
-        ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-        resourceBundleMessageSource.setBasenames("format","exceptions");
-        return resourceBundleMessageSource;
-    }
+  public static void main(String[] args) {
+    AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
+    applicationContext.register(ApplicationConfig.class);
+    applicationContext.refresh();
+    System.out.println(applicationContext.getMessage("message", null, "Default", null));
+    System.out.println(applicationContext.getMessage("argument.required", new Object[]{"userDao"}, "Required", null));
+    System.out.println(applicationContext.getMessage("argument.required", new Object[]{"userDao"}, "Required", Locale.UK));
+  }
 
-    public void e(){
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-    }
+  @Bean
+  public MessageSource messageSource() {
+    ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+    resourceBundleMessageSource.setBasenames("format", "exceptions");
+    return resourceBundleMessageSource;
+  }
 
-    public static void main(String[] args) {
-        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
-        applicationContext.register(ApplicationConfig.class);
-        applicationContext.refresh();
-        System.out.println(applicationContext.getMessage("message", null, "Default", null));
-        System.out.println(applicationContext.getMessage("argument.required", new Object [] {"userDao"}, "Required", null));
-        System.out.println(applicationContext.getMessage("argument.required", new Object [] {"userDao"}, "Required", Locale.UK));
-    }
+  public void e() {
+    ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+  }
 }
