@@ -13,6 +13,7 @@ import java.util.Random;
 public class Test {
 
     private final static Logger logger = LoggerFactory.getLogger(Test.class);
+    private RB2Tree<Character, Character> kObjectRB2Tree;
 
     public static void main(String[] args) {
 //        btTest();
@@ -64,19 +65,16 @@ public class Test {
     }
 
     public static void charTest2() {
-        RB3Tree<Character, Character> characterRB3Tree = new RB3Tree<>();
         RB3Tree2<Character, Character> characterRB3Tree2 = new RB3Tree2<>();
+        RB3Tree3<Character, Character> characterRB3Tree3 = new RB3Tree3<>();
         Character[] characters = {'S', 'E', 'A', 'R', 'C', 'H', 'X', 'M', 'P', 'L'};
         Character[] C = {'8', '2', '0', '7', '1', '3', '9', '5', '6', '4'};
         for (int i = 0; i < C.length; i++) {
-            characterRB3Tree.put(C[i], C[i]);
             characterRB3Tree2.put(C[i], C[i]);
+            characterRB3Tree3.put(C[i], C[i]);
+            PrintWrapper.checkTree(characterRB3Tree2.getRoot(), characterRB3Tree3.getRoot());
         }
         PrintWrapper.prettyPrintTree(characterRB3Tree2.getRoot());
-        PrintWrapper.prettyPrintTree(characterRB3Tree.getRoot());
-        PrintWrapper.printUnRec(characterRB3Tree.getRoot());
-        PrintWrapper.printRec(characterRB3Tree.getRoot());
-//        kObjectRB2Tree.delete('R');
-//        PrintWrapper.prettyPrintTree(kObjectRB2Tree.getRoot());
+        PrintWrapper.prettyPrintTree(characterRB3Tree3.getRoot());
     }
 }

@@ -68,8 +68,8 @@ public class RB3Tree2<K extends Comparable<K>, V> {
                     node = rotateRight(node.getParents());
                 }
                 if(!node.getRight().isRed() && !node.getLeft().isRed()){
-                    node.setRed(true);
-                    nextNode = nextNode.getParents();
+
+                    nextNode = nextNode.getParents();node.setRed(true);
                 }else {
                     if(!node.getLeft().isRed()){
                         node = rotateLeft(node);
@@ -233,7 +233,6 @@ public class RB3Tree2<K extends Comparable<K>, V> {
         }
 
         int size = p.getSize();
-        int i = x.getSize() - y.getSize();
         p.setSize(size - x.getSize() + y.getSize());
         x.setSize(size);
         return x;
