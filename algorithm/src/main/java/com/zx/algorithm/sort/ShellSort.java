@@ -13,73 +13,71 @@ import java.util.function.IntFunction;
  */
 public class ShellSort implements Sort {
 
-    private AtomicInteger swapCount = new AtomicInteger(0);
+  private AtomicInteger swapCount = new AtomicInteger(0);
 
-    private List result;
+  private List result;
+  private IntFunction<Integer> defaultGap;
+  private IntFunction<Integer> defaultReduceGap;
 
-    @Override
-    public List getResult() {
-        return result;
-    }
+  ShellSort() {
+    this.defaultGap = null;
+    this.defaultReduceGap = null;
+  }
 
-    @Override
-    public int getSwapCount() {
-        return swapCount.get();
-    }
+  ShellSort(IntFunction<Integer> defaultGap, IntFunction<Integer> defaultReduceGap) {
+    this.defaultGap = defaultGap;
+    this.defaultReduceGap = defaultReduceGap;
+  }
 
-    @Override
-    public void incrementSwapCount() {
-        swapCount.incrementAndGet();
-    }
+  @Override
+  public List getResult() {
+    return result;
+  }
 
-    private IntFunction<Integer> defaultGap;
+  @Override
+  public int getSwapCount() {
+    return swapCount.get();
+  }
 
-    private IntFunction<Integer> defaultReduceGap;
+  @Override
+  public void incrementSwapCount() {
+    swapCount.incrementAndGet();
+  }
 
-    ShellSort(){
-        this.defaultGap = null;
-        this.defaultReduceGap = null;
-    }
+  /**
+   * 默认增量
+   *
+   * @param collectionSize 集合大小
+   * @return 增量
+   */
+  private int defaultGap(int collectionSize) {
+    return collectionSize / 2;
+  }
 
-    ShellSort(IntFunction<Integer> defaultGap, IntFunction<Integer> defaultReduceGap) {
-        this.defaultGap = defaultGap;
-        this.defaultReduceGap = defaultReduceGap;
-    }
+  /**
+   * 默认缩小增量
+   *
+   * @param gap 缩小前增量
+   * @return 缩小后增量
+   */
+  private int defaultReduceGap(int gap) {
+    return gap < 2 && gap != 1 ? 1 : gap / 2;
+  }
 
-    /**
-     * 默认增量
-     *
-     * @param collectionSize 集合大小
-     * @return 增量
-     */
-    private int defaultGap(int collectionSize) {
-        return collectionSize / 2;
-    }
-
-    /**
-     * 默认缩小增量
-     *
-     * @param gap 缩小前增量
-     * @return 缩小后增量
-     */
-    private int defaultReduceGap(int gap) {
-        return gap < 2 && gap != 1 ? 1 : gap / 2;
-    }
-
-    @Override
-    public <T> void sort(List<T> list, Comparator<T> comparator) {
-        int gap = defaultGap != null ? defaultGap.apply(list.size()) : defaultGap(list.size());
-        while (gap > 0) {
-            for (int i = gap; i < list.size(); i++) {
-                for (int j = i; j >= gap; j -= gap) {
-                    if (comparator.compare(list.get(j), list.get(j - gap)) >= 0) {
-                        break;
-                    }
-                    swap(list, j - gap, j);
-                }
-            }
-            gap = defaultReduceGap != null ? defaultReduceGap.apply(gap) : defaultReduceGap(gap);
+  @Override
+  public <T> void sort(List<T> list, Comparator<T> comparator) {
+    int gap = defaultGap != null ? defaultGap.apply(list.size()) : defaultGap(list.size());
+    while (gap > 0) {
+      for (int i = gap; i < list.size(); i++) {
+        for (int j = i; j >= gap; j -= gap) {
+          if (comparator.compare(list.get(j), list.get(j - gap)) >= 0) {
+            break;
+          }
+          swap(list, j - gap, j);
         }
-        this.result = list;
+      }
+      gap = defaultReduceGap != null ? defaultReduceGap.apply(gap) : defaultReduceGap(gap);
     }
+    this.result = list;
+  }
 }

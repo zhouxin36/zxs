@@ -1,8 +1,5 @@
 package com.zx.algorithm.sort;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,10 +41,10 @@ public class QuickSort implements Sort {
         if (end <= start) {
             return;
         }
-        if (end - start == 1) {
-            if (comparator.compare(list.get(end), list.get(start)) < 0) {
-                swap(list, end, start);
-            }
+        if (end - start == 1 && comparator.compare(list.get(end), list.get(start)) < 0) {
+            swap(list, end, start);
+            return;
+        } else if (end - start == 1) {
             return;
         }
         T pivot = list.get(start);
@@ -60,8 +57,7 @@ public class QuickSort implements Sort {
                 i++;
             }
         }
-        list.set(start, list.get(j));
-        list.set(j, pivot);
+        swap(list, start, j);
         doSort(list, comparator, start, j - 1);
         doSort(list, comparator, j + 1, end);
     }

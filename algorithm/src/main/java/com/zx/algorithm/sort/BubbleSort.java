@@ -12,41 +12,41 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class BubbleSort implements Sort {
 
-    private AtomicInteger swapCount = new AtomicInteger(0);
+  private AtomicInteger swapCount = new AtomicInteger(0);
 
-    private List result;
+  private List result;
 
-    @Override
-    public List getResult() {
-        return result;
-    }
+  @Override
+  public List getResult() {
+    return result;
+  }
 
-    @Override
-    public int getSwapCount() {
-        return swapCount.get();
-    }
+  @Override
+  public int getSwapCount() {
+    return swapCount.get();
+  }
 
-    @Override
-    public void incrementSwapCount() {
-        swapCount.incrementAndGet();
-    }
+  @Override
+  public void incrementSwapCount() {
+    swapCount.incrementAndGet();
+  }
 
-    @Override
-    public <T> void sort(List<T> list, Comparator<T> comparator) {
-        boolean change;
-        for (int i = 0; i < list.size(); i++) {
-            change = false;
-            for (int j = 0; j < list.size() - i - 1; j++) {
-                if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
-                    swap(list, j, j + 1);
-                    change = true;
-                }
-            }
-            if (!change) {
-                break;
-            }
+  @Override
+  public <T> void sort(List<T> list, Comparator<T> comparator) {
+    boolean change;
+    for (int i = 0; i < list.size(); i++) {
+      change = false;
+      for (int j = 0; j < list.size() - i - 1; j++) {
+        if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
+          swap(list, j, j + 1);
+          change = true;
         }
-        this.result = list;
+      }
+      if (!change) {
+        break;
+      }
     }
+    this.result = list;
+  }
 
 }

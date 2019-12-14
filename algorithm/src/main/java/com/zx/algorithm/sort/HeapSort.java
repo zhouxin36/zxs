@@ -12,60 +12,60 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class HeapSort implements Sort {
 
-    private int len;
+  private int len;
 
-    private AtomicInteger swapCount = new AtomicInteger(0);
+  private AtomicInteger swapCount = new AtomicInteger(0);
 
-    private List result;
+  private List result;
 
-    @Override
-    public List getResult() {
-        return result;
+  @Override
+  public List getResult() {
+    return result;
+  }
+
+  @Override
+  public int getSwapCount() {
+    return swapCount.get();
+  }
+
+  @Override
+  public void incrementSwapCount() {
+    swapCount.incrementAndGet();
+  }
+
+  @Override
+  public <T> void sort(List<T> list, Comparator<T> comparator) {
+    len = list.size();
+    buildHeap(list, comparator);
+    while (len > 0) {
+      swap(list, len - 1, 0);
+      len--;
+      swapHeap(list, comparator, 0);
     }
+    this.result = list;
+  }
 
-    @Override
-    public int getSwapCount() {
-        return swapCount.get();
+  private <T> void buildHeap(List<T> list, Comparator<T> comparator) {
+    for (int i = (len - 1) / 2; i >= 0; i--) {
+      swapHeap(list, comparator, i);
     }
+  }
 
-    @Override
-    public void incrementSwapCount() {
-        swapCount.incrementAndGet();
+  private <T> void swapHeap(List<T> list, Comparator<T> comparator, int parentsNode) {
+    int max = parentsNode;
+    int left = 2 * parentsNode + 1;
+    int right = 2 * parentsNode + 2;
+    if (left < len && comparator.compare(list.get(max), list.get(left)) < 0) {
+      max = left;
     }
-
-    @Override
-    public <T> void sort(List<T> list, Comparator<T> comparator) {
-        len = list.size();
-        buildHeap(list, comparator);
-        while (len > 0) {
-            swap(list,len - 1,0);
-            len--;
-            swapHeap(list, comparator, 0);
-        }
-        this.result = list;
+    if (right < len && comparator.compare(list.get(max), list.get(right)) < 0) {
+      max = right;
     }
-
-    private <T> void buildHeap(List<T> list, Comparator<T> comparator) {
-        for (int i = (len - 1) / 2; i >= 0; i--) {
-            swapHeap(list, comparator, i);
-        }
+    if (parentsNode == max) {
+      return;
     }
-
-    private <T> void swapHeap(List<T> list, Comparator<T> comparator, int parentsNode) {
-        int max = parentsNode;
-        int left = 2 * parentsNode + 1;
-        int right = 2 * parentsNode + 2;
-        if (left < len && comparator.compare(list.get(max), list.get(left)) < 0) {
-            max = left;
-        }
-        if (right < len && comparator.compare(list.get(max), list.get(right)) < 0) {
-            max = right;
-        }
-        if (parentsNode == max) {
-            return;
-        }
-        swap(list,parentsNode,max);
-        swapHeap(list, comparator, max);
+    swap(list, parentsNode, max);
+    swapHeap(list, comparator, max);
 
     }
 }

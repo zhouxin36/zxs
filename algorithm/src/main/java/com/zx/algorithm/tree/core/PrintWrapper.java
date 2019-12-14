@@ -1,7 +1,5 @@
 package com.zx.algorithm.tree.core;
 
-import com.zx.algorithm.BitMap;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -18,13 +16,13 @@ public class PrintWrapper {
             return;
         }
 
-        if (node.getRight().getSize() != 0) {
+        if (node.getRight() != null && !node.getRight().equals(node) && node.getRight().getSize() != 0) {
             prettyPrintTree(node.getRight(), prefix + (isLeft ? "│   " : "    "), false);
         }
 
-        System.out.println(prefix + (isLeft ? "└── " : "┌── ") + node.getKey() + (node.isRed() ? "|R" : "") + "|" + node.getSize());
+        System.out.println(prefix + (isLeft ? "└── " : "┌── ") + node.getKey() + (node.isRed() ? "|R" : "") + "|" + node.getSize() + "|" + node.getParents().getKey());
 
-        if (node.getLeft().getSize() != 0) {
+        if (node.getLeft() != null && !node.getLeft().equals(node) && node.getLeft().getSize() != 0) {
             prettyPrintTree(node.getLeft(), prefix + (isLeft ? "    " : "│   "), true);
         }
     }

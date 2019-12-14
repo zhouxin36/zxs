@@ -28,6 +28,30 @@ public class Node<K, V> {
         this.right = nil;
     }
 
+    public Node(K key, V val, boolean isRed, Node<K, V> nil) {
+        this.key = key;
+        this.val = val;
+        this.size = 1;
+        this.isRed = isRed;
+        this.left = nil;
+        this.right = nil;
+    }
+
+    public Node() {
+        this.size = 0;
+        this.isRed = false;
+        this.left = this;
+        this.right = this;
+        this.parents = this;
+    }
+
+    public Node(Node<K, V> nil) {
+        this.size = 0;
+        this.isRed = false;
+        this.left = nil;
+        this.right = nil;
+    }
+
     public boolean isRed() {
         return isRed;
     }
@@ -91,6 +115,7 @@ public class Node<K, V> {
                 ", val=" + val +
                 ", size=" + size +
                 ", isRed=" + isRed +
+                ", parent=" + parents.getKey() +
                 '}';
     }
 }

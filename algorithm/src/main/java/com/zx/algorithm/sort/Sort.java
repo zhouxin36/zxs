@@ -9,19 +9,19 @@ import java.util.List;
  */
 public interface Sort {
 
-    <T> void sort(List<T> list, Comparator<T> comparator);
+  <T> void sort(List<T> list, Comparator<T> comparator);
 
-    default <T> void swap(List<T> list, int a, int b) {
-        incrementSwapCount();
-        T temp;
-        temp = list.get(a);
-        list.set(a, list.get(b));
-        list.set(b, temp);
-    }
+  default <T> void swap(List<T> list, int a, int b) {
+    incrementSwapCount();
+    T temp;
+    temp = list.get(a);
+    list.set(a, list.get(b));
+    list.set(b, temp);
+  }
 
-    int getSwapCount();
+  int getSwapCount();
 
-    void incrementSwapCount();
+  void incrementSwapCount();
 
-    List getResult();
+  List getResult();
 }

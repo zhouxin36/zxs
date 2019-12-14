@@ -12,38 +12,38 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class SelectionSort implements Sort {
 
-    private AtomicInteger swapCount = new AtomicInteger(0);
+  private AtomicInteger swapCount = new AtomicInteger(0);
 
-    private List result;
+  private List result;
 
-    @Override
-    public List getResult() {
-        return result;
-    }
+  @Override
+  public List getResult() {
+    return result;
+  }
 
-    @Override
-    public int getSwapCount() {
-        return swapCount.get();
-    }
+  @Override
+  public int getSwapCount() {
+    return swapCount.get();
+  }
 
-    @Override
-    public void incrementSwapCount() {
-        swapCount.incrementAndGet();
-    }
+  @Override
+  public void incrementSwapCount() {
+    swapCount.incrementAndGet();
+  }
 
-    @Override
-    public <T> void sort(List<T> list, Comparator<T> comparator) {
-        int change;
-        for (int i = 0; i < list.size(); i++) {
-            change = i;
-            int j = i + 1;
-            for (; j < list.size(); j++) {
-                if (comparator.compare(list.get(change), list.get(j)) > 0) {
-                    change = j;
-                }
-            }
-            swap(list, change, i);
+  @Override
+  public <T> void sort(List<T> list, Comparator<T> comparator) {
+    int change;
+    for (int i = 0; i < list.size(); i++) {
+      change = i;
+      int j = i + 1;
+      for (; j < list.size(); j++) {
+        if (comparator.compare(list.get(change), list.get(j)) > 0) {
+          change = j;
         }
-        this.result = list;
+      }
+      swap(list, change, i);
     }
+    this.result = list;
+  }
 }

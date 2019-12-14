@@ -2,10 +2,6 @@ package com.zx.algorithm.tree.version2;
 
 
 import com.zx.algorithm.tree.core.Node;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * 红黑树
@@ -13,9 +9,8 @@ import java.util.Optional;
  * @author zhouxin
  * @since 2019/6/6
  */
+@SuppressWarnings({"WeakerAccess", "unused", "DuplicatedCode"})
 public class RB3Tree<K extends Comparable<K>, V> {
-
-    private final static Logger logger = LoggerFactory.getLogger(RB3Tree.class);
 
     private final Node<K, V> nil = new Node<>(null, null, 0, false);
 
@@ -81,7 +76,7 @@ public class RB3Tree<K extends Comparable<K>, V> {
                 }
             } else {
                 Node<K, V> y = x.getParents().getParents().getRight();
-                if (y.isRed()){
+                if (y.isRed()) {
                     rotateColor(x.getParents().getParents());
                     x = x.getParents().getParents();
                     continue;
@@ -142,11 +137,12 @@ public class RB3Tree<K extends Comparable<K>, V> {
         Node<K, V> deleteNode = get(sentinel.getRight(), k);
         Node<K, V> x;
         boolean color = deleteNode.isRed();
-        if(deleteNode.getLeft() != nil && deleteNode.getRight() != nil){
+        if (deleteNode.getLeft() != nil && deleteNode.getRight() != nil) {
             Node<K, V> maxNode = maxNode(deleteNode.getLeft());
             color = maxNode.isRed();
             x = maxNode.getLeft();
             if (maxNode.getParents() == deleteNode) {
+                //这句意义何在？
                 x.setParents(maxNode);
             } else {
                 transplant(maxNode, maxNode.getLeft());
@@ -157,13 +153,13 @@ public class RB3Tree<K extends Comparable<K>, V> {
             maxNode.setRight(deleteNode.getRight());
             maxNode.getRight().setParents(maxNode);
             maxNode.setRed(deleteNode.isRed());
-        }else if(deleteNode.getRight() != nil){
+        } else if (deleteNode.getRight() != nil) {
             x = deleteNode.getRight();
             transplant(deleteNode, deleteNode.getRight());
-        }else if(deleteNode.getLeft() != nil){
+        } else if (deleteNode.getLeft() != nil) {
             x = deleteNode.getLeft();
             transplant(deleteNode, deleteNode.getLeft());
-        }else {
+        } else {
             x = deleteNode;
         }
         if (!color) {
@@ -256,9 +252,9 @@ public class RB3Tree<K extends Comparable<K>, V> {
         node.setParents(x);
 
         // 调整节点size
-        int nodeNize = node.getSize();
-        node.setSize(nodeNize - x.getSize() + y.getSize());
-        x.setSize(nodeNize);
+        int nodeSize = node.getSize();
+        node.setSize(nodeSize - x.getSize() + y.getSize());
+        x.setSize(nodeSize);
 
         //父节点设置左右节点
         if (node.equals(x.getParents().getRight())) {

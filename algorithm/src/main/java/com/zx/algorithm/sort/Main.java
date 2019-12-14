@@ -1,6 +1,8 @@
 package com.zx.algorithm.sort;
 
 import com.zx.algorithm.HeapQueue;
+import com.zx.algorithm.sort.exercise.HeapSortService;
+import com.zx.algorithm.sort.exercise.QuickSortService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +23,9 @@ public class Main {
         Random random = new Random();
         List<Integer> list;
         HeapQueue<Integer> heapQueue = new HeapQueue<>(8);
-        for (int i = 1000; i > 0; i--) {
+        for (int i = 0; i < 9999; i++) {
             int i1 = random.nextInt(2000);
-            list1.add(i1);
+            list1.add(i);
             heapQueue.insert(i1);
 //            list2.add(i);
         }
@@ -32,13 +34,15 @@ public class Main {
 //        SELECTION.switchSort(new ArrayList<>(list));
 //        BUBBLE.switchSort(new ArrayList<>(list));
 //        MERGE.switchSort(new ArrayList<>(list));
-//        FORK_MERGE.switchSort(new ArrayList<>(list));
 //        QUICK.switchSort(new ArrayList<>(list));
-//        QUICK2.switchSort(new ArrayList<>(list));
-        HEAP.switchSort(new ArrayList<>(list));
+//        new QuickSortService<>(new ArrayList<>(list), Integer::compare).sort().print();
+//        FORK_MERGE.switchSort(new ArrayList<>(list));
+//        HEAP.switchSort(new ArrayList<>(list));
         HEAP2.switchSort(new ArrayList<>(list));
+        new HeapSortService<>(new ArrayList<>(list), Integer::compare).sort().print();
+//        SHELL.switchSort(new ArrayList<>(list));
         for (int i = 0; heapQueue.getSize() > 0; i++) {
-            System.out.print(" ,"+heapQueue.deleteMin());
+            System.out.print(" ," + heapQueue.deleteMin());
         }
     }
 
