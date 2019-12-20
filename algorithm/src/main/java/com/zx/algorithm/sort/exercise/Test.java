@@ -17,11 +17,10 @@ public class Test {
             list1.add(i1);
         }
 //        new QuickSortService<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
-//        new QuickSortService2<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
 //        new QuickSortService3<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+//        new QuickSortService4<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
         new HeapSortService<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
-        new HeapSortService2<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
-        new HeapSortService3<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
         new HeapSortService4<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+        new HeapSortService5<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
     }
 }

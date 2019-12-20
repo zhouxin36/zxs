@@ -16,7 +16,7 @@ public class HeapSortService4<T> extends AbstractSort<T> {
     @Override
     protected ISort<T> doSort() {
         int size = getSource().size() - 1;
-        for (int i = size / 2 + 1; i >= 0; i--) {
+        for (int i = size / 2 - 1; i >= 0; i--) {
             doSwap(i, size);
         }
         while (size > 0){
@@ -27,8 +27,8 @@ public class HeapSortService4<T> extends AbstractSort<T> {
     }
 
     private void doSwap(int i, int size){
-//        swapHeap(i, size);
         swapHeap2(i, size);
+//        swapHeap(i, size);
     }
 
     private void swapHeap(int i, int size){

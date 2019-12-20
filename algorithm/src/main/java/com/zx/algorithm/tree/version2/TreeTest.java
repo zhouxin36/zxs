@@ -44,9 +44,9 @@ public class TreeTest {
         RB3Tree<Integer, Integer> characterRB3Tree = new RB3Tree<>();
         RB3Tree2<Integer, Integer> characterRB3Tree2 = new RB3Tree2<>();
         RB3Tree3<Integer, Integer> characterRB3Tree3 = new RB3Tree3<>();
-        RB3Tree4<Integer, Integer> characterRB3Tree4 = new RB3Tree4<>();
-        int a = 2000;
-        int b = 2000;
+        RB3Tree5<Integer, Integer> characterRB3Tree4 = new RB3Tree5<>();
+        int a = 4534;
+        int b = 4234;
         for (int i = 0; i < a; i++) {
 //            System.out.println("-----------------------------------------------------------------------------------------------------");
             int i1 = random.nextInt(b);
@@ -72,7 +72,7 @@ public class TreeTest {
             characterRB3Tree4.delete(i1);
             list.add(i1);
 //            PrintWrapper.prettyPrintTree(characterRB3Tree.getRoot());
-//            PrintWrapper.prettyPrintTree(characterRB3Tree3.getRoot());
+//            PrintWrapper.prettyPrintTree(characterRB3Tree4.getRoot());
 //            System.out.println(list);
             PrintWrapper.check(characterRB3Tree.getRoot());
             PrintWrapper.check(characterRB3Tree4.getRoot());
