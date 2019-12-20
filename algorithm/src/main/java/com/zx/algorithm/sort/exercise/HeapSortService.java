@@ -19,11 +19,10 @@ public class HeapSortService<T> extends AbstractSort<T> {
     @Override
     protected ISort<T> doSort() {
         List<T> source = getSource();
-        int size = source.size();
+        int size = source.size() - 1;
         buildHeap(size);
         while (size > 0) {
-            swap(0, size - 1);
-            size--;
+            swap(0, size--);
             swapHeap(0, size);
         }
         return this;
@@ -37,19 +36,30 @@ public class HeapSortService<T> extends AbstractSort<T> {
 
     private void swapHeap(int i, int size) {
         int left = 2 * i + 1;
-        int right = 2 * i + 2;
-        int max = i;
-        if (left < size && compare(max, left) < 0) {
-            max = left;
-        }
-        if (right < size && compare(max, right) < 0) {
-            max = right;
-        }
-        if (i == max) {
+        if(left > size){
             return;
         }
-        swap(i, max);
-        swapHeap(max, size);
+        if (left < size && compare(left, left + 1) < 0) {
+            left++;
+        }
+        if (compare(i, left) >= 0) {
+            return;
+        }
+        swap(i, left);
+        swapHeap(left, size);
     }
+//    private void swapHeap(int i, int size) {
+//        while (2 * i < size) {
+//            int left = 2 * i + 1;
+//            if (left < size && compare(left, left + 1) < 0) {
+//                left++;
+//            }
+//            if (compare(i, left) >= 0) {
+//                break;
+//            }
+//            swap(i, left);
+//            i = left;
+//        }
+//    }
 
 }

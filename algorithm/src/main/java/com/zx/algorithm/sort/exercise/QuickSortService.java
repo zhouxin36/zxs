@@ -9,7 +9,7 @@ import java.util.List;
  * @author zhouxin
  * @since 2019/12/5
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "DuplicatedCode"})
 public class QuickSortService<T> extends AbstractSort<T> {
 
     public QuickSortService(List<T> source, Comparator<T> comparator) {

@@ -27,25 +27,28 @@ public class RB3Tree2<K extends Comparable<K>, V> {
         sentinel.getRight().setRed(false);
     }
 
-    public Node<K, V> delete(K k){
+    public Node<K, V> delete(K k) {
         Node<K, V> deleteNode = deleteGet(sentinel.getRight(), k);
+        if(nil == deleteNode){
+            return nil;
+        }
         Node<K, V> nextNode;
         boolean isRed = deleteNode.isRed();
-        if(deleteNode.getLeft().equals(nil)){
+        if (deleteNode.getLeft().equals(nil)) {
             nextNode = deleteNode.getRight();
             transplant(deleteNode, nextNode);
-        }else if(deleteNode.getRight().equals(nil)){
+        } else if (deleteNode.getRight().equals(nil)) {
             nextNode = deleteNode.getLeft();
             transplant(deleteNode, nextNode);
-        }else {
+        } else {
             Node<K, V> maxNode = maxNode(deleteNode.getLeft());
             nextNode = maxNode.getLeft();
             isRed = maxNode.isRed();
-            if(!maxNode.getParents().equals(deleteNode)){
+            if (!maxNode.getParents().equals(deleteNode)) {
                 transplant(maxNode, nextNode);
                 maxNode.setLeft(deleteNode.getLeft());
                 maxNode.getLeft().setParents(maxNode);
-            }else {
+            } else {
                 // nextNode 可能是nil
                 nextNode.setParents(maxNode);
             }
@@ -54,40 +57,42 @@ public class RB3Tree2<K extends Comparable<K>, V> {
             maxNode.getRight().setParents(maxNode);
             maxNode.setRed(deleteNode.isRed());
         }
-        if(!isRed){
+        if (!isRed) {
             doDeleteAfter(nextNode);
         }
         return deleteNode;
     }
 
     private void doDeleteAfter(Node<K, V> nextNode) {
-        while (!nextNode.equals(sentinel.getRight()) && !nextNode.isRed()){
-            if(nextNode.getParents().getRight().equals(nextNode)){
+        while (!nextNode.equals(sentinel.getRight()) && !nextNode.isRed()) {
+            if (nextNode.getParents().getRight().equals(nextNode)) {
                 Node<K, V> node = nextNode.getParents().getLeft();
-                if(node.isRed()){
-                    node = rotateRight(node.getParents());
+                if (node.isRed()) {
+                    rotateRight(node.getParents());
+                    node = nextNode.getParents().getLeft();
                 }
-                if(!node.getRight().isRed() && !node.getLeft().isRed()){
-
-                    nextNode = nextNode.getParents();node.setRed(true);
-                }else {
-                    if(!node.getLeft().isRed()){
+                if (!node.getRight().isRed() && !node.getLeft().isRed()) {
+                    node.setRed(true);
+                    nextNode = nextNode.getParents();
+                } else {
+                    if (!node.getLeft().isRed()) {
                         node = rotateLeft(node);
                     }
                     node.getLeft().setRed(false);
                     rotateRight(node.getParents());
                     nextNode = sentinel.getRight();
                 }
-            }else {
+            } else {
                 Node<K, V> node = nextNode.getParents().getRight();
-                if(node.isRed()){
-                    node = rotateLeft(node.getParents());
+                if (node.isRed()) {
+                    rotateLeft(node.getParents());
+                    node = nextNode.getParents().getRight();
                 }
-                if(!node.getRight().isRed() && !node.getLeft().isRed()){
+                if (!node.getRight().isRed() && !node.getLeft().isRed()) {
                     node.setRed(true);
                     nextNode = nextNode.getParents();
-                }else {
-                    if(!node.getRight().isRed()){
+                } else {
+                    if (!node.getRight().isRed()) {
                         node = rotateRight(node);
                     }
                     node.getRight().setRed(false);
@@ -99,49 +104,54 @@ public class RB3Tree2<K extends Comparable<K>, V> {
         nextNode.setRed(false);
     }
 
-    public void transplant(Node<K, V> deleteNode, Node<K, V> nextNode){
+    public void transplant(Node<K, V> deleteNode, Node<K, V> nextNode) {
         Node<K, V> parents = deleteNode.getParents();
-        if(parents.getRight().equals(deleteNode)){
+        if (parents.getRight().equals(deleteNode)) {
             parents.setRight(nextNode);
-        }else {
+        } else {
             parents.setLeft(nextNode);
         }
         nextNode.setParents(parents);
     }
 
-    public Node<K, V> get(Node<K, V> node, K k){
+    public Node<K, V> get(Node<K, V> node, K k) {
         node.setSize(node.getSize() - 1);
         int i = node.getKey().compareTo(k);
-        if(i > 0){
+        if (i > 0) {
             return get(node.getLeft(), k);
-        }else if(i < 0){
+        } else if (i < 0) {
             return get(node.getRight(), k);
-        }else {
-            return node;
-        }
-    }
-    private Node<K, V> deleteGet(Node<K, V> node, K k){
-        node.setSize(node.getSize() - 1);
-        int i = node.getKey().compareTo(k);
-        if(i > 0){
-            return deleteGet(node.getLeft(), k);
-        }else if(i < 0){
-            return deleteGet(node.getRight(), k);
-        }else {
+        } else {
             return node;
         }
     }
 
-    public Node<K, V> maxNode(Node<K, V> node){
-        if(node.getRight().equals(nil)){
+    private Node<K, V> deleteGet(Node<K, V> node, K k) {
+        if(node == nil){
+            return nil;
+        }
+        node.setSize(node.getSize() - 1);
+        int i = node.getKey().compareTo(k);
+        if (i > 0) {
+            return deleteGet(node.getLeft(), k);
+        } else if (i < 0) {
+            return deleteGet(node.getRight(), k);
+        } else {
+            return node;
+        }
+    }
+
+    public Node<K, V> maxNode(Node<K, V> node) {
+        if (node.getRight().equals(nil)) {
             return node;
         }
         return maxNode(node.getRight());
     }
+
     /**
      * 设置左节点并返回左节点
      */
-    private Node<K, V> setLeftParents(Node<K, V> node, Node<K, V> parents){
+    private Node<K, V> setLeftParents(Node<K, V> node, Node<K, V> parents) {
         parents.setLeft(node);
         node.setParents(parents);
         return node;
@@ -150,7 +160,7 @@ public class RB3Tree2<K extends Comparable<K>, V> {
     /**
      * 设置右节点并返回右节点
      */
-    private Node<K, V> setRightParents(Node<K, V> node, Node<K, V> parents){
+    private Node<K, V> setRightParents(Node<K, V> node, Node<K, V> parents) {
         parents.setRight(node);
         node.setParents(parents);
         return node;
@@ -161,19 +171,19 @@ public class RB3Tree2<K extends Comparable<K>, V> {
             int i = node.getKey().compareTo(k);
             node.setSize(node.getSize() + 1);
             if (i > 0) {
-                if(node.getLeft().equals(nil)){
+                if (node.getLeft().equals(nil)) {
                     Node<K, V> left = new Node<>(k, v, true, nil);
                     node = setLeftParents(left, node);
                     break;
-                }else {
+                } else {
                     node = node.getLeft();
                 }
             } else {
-                if(node.getRight().equals(nil)){
+                if (node.getRight().equals(nil)) {
                     Node<K, V> right = new Node<>(k, v, true, nil);
                     node = setRightParents(right, node);
                     break;
-                }else {
+                } else {
                     node = node.getRight();
                 }
             }
@@ -191,12 +201,14 @@ public class RB3Tree2<K extends Comparable<K>, V> {
             // 二节点（二节点不分裂，所以固定转换不用返回值，当前循环也结束）
             if(p.getRight().equals(node.getParents())){
                 if(node.equals(node.getParents().getLeft())){
-                    node = rotateRight(node.getParents());
+                    node = node.getParents();
+                    rotateRight(node);
                 }
                 rotateLeft(p);
             }else {
                 if(node.equals(node.getParents().getRight())){
-                    node = rotateLeft(node.getParents());
+                    node = node.getParents();
+                    rotateLeft(node);
                 }
                 rotateRight(p);
             }
@@ -226,9 +238,9 @@ public class RB3Tree2<K extends Comparable<K>, V> {
         y.setParents(p);
         p.setParents(x);
 
-        if(x.getParents().getRight().equals(p)){
+        if (x.getParents().getRight().equals(p)) {
             x.getParents().setRight(x);
-        }else {
+        } else {
             x.getParents().setLeft(x);
         }
 

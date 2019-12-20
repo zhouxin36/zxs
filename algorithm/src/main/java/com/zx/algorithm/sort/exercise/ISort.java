@@ -17,5 +17,5 @@ public interface ISort<T> {
 
   ISort<T> sort();
 
-  void print();
+  ISort<T> print();
 }

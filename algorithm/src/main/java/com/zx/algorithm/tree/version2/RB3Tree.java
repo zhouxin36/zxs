@@ -12,7 +12,7 @@ import com.zx.algorithm.tree.core.Node;
 @SuppressWarnings({"WeakerAccess", "unused", "DuplicatedCode"})
 public class RB3Tree<K extends Comparable<K>, V> {
 
-    private final Node<K, V> nil = new Node<>(null, null, 0, false);
+    private final Node<K, V> nil = new Node<>();
 
     private final Node<K, V> sentinel = new Node<>(null, null, 0, false, nil);
 
@@ -60,7 +60,6 @@ public class RB3Tree<K extends Comparable<K>, V> {
     public void doPutAfter(Node<K, V> node) {
         Node<K, V> x = node;
         while (x != sentinel.getRight() && x != sentinel && x.getParents() != sentinel.getRight() && x.getParents().isRed()) {
-//            logger.info("x:{},x.parents:{}",x.isRed(),x.getParents().isRed());
             if (x.getParents().getParents().getRight() == x.getParents()) {
                 Node<K, V> y = x.getParents().getParents().getLeft();
                 if (y.isRed()) {
@@ -93,7 +92,7 @@ public class RB3Tree<K extends Comparable<K>, V> {
 
     public Node<K, V> get(Node<K, V> node, K k) {
         if (node == nil) {
-            return null;
+            return nil;
         }
         int i = node.getKey().compareTo(k);
         if (i > 0) {
@@ -135,6 +134,9 @@ public class RB3Tree<K extends Comparable<K>, V> {
 
     public void delete(K k) {
         Node<K, V> deleteNode = get(sentinel.getRight(), k);
+        if(deleteNode == nil){
+            return;
+        }
         Node<K, V> x;
         boolean color = deleteNode.isRed();
         if (deleteNode.getLeft() != nil && deleteNode.getRight() != nil) {
@@ -156,11 +158,9 @@ public class RB3Tree<K extends Comparable<K>, V> {
         } else if (deleteNode.getRight() != nil) {
             x = deleteNode.getRight();
             transplant(deleteNode, deleteNode.getRight());
-        } else if (deleteNode.getLeft() != nil) {
+        } else{
             x = deleteNode.getLeft();
             transplant(deleteNode, deleteNode.getLeft());
-        } else {
-            x = deleteNode;
         }
         if (!color) {
             doDeleteAfter(x);
@@ -180,11 +180,10 @@ public class RB3Tree<K extends Comparable<K>, V> {
                     x = x.getParents();
                 } else {
                     if (!y.getRight().isRed()) {
-                        rotateRight(y);
-                        y = x.getParents().getRight();
+                        y = rotateRight(y);
                     }
                     y.getRight().setRed(false);
-                    rotateLeft(x.getParents());
+                    rotateLeft(y.getParents());
                     x = sentinel.getRight();
                 }
             } else {
@@ -198,11 +197,10 @@ public class RB3Tree<K extends Comparable<K>, V> {
                     x = x.getParents();
                 } else {
                     if (!y.getLeft().isRed()) {
-                        rotateLeft(y);
-                        y = x.getParents().getLeft();
+                        y = rotateLeft(y);
                     }
-                    y.getRight().setRed(false);
-                    rotateRight(x.getParents());
+                    y.getLeft().setRed(false);
+                    rotateRight(y.getParents());
                     x = sentinel.getRight();
                 }
             }
@@ -213,25 +211,27 @@ public class RB3Tree<K extends Comparable<K>, V> {
     /**
      * 左旋转
      */
-    public void rotateLeft(Node<K, V> node) {
+    public Node<K, V> rotateLeft(Node<K, V> node) {
         Node<K, V> x = node.getRight();
         Node<K, V> y = x.getLeft();
         // 换节点
         node.setRight(x.getLeft());
         x.setLeft(node);
         doRotateAfter(node, x, y);
+        return x;
     }
 
     /**
      * 右旋转
      */
-    public void rotateRight(Node<K, V> node) {
+    public Node<K, V>  rotateRight(Node<K, V> node) {
         Node<K, V> x = node.getLeft();
         Node<K, V> y = x.getRight();
         // 换节点
         node.setLeft(x.getRight());
         x.setRight(node);
         doRotateAfter(node, x, y);
+        return x;
     }
 
     public void rotateColor(Node<K, V> node) {

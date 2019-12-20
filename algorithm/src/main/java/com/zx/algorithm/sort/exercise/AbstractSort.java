@@ -84,11 +84,12 @@ public abstract class AbstractSort<T> implements ISort<T> {
     return comparator.getCompareCount();
   }
 
-  public void print() {
+  public ISort<T> print() {
     logger.info("----->compare:{},swap:{},time:{},list:{}"
         , StringUtils.rightPad(getCompareCount() + "", SIZE, PAD_CHAR)
         , StringUtils.rightPad(getSwapCount() + "", SIZE, PAD_CHAR)
         , StringUtils.rightPad(stopWatch.getNanoTime() / N + "", SIZE, PAD_CHAR)
         , getSource());
+    return this;
   }
 }
