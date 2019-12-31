@@ -4,13 +4,11 @@ import com.zx.algorithm.tree.core.Node;
 
 /**
  * @author zhouxin
- * @since 2019/12/20
+ * @since 2019/12/29
  */
-@SuppressWarnings({"DuplicatedCode", "WeakerAccess"})
-public class RB3Tree5<K extends Comparable<K>, V> {
+public class RB3Tree6<K extends Comparable<K>, V> {
 
     private final Node<K, V> NIL = new Node<>();
-
     private final Node<K, V> sentinel = new Node<>(null, null, 0, false, NIL);
 
     public Node<K, V> getRoot() {
@@ -18,41 +16,39 @@ public class RB3Tree5<K extends Comparable<K>, V> {
     }
 
     public void put(K k, V v) {
-        if (sentinel.getRight().equals(NIL)) {
+        if (getRoot().equals(NIL)) {
             Node<K, V> root = new Node<>(k, v, 1, false, NIL);
             root.setParents(sentinel);
             sentinel.setRight(root);
             return;
         }
         doPut(k, v);
-        sentinel.getRight().setRed(false);
+        getRoot().setRed(false);
     }
 
     private void doPut(K k, V v) {
         Node<K, V> node = getRoot();
         while (true) {
-            node.setSize(node.getSize() + 1);
             int i = node.getKey().compareTo(k);
+            node.setSize(node.getSize() + 1);
             if (i > 0) {
                 if (node.getLeft().equals(NIL)) {
                     Node<K, V> left = new Node<>(k, v, 1, true, NIL);
-                    left.setParents(node);
                     node.setLeft(left);
+                    left.setParents(node);
                     node = left;
                     break;
-                } else {
-                    node = node.getLeft();
                 }
+                node = node.getLeft();
             } else {
                 if (node.getRight().equals(NIL)) {
                     Node<K, V> right = new Node<>(k, v, 1, true, NIL);
-                    right.setParents(node);
                     node.setRight(right);
+                    right.setParents(node);
                     node = right;
                     break;
-                } else {
-                    node = node.getRight();
                 }
+                node = node.getRight();
             }
         }
         doPutAfter(node);
@@ -65,26 +61,69 @@ public class RB3Tree5<K extends Comparable<K>, V> {
                 node = rotateColor(npp);
                 continue;
             }
-            if (npp.getRight().equals(node.getParents())) {
-                if (node.getParents().getLeft().equals(node)) {
-                    rotateRight(node.getParents());
-                }
-                rotateLeft(npp);
-                break;
-            } else {
+            if (node.getParents().equals(npp.getLeft())) {
                 if (node.getParents().getRight().equals(node)) {
                     rotateLeft(node.getParents());
                 }
                 rotateRight(npp);
                 break;
+            } else {
+                if (node.getParents().getLeft().equals(node)) {
+                    rotateRight(node.getParents());
+                }
+                rotateLeft(npp);
+                break;
             }
         }
     }
 
-    public Node<K, V> delete(K k) {
-        Node<K, V> deleteNode = get(getRoot(), k);
+    private Node<K, V> rotateRight(Node<K, V> parents) {
+        Node<K, V> left = parents.getLeft();
+        parents.setLeft(left.getRight());
+        left.setRight(parents);
+        doRotateAfter(parents, left, parents.getLeft());
+        return left;
+    }
+
+    private void doRotateAfter(Node<K, V> parents, Node<K, V> x, Node<K, V> y) {
+        boolean red = x.isRed();
+        x.setRed(parents.isRed());
+        parents.setRed(red);
+
+        x.setParents(parents.getParents());
+        parents.setParents(x);
+        y.setParents(parents);
+
+        if (x.getParents().getLeft().equals(parents)) {
+            x.getParents().setLeft(x);
+        } else {
+            x.getParents().setRight(x);
+        }
+
+        int size = parents.getSize();
+        parents.setSize(size - x.getSize() + y.getSize());
+        x.setSize(size);
+    }
+
+    private Node<K, V> rotateLeft(Node<K, V> parents) {
+        Node<K, V> right = parents.getRight();
+        parents.setRight(right.getLeft());
+        right.setLeft(parents);
+        doRotateAfter(parents, right, parents.getRight());
+        return right;
+    }
+
+    private Node<K, V> rotateColor(Node<K, V> npp) {
+        npp.setRed(!npp.isRed());
+        npp.getLeft().setRed(!npp.getLeft().isRed());
+        npp.getRight().setRed(!npp.getRight().isRed());
+        return npp;
+    }
+
+    public void delete(K k) {
+        Node<K, V> deleteNode = getNode(getRoot(), k);
         if (deleteNode.equals(NIL)) {
-            return NIL;
+            return;
         }
         Node<K, V> inheritNode;
         boolean color = deleteNode.isRed();
@@ -93,10 +132,10 @@ public class RB3Tree5<K extends Comparable<K>, V> {
         } else if (deleteNode.getRight().equals(NIL)) {
             inheritNode = transplant(deleteNode, deleteNode.getLeft());
         } else {
-            Node<K, V> maxNode = maxNode(deleteNode.getLeft());
-            inheritNode = maxNode.getLeft();
+            Node<K, V> maxNode = getMaxNode(deleteNode.getLeft());
             color = maxNode.isRed();
-            if(maxNode.getParents().equals(deleteNode)){
+            inheritNode = maxNode.getLeft();
+            if (maxNode.getParents().equals(deleteNode)) {
                 inheritNode.setParents(maxNode);
             } else {
                 transplant(maxNode, inheritNode);
@@ -108,21 +147,37 @@ public class RB3Tree5<K extends Comparable<K>, V> {
             maxNode.getRight().setParents(maxNode);
             maxNode.setRed(deleteNode.isRed());
         }
-        if(!color){
+        if (!color) {
             doDeleteAfter(inheritNode);
         }
-        return deleteNode;
     }
 
     private void doDeleteAfter(Node<K, V> node) {
-        while (!node.equals(getRoot()) && !node.isRed()){
-            if(node.getParents().getLeft().equals(node)){
+        while (!node.equals(getRoot()) && !node.isRed()) {
+            if(node.getParents().getRight().equals(node)){
+                Node<K, V> npl = node.getParents().getLeft();
+                if(npl.isRed()){
+                    rotateRight(npl.getParents());
+                    npl = node.getParents().getLeft();
+                }
+                if(!npl.getLeft().isRed() && !npl.getRight().isRed()){
+                    npl.setRed(true);
+                    node = npl.getParents();
+                } else {
+                    if(!npl.getLeft().isRed()){
+                        npl = rotateLeft(npl);
+                    }
+                    npl.getLeft().setRed(false);
+                    rotateRight(npl.getParents());
+                    node = getRoot();
+                }
+            }else {
                 Node<K, V> npr = node.getParents().getRight();
                 if(npr.isRed()){
                     rotateLeft(npr.getParents());
                     npr = node.getParents().getRight();
                 }
-                if(!npr.getRight().isRed() && !npr.getLeft().isRed()){
+                if(!npr.getLeft().isRed() && !npr.getRight().isRed()){
                     npr.setRed(true);
                     node = npr.getParents();
                 }else {
@@ -131,101 +186,41 @@ public class RB3Tree5<K extends Comparable<K>, V> {
                     }
                     npr.getRight().setRed(false);
                     rotateLeft(npr.getParents());
-                    break;
-                }
-            }else {
-                Node<K, V> npl = node.getParents().getLeft();
-                if(npl.isRed()){
-                    rotateRight(npl.getParents());
-                    npl = node.getParents().getLeft();
-                }
-                if(!npl.getRight().isRed() && !npl.getLeft().isRed()){
-                    npl.setRed(true);
-                    node = npl.getParents();
-                }else {
-                    if(!npl.getLeft().isRed()){
-                        npl = rotateLeft(npl);
-                    }
-                    npl.getLeft().setRed(false);
-                    rotateRight(npl.getParents());
-                    break;
+                    node = getRoot();
                 }
             }
         }
         node.setRed(false);
     }
 
-    private Node<K, V> maxNode(Node<K, V> node){
-        if(node.getRight().equals(NIL)){
+    private Node<K, V> getMaxNode(Node<K, V> node) {
+        if (node.getRight().equals(NIL)) {
             return node;
         }
-        return maxNode(node.getRight());
+        return getMaxNode(node.getRight());
     }
 
     private Node<K, V> transplant(Node<K, V> deleteNode, Node<K, V> node) {
-        if(deleteNode.getParents().getLeft().equals(deleteNode)){
-            deleteNode.getParents().setLeft(node);
-        }else {
+        if (deleteNode.getParents().getRight().equals(deleteNode)) {
             deleteNode.getParents().setRight(node);
+        } else {
+            deleteNode.getParents().setLeft(node);
         }
         node.setParents(deleteNode.getParents());
         return node;
     }
 
-    private Node<K, V> get(Node<K, V> node, K k) {
-        if (node.equals(NIL)) {
+    private Node<K, V> getNode(Node<K, V> root, K k) {
+        if (root.equals(NIL)) {
             return NIL;
         }
-        int i = node.getKey().compareTo(k);
+        int i = root.getKey().compareTo(k);
         if (i > 0) {
-            return get(node.getLeft(), k);
+            return getNode(root.getLeft(), k);
         } else if (i < 0) {
-            return get(node.getRight(), k);
+            return getNode(root.getRight(), k);
         } else {
-            return node;
+            return root;
         }
     }
-
-    private Node<K, V> rotateRight(Node<K, V> node) {
-        Node<K, V> left = node.getLeft();
-        node.setLeft(left.getRight());
-        left.setRight(node);
-        return rotateAfter(node, left, node.getLeft());
-    }
-
-    private Node<K, V> rotateLeft(Node<K, V> node) {
-        Node<K, V> right = node.getRight();
-        node.setRight(right.getLeft());
-        right.setLeft(node);
-        return rotateAfter(node, right, node.getRight());
-    }
-
-    private Node<K, V> rotateAfter(Node<K, V> node, Node<K, V> x, Node<K, V> y) {
-        boolean red = node.isRed();
-        node.setRed(x.isRed());
-        x.setRed(red);
-
-        x.setParents(node.getParents());
-        node.setParents(x);
-        y.setParents(node);
-
-        if (x.getParents().getLeft().equals(node)) {
-            x.getParents().setLeft(x);
-        } else {
-            x.getParents().setRight(x);
-        }
-
-        int size = node.getSize();
-        node.setSize(size - x.getSize() + y.getSize());
-        x.setSize(size);
-        return x;
-    }
-
-    private Node<K, V> rotateColor(Node<K, V> npp) {
-        npp.setRed(!npp.isRed());
-        npp.getLeft().setRed(!npp.getLeft().isRed());
-        npp.getRight().setRed(!npp.getRight().isRed());
-        return npp;
-    }
-
 }

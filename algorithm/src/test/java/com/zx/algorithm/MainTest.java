@@ -6,8 +6,10 @@ package com.zx.algorithm;
  */
 public class MainTest {
 
+    private static ThreadLocal<String> th = new ThreadLocal<>();
     public static void main(String[] args) {
-        int[] ints = new int[4];
-        System.out.println(ints.length);
+
+        th.set("aaa");
+        System.out.println();
     }
 }
