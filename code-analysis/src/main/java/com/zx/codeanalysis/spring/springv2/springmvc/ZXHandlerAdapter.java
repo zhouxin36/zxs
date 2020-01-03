@@ -64,7 +64,7 @@ public class ZXHandlerAdapter {
     } else if (clazz == Integer.class) {
       return Integer.valueOf(value);
     } else if (clazz == int.class) {
-      return Integer.valueOf(value).intValue();
+      return Integer.valueOf(value);
     } else {
       return null;
     }

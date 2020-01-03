@@ -5,51 +5,51 @@ import java.util.List;
 
 /**
  * @author zhouxin
- * @since 2019/12/20
+ * @since 2020/1/3
  */
-public class HeapSortService5<T> extends AbstractSort<T> {
+public class HeapSortService6<T> extends AbstractSort<T> {
 
-    public HeapSortService5(List<T> source, Comparator<T> comparator) {
+    public HeapSortService6(List<T> source, Comparator<T> comparator) {
         super(source, comparator);
     }
 
     @Override
     protected ISort<T> doSort() {
         int size = getSource().size() - 1;
-        for(int i = size / 2 - 1; i >= 0; i--){
-            doSwapHeap(i, size);
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            swapHeap(i, size);
         }
         while (size > 0){
             swap(0, size--);
-            doSwapHeap(0, size);
+            swapHeap(0, size);
         }
         return this;
     }
 
-    private void doSwapHeap(int start, int size){
-        doWhileSwapHeap(start, size);
-//        doStackSwapHeap(start, size);
+    public void swapHeap(int start, int size){
+        whileHeap(start, size);
+//        stackHeap(start, size);
     }
 
-    private void doStackSwapHeap(int start, int size) {
-        int left = 2 * start + 1;
-        if(left > size){
+    private void stackHeap(int start, int size) {
+        if(start * 2 >= size){
             return;
         }
-        if (left < size && compare(left, left + 1) < 0){
+        int left = start * 2 + 1;
+        if(left < size && compare(left, left + 1) < 0){
             left++;
         }
         if(compare(start, left) >= 0){
             return;
         }
         swap(start, left);
-        doStackSwapHeap(left, size);
+        stackHeap(left, size);
     }
 
-    private void doWhileSwapHeap(int start, int size) {
+    private void whileHeap(int start, int size) {
         while (2 * start < size){
             int left = 2 * start + 1;
-            if (left < size && compare(left, left + 1) < 0){
+            if (left <size && compare(left, left + 1) < 0){
                 left++;
             }
             if(compare(start, left) >= 0){

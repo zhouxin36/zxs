@@ -20,8 +20,8 @@ public class TreeTest {
     }
 
     private static void test2() {
-        RB3Tree3<Integer, Integer> characterRB3Tree = new RB3Tree3<>();
-        List<Integer> integers = Arrays.asList(6, 19, 14, 19, 12, 17, 4, 6, 18, 15, 13, 2, 15, 17, 12, 10, 2, 3, 2, 14, -1, 8, 16, 14);
+        RB3Tree7<Integer, Integer> characterRB3Tree = new RB3Tree7<>();
+        List<Integer> integers = Arrays.asList(9, 10, 18, 7, 10, 12, 5, 13, 4, 19, 5, 14, 16, 8, 2, 6, 11, 7, 7, 4, -1, 8, 1, 10, 10, 15, 15, 2, 19, 19, 14);
         boolean put = true;
         for (Integer i : integers) {
             if(i == -1){
@@ -41,12 +41,12 @@ public class TreeTest {
     private static void test1() {
         List<Integer> list = new ArrayList<>();
         Random random = new Random();
-        RB3Tree6<Integer, Integer> characterRB3Tree = new RB3Tree6<>();
+        RB3Tree7<Integer, Integer> characterRB3Tree = new RB3Tree7<>();
         RB3Tree2<Integer, Integer> characterRB3Tree2 = new RB3Tree2<>();
         RB3Tree3<Integer, Integer> characterRB3Tree3 = new RB3Tree3<>();
-        RB3Tree5<Integer, Integer> characterRB3Tree4 = new RB3Tree5<>();
-        int a = 4534;
-        int b = 4234;
+        RB3Tree6<Integer, Integer> characterRB3Tree4 = new RB3Tree6<>();
+        int a = 9999;
+        int b = 9999;
         for (int i = 0; i < a; i++) {
 //            System.out.println("-----------------------------------------------------------------------------------------------------");
             int i1 = random.nextInt(b);

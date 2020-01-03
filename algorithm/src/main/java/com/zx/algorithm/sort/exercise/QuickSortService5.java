@@ -19,8 +19,8 @@ public class QuickSortService5<T> extends AbstractSort<T>{
 
     @Override
     protected ISort<T> doSort() {
-//        doQuick(0, getSource().size() - 1);
-        doQuick3(0, getSource().size() - 1);
+        doQuick(0, getSource().size() - 1);
+//        doQuick3(0, getSource().size() - 1);
         return this;
     }
 
@@ -43,8 +43,8 @@ public class QuickSortService5<T> extends AbstractSort<T>{
         int head = start;
         int tag = end + 1;
         while (true){
-            while (compare(++head, start) < 0 && head <= tag){}
-            while (compare(--tag, start) > 0 && tag >= head){}
+            while (compare(++head, start) < 0 && head != end){}
+            while (compare(--tag, start) > 0 && tag != start){}
             if(head >= tag){
                 break;
             }

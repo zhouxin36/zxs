@@ -18,10 +18,10 @@ public class Test {
             list1.add(i1);
         }
 //        System.out.println(list1);
-        new QuickSortService3<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
         new QuickSortService4<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
         new QuickSortService5<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
-//        new HeapSortService<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+        new QuickSortService6<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+//        new HeapSortService6<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
 //        new HeapSortService4<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
 //        new HeapSortService5<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
     }
