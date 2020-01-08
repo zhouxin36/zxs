@@ -20,9 +20,11 @@ public class Test {
 //        System.out.println(list1);
         new QuickSortService4<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
         new QuickSortService5<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
-        new QuickSortService6<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+        new QuickSortService7<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+        new InsertionSortService<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+        new InsertionSortService2<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
 //        new HeapSortService6<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
 //        new HeapSortService4<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
-//        new HeapSortService5<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
+//        new HeapSortService7<>(new ArrayList<>(list1), Integer::compareTo).sort().print();
     }
 }
