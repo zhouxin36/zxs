@@ -41,8 +41,7 @@ public class TreeTest {
     private static void test1() {
         List<Integer> list = new ArrayList<>();
         Random random = new Random();
-        RB3Tree7<Integer, Integer> characterRB3Tree = new RB3Tree7<>();
-        RB3Tree2<Integer, Integer> characterRB3Tree2 = new RB3Tree2<>();
+        RB3Tree2<Integer, Integer> characterRB3Tree = new RB3Tree2<>();
         RB3Tree3<Integer, Integer> characterRB3Tree3 = new RB3Tree3<>();
         RB3Tree6<Integer, Integer> characterRB3Tree4 = new RB3Tree6<>();
         int a = 9999;

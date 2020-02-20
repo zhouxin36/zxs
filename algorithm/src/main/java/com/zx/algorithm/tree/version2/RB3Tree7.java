@@ -6,6 +6,7 @@ import com.zx.algorithm.tree.core.Node;
  * @author zhouxin
  * @since 2020/1/3
  */
+@SuppressWarnings("DuplicatedCode")
 public class RB3Tree7<K extends Comparable<K>, V> {
 
     private final Node<K, V> NIL = new Node<>();
@@ -122,7 +123,7 @@ public class RB3Tree7<K extends Comparable<K>, V> {
         return sentinel.getRight();
     }
 
-    public Node<K, V> transplant(Node<K, V> node, Node<K, V> inheritNode){
+    private Node<K, V> transplant(Node<K, V> node, Node<K, V> inheritNode){
         if(node.getParents().getRight().equals(node)){
             node.getParents().setRight(inheritNode);
         }else {
@@ -132,7 +133,7 @@ public class RB3Tree7<K extends Comparable<K>, V> {
         return inheritNode;
     }
 
-    public Node<K, V> getNode(K k, Node<K, V> node){
+    private Node<K, V> getNode(K k, Node<K, V> node){
         if (node.equals(NIL)) {
             return NIL;
         }
@@ -146,7 +147,7 @@ public class RB3Tree7<K extends Comparable<K>, V> {
         }
     }
 
-    public Node<K, V> getMaxNode(Node<K, V> node){
+    private Node<K, V> getMaxNode(Node<K, V> node){
         if(node.getRight().equals(NIL)){
             return node;
         }

@@ -24,9 +24,10 @@ public enum SortEnum {
 
   public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
     ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
-    ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleAtFixedRate(() -> {
+    ScheduledFuture<?> scheduledFuture = scheduledExecutorService.schedule(() -> {
 //            logger.info("1");
-    }, 1, 15, TimeUnit.SECONDS);
+      return 111;
+    }, 1, TimeUnit.SECONDS);
     Object o = scheduledFuture.get(10, TimeUnit.SECONDS);
   }
 

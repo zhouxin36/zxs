@@ -17,7 +17,6 @@ public class SubtypingTest {
     arraySub();
     LOGGER.info("----------------------------------------这是一条华丽的分割线-------------------------------------------------");
     primitiveSub();
-
   }
 
   private static void primitiveSub() {
@@ -49,12 +48,13 @@ public class SubtypingTest {
     LOGGER.info("Number[] > Integer[] ------{}", Number[].class.isAssignableFrom(Integer[].class));
     LOGGER.info("Number[] > Integer[] ------{}", new Integer[]{} instanceof Number[]);
 
+    System.out.println("111111111"+(new Integer[]{} instanceof Number[]));
     double[] doubles = {'0'};
     LOGGER.info("--------------->doubles class:{}", doubles.getClass());
     LOGGER.info("Object > primitive type ------{}", Object.class.isAssignableFrom(double[].class));
-    LOGGER.info("Object > primitive type ------{}", doubles instanceof Object); //编译错误
+    LOGGER.info("Object > primitive type ------{}", doubles instanceof Object);
 
-    LOGGER.info("Object[] > primitive type ------{}", Object[].class.isAssignableFrom(double[].class));
+    LOGGER.info("Object[] > primitive type ------{}", Object[].class.isInstance(double[].class));
 
     LOGGER.info("Cloneable > primitive type ------{}", Cloneable.class.isAssignableFrom(double[].class));
     LOGGER.info("Cloneable > primitive type ------{}", doubles instanceof Cloneable);

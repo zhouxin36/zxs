@@ -18,4 +18,6 @@ public interface ISort<T> {
   ISort<T> sort();
 
   ISort<T> print();
+
+  default ISort<T> method(Object o, Object o2){return this;}
 }

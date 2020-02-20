@@ -45,8 +45,16 @@ public abstract class AbstractSort<T> implements ISort<T> {
     source.set(b, temp);
   }
 
+  int add(int a, int b){
+    return (int)source.get(a) + (int)source.get(b);
+  }
+
   int compare(int a, int b) {
     return compare(source, a, b);
+  }
+
+ int compare(int a, T b) {
+    return comparator.compare(source.get(a), b);
   }
 
   int compare(List<T> list ,int a, int b) {
@@ -64,7 +72,7 @@ public abstract class AbstractSort<T> implements ISort<T> {
   public ISort<T> sort() {
     stopWatch.start();
     ISort<T> sort = doSort();
-    stopWatch.stop();
+//    stopWatch.stop();
     return sort;
   }
 
