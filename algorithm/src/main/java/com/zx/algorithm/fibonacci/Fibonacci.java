@@ -3,9 +3,6 @@ package com.zx.algorithm.fibonacci;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * 斐波拉契数列
  *
@@ -88,9 +85,9 @@ public class Fibonacci {
      * x的n次方=｛x的(n-1)/2次方 * x的(n-1)/2次方 * n    n为奇数
      *
      */
-    public static final List<Integer> square = Arrays.asList(1, 1, 1, 0);
+    public static final int[][] square = {{1,1},{1,0}};
     public static int sum4(int n){
-        return recursive(n + 1).get(1);
+        return recursive(n + 1)[0][1];
     }
 
     /**
@@ -98,23 +95,28 @@ public class Fibonacci {
      * x的n次方=｛x的n/2次方 * x的n/2次方    n为偶数
      * x的n次方=｛x的(n-1)/2次方 * x的(n-1)/2次方 * n    n为奇数
      */
-    public static List<Integer> recursive(int n){
+    public static int[][] recursive(int n){
         if(n == 1){
             return square;
         }
         if(n % 2 == 0){
-            List<Integer> result = recursive(n / 2);
+            int[][] result = recursive(n / 2);
             return times(result, result);
         }else {
-            List<Integer> result = recursive(n / 2);
+            int[][] result = recursive(n / 2);
             return times(square, times(result, result));
         }
     }
 
-    public static List<Integer> times(List<Integer> list1, List<Integer> list2){
-        return Arrays.asList(list1.get(0) * list2.get(0) + list1.get(1) * list2.get(2)
-        ,list1.get(0) * list2.get(1) + list1.get(1) * list2.get(3)
-        ,list1.get(2) * list2.get(0) + list1.get(3) * list2.get(2)
-        ,list1.get(2) * list2.get(1) + list1.get(3) * list2.get(3));
+    public static int[][] times(int[][] arr1, int[][] arr2){
+        int[][] result = new int[arr1.length][arr2[0].length];
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr2[0].length; j++) {
+                for (int k = 0; k < arr2.length; k++) {
+                    result[i][j] += arr1[i][k] * arr2[k][j];
+                }
+            }
+        }
+        return result;
     }
 }

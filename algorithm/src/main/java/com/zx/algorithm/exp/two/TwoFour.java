@@ -68,7 +68,7 @@ public class TwoFour {
         for (int i = start, j = 0, k = 0; i <= end; i++) {
             if (!counted && left[j] > right[k]) {
                 count = count + leftLength - j;
-                System.out.println("----start:" + start + "----mid:" + mid + "----end:" + end + "----j:" + j + "----count:" + count + "-----" + getSource());
+                System.out.println("----start:" + start + "----mid:" + mid + "----end:" + end + "----j:" + j + "----k:" + k + "----count:" + count + "-----" + getSource());
                 counted = true;
             }
             if (left[j] <= right[k]) {

@@ -1,8 +1,7 @@
 package com.zx.algorithm.sort;
 
-import com.zx.algorithm.HeapQueue;
+import com.zx.algorithm.queue.HeapQueue;
 import com.zx.algorithm.sort.exercise.HeapSortService;
-import com.zx.algorithm.sort.exercise.QuickSortService;
 
 import java.util.ArrayList;
 import java.util.List;

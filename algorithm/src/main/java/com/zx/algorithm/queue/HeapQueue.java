@@ -1,4 +1,4 @@
-package com.zx.algorithm;
+package com.zx.algorithm.queue;
 
 /**
  * @author zhouxin
