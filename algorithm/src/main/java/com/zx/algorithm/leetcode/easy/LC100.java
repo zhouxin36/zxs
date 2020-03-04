@@ -6,6 +6,7 @@ import java.util.Stack;
  * @author zhouxin
  * @since 2020/3/3
  */
+@SuppressWarnings({"unused"})
 public class LC100 {
 
     public static void main(String[] args) {
@@ -33,15 +34,5 @@ public class LC100 {
             }
         }
         return true;
-    }
-
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
     }
 }
