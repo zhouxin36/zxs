@@ -19,6 +19,7 @@ public class ListNode {
             this.val = arr[0];
         } else {
             ListNode pr = this;
+            this.val = arr[0];
             for (int i = 1; i < arr.length; i++) {
                 pr.next = new ListNode(arr[i]);
                 pr = pr.next;
@@ -52,7 +53,17 @@ public class ListNode {
             }
             pr.next = listNode;
         }
-
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        ListNode node = this;
+        while (node != null){
+            sb.append(node.val);
+            sb.append(",");
+            node = node.next;
+        }
+        return sb.toString();
+    }
 }
