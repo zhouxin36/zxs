@@ -6,11 +6,11 @@ import java.util.Arrays;
  * @author zhouxin
  * @since 2020/3/16
  */
-public class LC334 {
+public class LC344 {
     public static void main(String[] args) {
 //        char[] chars = new char[]{'h','e','l','l','o'};
         char[] chars = new char[]{'h','e','e','a','l','o'};
-        new LC334().reverseString(chars);
+        new LC344().reverseString(chars);
         System.out.println(Arrays.toString(chars));
     }
     public void reverseString(char[] s) {

@@ -133,7 +133,7 @@ public class RB3Tree7<K extends Comparable<K>, V> {
         return inheritNode;
     }
 
-    private Node<K, V> getNode(K k, Node<K, V> node){
+    public Node<K, V> getNode(K k, Node<K, V> node){
         if (node.equals(NIL)) {
             return NIL;
         }
@@ -154,10 +154,10 @@ public class RB3Tree7<K extends Comparable<K>, V> {
         return getMaxNode(node.getRight());
     }
 
-    public void delete(K k){
+    public Node delete(K k){
         Node<K, V> deleteNode = getNode(k, getRoot());
         if (deleteNode.equals(NIL)) {
-            return;
+            return NIL;
         }
         Node<K, V> inheritNode;
         boolean red = deleteNode.isRed();
@@ -184,6 +184,7 @@ public class RB3Tree7<K extends Comparable<K>, V> {
         if(!red){
             deleteAfter(inheritNode);
         }
+        return deleteNode;
     }
 
     private void deleteAfter(Node<K, V> node) {
@@ -225,5 +226,9 @@ public class RB3Tree7<K extends Comparable<K>, V> {
             }
         }
         node.setRed(false);
+    }
+
+    public Node<K, V> getNIL() {
+        return NIL;
     }
 }
