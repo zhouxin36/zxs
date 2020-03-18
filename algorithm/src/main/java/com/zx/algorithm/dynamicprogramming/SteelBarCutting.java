@@ -1,6 +1,5 @@
 package com.zx.algorithm.dynamicprogramming;
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +17,11 @@ public class SteelBarCutting {
     private static final Logger logger = LoggerFactory.getLogger(SteelBarCutting.class);
     public static void main(String[] args) {
         int[] arr = new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30, 31, 34, 35, 38, 40, 45, 46};
-        for (int i = 1; i <= 17; i++) {
+        for (int i = 1; i < 17; i++) {
            print(SteelBarCutting::cut1, i, arr, "自顶向下递归实现");
            print(SteelBarCutting::cut2, i, arr, "备忘录自顶向下递归实现");
            print(SteelBarCutting::cut3, i, arr, "自底向上");
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
         }
     }
 
@@ -37,7 +37,7 @@ public class SteelBarCutting {
             return 0;
         }
         int q = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i <= n; i++) {
             q = Math.max(q, prices[i] + cut1(n - i - 1, prices));
         }
         return q;
@@ -80,25 +80,24 @@ public class SteelBarCutting {
             return 0;
         }
         if (n == 1){
-            return 1;
+            return prices[0];
         }
         int[] arr = new int[n + 1];
         arr[0] = 0;
-        arr[1] = 1;
-        for (int i = 2; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             int q = Integer.MIN_VALUE;
-            for (int j = 0; j < i; j++) {
-                q = Math.max(q, prices[j] + arr[i - j]);
+            for (int j = 1; j <= i; j++) {
+                q = Math.max(q, prices[j - 1] + arr[i - j]);
             }
-            arr[i - 1] = q;
+            arr[i] = q;
         }
-        return arr[n - 1];
+        return arr[n];
     }
 
     private static void print(SteelBar steelBar, int n, int[] prices, String desc){
         long start = System.nanoTime();
         int price = steelBar.cut(n, prices);
         long end = System.nanoTime();
-        logger.info("{} - 钢条总长度:{}, 钢条最大收益:{}, 运行时间:{}", desc, n, cut1(n, prices), end - start);
+        logger.info("{} - 钢条总长度:{}, 钢条最大收益:{}, 运行时间:{}", desc, n, price, end - start);
     }
 }
