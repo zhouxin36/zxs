@@ -2,46 +2,46 @@ package com.zx.algorithm.leetcode.easy;
 
 /**
  * @author zhouxin
- * @since 2020/3/24
+ * @since 2020/3/25
  */
 public class LC507 {
 
     public static void main(String[] args) {
-        System.out.println(new LC507().convertToBase7(100).equals("202"));
-        System.out.println(new LC507().convertToBase7(-7).equals("-10"));
+        System.out.println(new LC507().checkPerfectNumber(6));
+        System.out.println(new LC507().checkPerfectNumber(28));
+        System.out.println(new LC507().checkPerfectNumber(496));
+        System.out.println(new LC507().checkPerfectNumber(8128));
+        System.out.println(new LC507().checkPerfectNumber(33550336));
     }
 
-    public String convertToBase7(int num) {
-        if (num < 7 && num > -7) {
-            return String.valueOf(num);
+    public boolean checkPerfectNumber(int num) {
+        return checkPerfectNumber2(num);
+    }
+    public boolean checkPerfectNumber1(int num) {
+        switch (num){
+            case 6:
+            case 28:
+            case 496:
+            case 8128:
+            case 33550336:
+                return true;
+            default:
+                return false;
         }
-        int res = 0;
-        int ind = 1;
-        while (Math.abs(num) > 0) {
-            res += (num % 7) * ind;
-            ind *= 10;
-            num /= 7;
-        }
-        return Integer.toString(res);
     }
 
-    public String convertToBase71(int num) {
-        if (num < 7 && num > -7) {
-            return String.valueOf(num);
+    public boolean checkPerfectNumber2(int num) {
+        if (num < 6){
+            return false;
         }
-        boolean is = false;
-        if (num < 0) {
-            is = true;
-            num = -num;
+        int sum = 1;
+        int sq = (int)Math.sqrt(num);
+        for (int i = 2; i <= sq; i++) {
+            if (num % i == 0){
+                sum += i;
+                sum += num / i;
+            }
         }
-        StringBuilder sb = new StringBuilder();
-        while (num != 0) {
-            sb.append(num % 7);
-            num /= 7;
-        }
-        if (is) {
-            sb.append('-');
-        }
-        return sb.reverse().toString();
+        return sum == num;
     }
 }
