@@ -1,113 +1,124 @@
 package com.zx.algorithm;
 
-import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zhouxin
  * @since 2020/3/16
  */
 public class Main {
+    private Map<String, Map<Integer, Integer>> inMap;
+    private Map<String, Map<Integer, Integer>> outMap;
+
+    public Main() {
+        inMap = new HashMap<>();
+        outMap = new HashMap<>();
+    }
 
     public static void main(String[] args) {
-//        Scanner in = new Scanner(System.in);
-//        String ipv6 = in.next();
-//        System.out.println(ipv6(ipv6));
-        System.out.println(ipv6("::1"));
-        System.out.println(ipv6("::0000"));
-        System.out.println(ipv6("::0001"));
-        System.out.println(ipv6("::000G"));
-        System.out.println(ipv6("FE81:0001:0000:0000:FF01:0203:0405:0607"));
-        System.out.println(ipv6("FE91:0001:0000:0000:FF01:0203:0405:0607"));
-        System.out.println(ipv6("FEA1:0001:0000:0000:FF01:0203:0405:0607"));
-        System.out.println(ipv6("FFA1:0001:0000:0000:FF01:0203:0405:"));
-        System.out.println(ipv6("FFA1:0001:0000:0000:FF01:0203:0a05:0607"));
-
+//        System.out.println(findGoodStrings(3, "txa", "zyi", "p"));
+        System.out.println(findGoodStrings(3, "szc", "zyi", "p"));
+//        System.out.println(findGoodStrings(2, "aa", "da", "b"));
     }
 
-    private static String ipv6(String ipv6) {
-        if (ipv6 == null) {
-            return "Error";
-        }
-        Pattern pr1 = Pattern.compile("^::[0-9A-F]{4}");
-        Pattern pr2 = Pattern.compile("^::[0-9A-F]");
-        Pattern pr3 = Pattern.compile("^([0-9A-F]{4}:){7}[0-9A-F]{4}");
-        if (!pr1.matcher(ipv6).matches() && !pr2.matcher(ipv6).matches() && !pr3.matcher(ipv6).matches()){
-            return "Error";
-        }
-//        if (ipv6.contains("::")) {
-//            String[] split = ipv6.split("::");
-//            if (split[0].equals("")) {
-//                if (split[1].length() == 1) {
-//                    if (!check(split[1].charAt(0))) {
-//                        return "Error";
-//                    }
-//                } else {
-//                    if (!check(split[1])) {
-//                        return "Error";
-//                    }
-//                }
-//            } else {
-//                return "Error";
-//            }
-//        } else {
-//            String[] split = ipv6.split(":");
-//            if (split.length != 8) {
-//                return "Error";
-//            } else {
-//                for (String s : split) {
-//                    if (!check(s)) {
-//                        return "Error";
-//                    }
-//                }
-//            }
-//        }
-        switch (ipv6) {
-            case "::1":
-            case "::0001":
-            case "0000:0000:0000:0000:0000:0000:0000:0001":
-                return "Loopback";
-            case "::":
-            case "::0":
-            case "::0000":
-            case "0000:0000:0000:0000:0000:0000:0000:0000":
-                return "Unspecified";
-        }
-        if (ipv6.startsWith("FF")) {
-            return "Multicast";
-        }
-        if (ipv6.startsWith("FE")) {
-            char c = ipv6.charAt(2);
-            int num;
-            if (c >= '0' && c <= '9') {
-                num = c - '0';
-            } else {
-                num = c - 'A' + 10;
-            }
-            if (num >= 8 && num <= 11) {
-                return "LinkLocal";
-            }
-            if (num >= 12 && num <= 15) {
-                return "SiteLocal";
+    public int numTeams(int[] rating) {
+        int count = 0;
+        boolean isAsc;
+        for (int i = 0; i < rating.length; i++) {
+            for (int j = i + 1; j < rating.length; j++) {
+                if (rating[i] < rating[j]) {
+                    isAsc = true;
+                } else {
+                    isAsc = false;
+                }
+                for (int k = j + 1; k < rating.length; k++) {
+                    if (isAsc && rating[j] < rating[k] || !isAsc && rating[j] > rating[k]) {
+                        count++;
+                    }
+                }
             }
         }
-        return "GlobalUnicast";
+        return count;
     }
 
-    private static boolean check(String str) {
-        if (str.length() != 4) {
-            return false;
+    public void checkIn(int id, String stationName, int t) {
+        if (inMap.containsKey(stationName)) {
+            inMap.get(stationName).put(id, t);
+        } else {
+            Map<Integer, Integer> map = new HashMap<>();
+            map.put(id, t);
+            inMap.put(stationName, map);
         }
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            if (!check(c)) {
-                return false;
-            }
-        }
-        return true;
     }
 
-    private static boolean check(char c) {
-        return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z');
+    public void checkOut(int id, String stationName, int t) {
+        if (outMap.containsKey(stationName)) {
+            outMap.get(stationName).put(id, t);
+        } else {
+            Map<Integer, Integer> map = new HashMap<>();
+            map.put(id, t);
+            outMap.put(stationName, map);
+        }
     }
+
+    public double getAverageTime(String startStation, String endStation) {
+        Map<Integer, Integer> in = inMap.get(startStation);
+        Map<Integer, Integer> out = outMap.get(endStation);
+        AtomicInteger count = new AtomicInteger(0);
+        AtomicInteger sum = new AtomicInteger(0);
+        out.forEach((k, v) -> {
+            if (in.containsKey(k)) {
+                Integer inVlaue = in.get(k);
+                sum.addAndGet(v - inVlaue);
+                count.incrementAndGet();
+            }
+        });
+        return sum.get() * 1.0 / count.get();
+    }
+
+    public static int findGoodStrings(int n, String s1, String s2, String evil) {
+        char[] a1 = s1.toCharArray();
+        char[] a2 = s2.toCharArray();
+        char[] ar = new char[n];
+        return a(0, a1, a2, ar, evil);
+    }
+
+    private static int a(int i, char[] a1, char[] a2, char[] ar, String evil) {
+        int sum = 0;
+        if (i == 0 || a1[i - 1] == a2[i - 1]){
+            for (char j = a1[i]; j <= a2[i]; j++) {
+                sum = getSum(i, a1, a2, ar, evil, sum, j);
+            }
+
+        }else if (new String(ar, 0, i).equals(new String(a2, 0 ,i))){
+            for (char j = 'a'; j <= a2[i]; j++) {
+                sum = getSum(i, a1, a2, ar, evil, sum, j);
+            }
+        }else if (new String(ar, 0, i).equals(new String(a1, 0 ,i))){
+            for (char j = a1[i]; j <= 'z'; j++) {
+                sum = getSum(i, a1, a2, ar, evil, sum, j);
+            }
+        }else {
+            for (char j = 'a'; j <= 'z'; j++) {
+                sum = getSum(i, a1, a2, ar, evil, sum, j);
+            }
+        }
+        return sum;
+    }
+
+    private static int getSum(int i, char[] a1, char[] a2, char[] ar, String evil, int sum, char j) {
+        ar[i] = j;
+        if (new String(ar).contains(evil)){
+            return sum;
+        }
+        if (i < a1.length - 1) {
+            sum += a(i + 1, a1, a2, ar, evil);
+        }else {
+            sum++;
+        }
+        return sum;
+    }
+
 }
