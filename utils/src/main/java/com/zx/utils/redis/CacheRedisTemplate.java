@@ -15,6 +15,11 @@ import org.springframework.util.StringUtils;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+/**
+ * @author zhouxin
+ * @since 2020/8/8
+ */
+@SuppressWarnings({"unused", "SameParameterValue"})
 @Service
 public class CacheRedisTemplate {
 
@@ -34,53 +39,52 @@ public class CacheRedisTemplate {
   }
 
   public <T> T findString(RedisKey redisKey
-      , Class<T> returnType
-      , Supplier<T> supplier) {
+          , Class<T> returnType
+          , Supplier<T> supplier) {
     return findString(redisKey.getKey(), redisKey.getTimeOut(), redisKey.getTimeUnit(), returnType,
-        supplier);
+            supplier);
   }
 
   public <T> T findString(RedisKey redisKey
-      , String suffix
-      , Class<T> returnType
-      , Supplier<T> supplier) {
+          , String suffix
+          , Class<T> returnType
+          , Supplier<T> supplier) {
     return findString(redisKey.getKey() + suffix, redisKey.getTimeOut(), redisKey.getTimeUnit(),
-        returnType,
-        supplier);
+            returnType,
+            supplier);
   }
 
   /**
    * @param parameterClasses 泛型数组
    */
   public <T> T findString(RedisKey redisKey
-      , Class<T> returnType
-      , Supplier<T> supplier
-      , Class<?>... parameterClasses) {
+          , Class<T> returnType
+          , Supplier<T> supplier
+          , Class<?>... parameterClasses) {
     return findString(redisKey.getKey(), redisKey.getTimeOut(), redisKey.getTimeUnit(), returnType,
-        supplier, parameterClasses);
+            supplier, parameterClasses);
   }
 
   public <T> T findString(String key
-      , Long timeOut
-      , TimeUnit timeUnit
-      , Class<T> returnType
-      , Supplier<T> supplier
-      , Class<?>... parameterClasses) {
-    ValueOperations valueOperations = redisTemplate.opsForValue();
-    String data = (String) valueOperations.get(key);
+          , Long timeOut
+          , TimeUnit timeUnit
+          , Class<T> returnType
+          , Supplier<T> supplier
+          , Class<?>... parameterClasses) {
+    ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+    String data = valueOperations.get(key);
     if (!StringUtils.isEmpty(data) && !"null".equals(data)) {
       return cast(data, returnType, parameterClasses);
     } else {
       T result = supplier.get();
-      //noinspection unchecked
       valueOperations.set(key, castStr(result), timeOut, timeUnit);
       return result;
     }
   }
 
   public <T> T findHash(RedisKey redisKey
-      , Class<T> returnType
-      , Supplier<T> supplier) {
+          , Class<T> returnType
+          , Supplier<T> supplier) {
     return findHash(redisKey.getKey(), redisKey.getHashKey(), returnType, supplier);
   }
 
@@ -88,26 +92,24 @@ public class CacheRedisTemplate {
    * @param parameterClasses 泛型数组
    */
   public <T> T findHash(RedisKey redisKey
-      , Class<T> returnType
-      , Supplier<T> supplier
-      , Class<?>... parameterClasses) {
+          , Class<T> returnType
+          , Supplier<T> supplier
+          , Class<?>... parameterClasses) {
     return findHash(redisKey.getKey(), redisKey.getHashKey(), returnType, supplier,
-        parameterClasses);
+            parameterClasses);
   }
 
   public <T> T findHash(String key
-      , String hashKey
-      , Class<T> returnType
-      , Supplier<T> supplier
-      , Class<?>... parameterClasses) {
-    HashOperations hashOperations = redisTemplate.opsForHash();
-    //noinspection unchecked
-    String data = (String) hashOperations.get(key, hashKey);
+          , String hashKey
+          , Class<T> returnType
+          , Supplier<T> supplier
+          , Class<?>... parameterClasses) {
+    HashOperations<String, String, String> hashOperations = redisTemplate.opsForHash();
+    String data = hashOperations.get(key, hashKey);
     if (!StringUtils.isEmpty(data) && !"null".equals(data)) {
       return cast(data, returnType, parameterClasses);
     } else {
       T result = supplier.get();
-      //noinspection unchecked
       hashOperations.put(key, hashKey, castStr(result));
 
       return result;
@@ -117,14 +119,13 @@ public class CacheRedisTemplate {
   /**
    * 格式转换
    */
-  @SuppressWarnings("unchecked")
   private <T> T cast(String data, Class<T> returnType, Class<?>... parameterClasses) {
     try {
       if (returnType.getName().contains("java.lang")) {
         return CONVERSION_SERVICE.convert(data, returnType);
       } else {
         JavaType javaType = this.objectMapper.getTypeFactory()
-            .constructParametricType(returnType, parameterClasses);
+                .constructParametricType(returnType, parameterClasses);
         return objectMapper.readValue(data, javaType);
       }
     } catch (Exception e) {

@@ -34,3 +34,5 @@ spring:
 spring.banner.image.location: classpath:index.png
 # 开启MXBean
 #spring.application.admin.enabled: true
+dataCollectionTime: b
+a: 本次数据采集时间为#{dataCollectionTime}，共采集了#{systemNames}共#{systemCount}个系统数据，共检测数据量为#{totalCollectData}，其中问题数据量为#{totalNumberQuestions}，问题占比#{proportionProblems}

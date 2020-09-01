@@ -29,7 +29,7 @@ public class BitMap {
 
     public boolean contain(int num) {
         int arrayIndex = num >> 3;
-        int position = num & 0x07;
+        int position = num & 0x7;
 
         //将1左移position后，那个位置自然就是1，然后和以前的数据做&，判断是否为0即可
         return (bits[arrayIndex] & (1 << position)) != 0;
@@ -37,7 +37,7 @@ public class BitMap {
 
     public void clear(int num) {
         int arrayIndex = num >> 3;
-        int position = num & 0x07;
+        int position = num & 0x7;
 
         //将1左移position后，那个位置自然就是1，然后对取反，再与当前值做&，即可清除当前的位置了.
         bits[arrayIndex] &= ~(1 << position);

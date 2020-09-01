@@ -10,11 +10,11 @@ public enum RedisKey {
   DEFALUT_KEY("DEFALUT:KEY", null, 10L, TimeUnit.MINUTES, "默认key"),
   DEFALUT_HASHKEY("DEFALUT:HASHKEY", "key", null, null, "默认hashkey"),
   ;
-  private String key;
-  private String hashKey;
-  private Long timeOut;
-  private TimeUnit timeUnit;
-  private String notice;
+  private final String key;
+  private final String hashKey;
+  private final Long timeOut;
+  private final TimeUnit timeUnit;
+  private final String notice;
 
   RedisKey(String key, String hashKey, Long timeOut, TimeUnit timeUnit,
            String notice) {
