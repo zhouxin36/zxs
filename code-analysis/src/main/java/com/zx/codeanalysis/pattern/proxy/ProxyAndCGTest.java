@@ -27,7 +27,7 @@ public class ProxyAndCGTest {
     instance.giveMoney();
     // JDK
     Person stuProxy = (Person) Proxy
-        .newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Person.class}, new StuInvocationHandler<>(Person.class));
+        .newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Person.class}, new StuInvocationHandler<>(Person.class,new PersonImpl()));
     byte[] bytes1 = ProxyGenerator.generateProxyClass("$Proxy0", stuProxy.getClass().getInterfaces());
     try (FileOutputStream fileOutputStream = new FileOutputStream(path + "/PersonProxy.class")) {
       fileOutputStream.write(bytes1);
@@ -35,7 +35,7 @@ public class ProxyAndCGTest {
     } catch (Exception e) {
 
     }
-    Proxy.newProxyInstance(PersonImp.class.getClassLoader(), new Class<?>[]{}, new StuInvocationHandler<>(PersonImp.class));
+    Proxy.newProxyInstance(PersonImp.class.getClassLoader(), new Class<?>[]{}, new StuInvocationHandler<>(PersonImp.class,new PersonImp()));
     byte[] bytes2 = ProxyGenerator.generateProxyClass("$Proxy1", new Class<?>[]{});
     try (FileOutputStream fileOutputStream = new FileOutputStream(path + "/PersonImpIProxy.class")) {
       fileOutputStream.write(bytes2);

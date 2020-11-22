@@ -15,8 +15,12 @@ public class StuInvocationHandler<T> implements InvocationHandler {
    */
   private final Class<T> mapperInterface;
 
-  public StuInvocationHandler(Class<T> mapperInterface) {
+  private final T target;
+
+
+  public StuInvocationHandler(Class<T> mapperInterface, T target) {
     this.mapperInterface = mapperInterface;
+    this.target = target;
   }
 
   /**
@@ -29,17 +33,17 @@ public class StuInvocationHandler<T> implements InvocationHandler {
     logger.info("代理执行{}方法", method.getName());
     logger.info("Object.class:{}", Object.class);
     logger.info("method.getDeclaringClass:{}", method.getDeclaringClass());
-    if (Object.class.equals(method.getDeclaringClass())) {
-      return method.invoke(this, args);
-    }
+//    if (Object.class.equals(method.getDeclaringClass())) {
+    Object res = method.invoke(target, args);
+//    }
     logger.info("<>interface:{}" + mapperInterface.toGenericString());
-    return new User("123", "zhouxin");
+    return res;
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", StuInvocationHandler.class.getSimpleName() + "[", "]")
-        .add("mapperInterface=" + mapperInterface)
-        .toString();
+            .add("mapperInterface=" + mapperInterface)
+            .toString();
   }
 }

@@ -6,6 +6,7 @@ import net.sf.cglib.core.DebuggingClassWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ExitCodeGenerator;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -46,6 +47,7 @@ public class MicroserviceApplication {
         .listeners((ApplicationListener<ApplicationStartedEvent>) event ->
             LOGGER.info("---------------3-------------->eventClass:{}", event.getClass()))
 //                .
+            .web(WebApplicationType.SERVLET)
         .run(args);
     // 换banner
 //        application.setBanner(new ImageBanner(new FileUrlResource("F:/桌面-图片/index.png")));

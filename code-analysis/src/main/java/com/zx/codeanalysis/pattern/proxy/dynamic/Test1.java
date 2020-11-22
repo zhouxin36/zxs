@@ -14,13 +14,17 @@ public class Test1 {
   public static void main(String[] args) {
 //        PersonImp zhangsan = new Student("张三");
 
-    InvocationHandler stuHandler = new StuInvocationHandler<>(Person.class);
+    InvocationHandler stuHandler = new StuInvocationHandler<>(Person.class,new PersonImpl());
 
     Person stuProxy = (Person) Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Person.class}, stuHandler);
 
     User user = stuProxy.giveMoney();
 
     logger.info("user:{}", user);
+    stuHandler = new StuInvocationHandler<>(Person.class,stuProxy);
 
+    stuProxy = (Person) Proxy.newProxyInstance(Person.class.getClassLoader(), new Class<?>[]{Person.class}, stuHandler);
+
+    logger.info("user:{}", stuProxy.giveMoney());
   }
 }
