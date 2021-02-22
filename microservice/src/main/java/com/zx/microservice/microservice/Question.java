@@ -17,4 +17,12 @@ public class Question {
    *
    * add {@link WebMvcAutoConfiguration.EnableWebMvcConfiguration#getConfigurableWebBindingInitializer()}
    */
+
+  public static void main(String[] args) {
+    String s  = "hehe呵呵》";
+    String sb  = new String("hehe呵呵》");
+    char[] chs = s.toCharArray();
+    byte[] bs = s.getBytes();
+    System.out.println(sb);
+  }
 }
