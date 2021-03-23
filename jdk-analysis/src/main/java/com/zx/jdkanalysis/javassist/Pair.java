@@ -5,9 +5,7 @@ package com.zx.jdkanalysis.javassist;
  * @since 2019/7/8
  */
 
-/**
- * Created by fengyiwei on 2017/11/28.
- */
+
 public class Pair<K, V> {
   private K first;
   private V second;

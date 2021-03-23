@@ -9,4 +9,5 @@ include('code-analysis'
         ,'algorithm'
         ,'spring-admin'
         ,'spingboot-micro-webflux')
+include 'instrumentation'
 
